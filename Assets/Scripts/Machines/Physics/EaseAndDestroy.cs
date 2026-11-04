@@ -28,7 +28,7 @@ public class EaseAndDestroy : Machine
         { 
             float x = Ease.Evaluate(t);
             item.transform.position = Vector3.Lerp(start, target, x);
-            item.transform.localEulerAngles = Vector3.forward * 360 * Rotations * x;
+            item.transform.localEulerAngles = Vector3.forward * 360 * Rotations * x + item.PreviousState.rotation; 
             if (easeDestroy)
             { 
                 item.transform.localScale = Vector3.one * Mathf.Lerp(1, 0, t * t);
