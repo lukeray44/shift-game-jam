@@ -62,22 +62,16 @@ public abstract class Machine : MonoBehaviour
     // adjust index of each item, returning
     public bool TryIncrementItems()
     {
-        if (!ItemIsStuck(-1))
+        inventoryOffset -= 1;
+        inventoryOffset = (int)Mathf.Repeat(inventoryOffset, Inventory.Length);
+
+
+        for (int i = 0; i < IsStuck.Length; i++)
         {
-             inventoryOffset -= 1;
-            inventoryOffset = (int)Mathf.Repeat(inventoryOffset, Inventory.Length);
+            IsStuck[i] = false;
+        } 
 
-
-            for (int i = 0; i < IsStuck.Length; i++)
-            {
-                IsStuck[i] = false;
-            }
-
-            return GetItemInInventory(0) != null;
-        }
-
-        CompressItems();
-        return false;
+        return GetItemInInventory(0) != null;
     }
     public void UndoIncrementAndCompress()
     {
@@ -90,23 +84,25 @@ public abstract class Machine : MonoBehaviour
     // iterate through list moving each up one if there's an empty space
     public void CompressItems()
     {
-        
-        for (int i = 0; i < Inventory.Length - 1; i++)
+         
+        for (int i = Inventory.Length - 1; i > 0; i--)
         {
             if (IsEmptyInInventory(i))
             {
-                Item prev = GetItemInInventory(i + 1);
+                Item prev = GetItemInInventory(i - 1);
                 if (prev != null)
                 {
                     SetItemInInventory(i, prev);
-                    SetItemInInventory(i  + 1, null);
+                    SetItemInInventory(i  - 1, null);
                     SetItemIsStuck(i);
                 }
                 
             }
 
-            
         }
+
+        if (!IsEmptyInInventory(0)) SetItemIsStuck(0);
+
     }
 
 
@@ -161,7 +157,11 @@ public abstract class Machine : MonoBehaviour
     {
         return transform.position;
     }
-
+    public void DestroyItemInInventory(int i)
+    {
+        Destroy(GetItemInInventory(i).gameObject);
+        SetItemInInventory(i, null);
+    }
 
     public bool TransferItem(int index, Machine target, Vector3 direction)
     {
@@ -189,6 +189,7 @@ public abstract class Machine : MonoBehaviour
         int ind = 0;
         foreach (Item i in Debug_StartWith)
         {
+            if (i == null) continue;
             Vector3 dir = Vector2.right;
             if (ind == 1) dir = Vector2.down;
             RecieveItem(i, dir);
