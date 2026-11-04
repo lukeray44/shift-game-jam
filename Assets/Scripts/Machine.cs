@@ -7,20 +7,27 @@ public abstract class Machine : MonoBehaviour
 {
 
     int lastTick;
+    int childrenCountSimulated;
     public void TryTickRecursive()
     {
-        if (lastTick != SimulationManager.TickIndex)
-        {
-            lastTick = SimulationManager.TickIndex;
-            
-            Tick();
-
-            // recursively tick from end to start
-            foreach (Machine m in InputMachines)
+        childrenCountSimulated++;
+        if (childrenCountSimulated >= OutputMachines.Count)
+        { 
+            childrenCountSimulated = 0;
+            if (lastTick != SimulationManager.TickIndex)
             {
-                m.TryTickRecursive();
+                lastTick = SimulationManager.TickIndex;
+                
+                Tick(); 
+
+                // recursively tick from end to start
+                foreach (Machine m in InputMachines)
+                {
+                    m.TryTickRecursive();
+                }
             }
         }
+        
     }
 
     protected abstract void Tick();

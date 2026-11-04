@@ -5,6 +5,7 @@ public class EaseAndDestroy : Machine
     public AnimationCurve Ease;
     public float DistPerItem;
     public Transform OverrideTarget;
+    public float Rotations;
     new public void Start()
     {
         int items = 1;
@@ -25,7 +26,9 @@ public class EaseAndDestroy : Machine
         bool easeDestroy = MainOutput == null;
         AnimateEachItem(percentage, (ind, t, item) =>
         { 
-            item.transform.position = Vector3.Lerp(start, target, Ease.Evaluate(t));
+            float x = Ease.Evaluate(t);
+            item.transform.position = Vector3.Lerp(start, target, x);
+            item.transform.localEulerAngles = Vector3.forward * 360 * Rotations * x;
             if (easeDestroy)
             { 
                 item.transform.localScale = Vector3.one * Mathf.Lerp(1, 0, t * t);

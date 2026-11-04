@@ -12,6 +12,11 @@ public class SimulationManager : MonoBehaviour
     void Start()
     {
         TickIndex = 0;
+
+        for (int i = 0; i < 100; i++)
+        {
+            Tick();
+        }
     }
     public void Tick()
     {
