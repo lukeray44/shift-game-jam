@@ -6,18 +6,19 @@ public class EaseAndDestroy : Machine
     public float DistPerItem;
     public Transform OverrideTarget;
     public float Rotations;
-    new public void Start()
+    public void Start()
     {
-        int items = 1;
+        int items = 1; 
 
         if (MainOutput != null)
         {
             float dist = Vector3.Distance(transform.position, OverrideTarget != null ? OverrideTarget.position : MainOutput.transform.position);
             if (dist > 0) items = Mathf.CeilToInt(dist / DistPerItem);
+
+
         }
-       
+        if (items < 1) items = 1;
         InitialiseInventory(items);
-        base.Start();
     }
     public override void Animate(float percentage)
     {

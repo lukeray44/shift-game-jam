@@ -5,20 +5,21 @@ using UnityEngine;
 
 public abstract class Machine : MonoBehaviour
 {
-
+    public Building Building;
+    public bool IsRoot;
     int lastTick;
     int childrenCountSimulated;
     public void TryTickRecursive()
     {
         childrenCountSimulated++;
         if (childrenCountSimulated >= OutputMachines.Count)
-        { 
+        {
             childrenCountSimulated = 0;
             if (lastTick != SimulationManager.TickIndex)
             {
                 lastTick = SimulationManager.TickIndex;
-                
-                Tick(); 
+
+                Tick();
 
                 // recursively tick from end to start
                 foreach (Machine m in InputMachines)
@@ -27,13 +28,39 @@ public abstract class Machine : MonoBehaviour
                 }
             }
         }
-        
+
     }
 
     protected abstract void Tick();
 
     public abstract void Animate(float percentage);
 
+    public virtual void OnBuildingAdded(Building b)
+    {
+        if (MainOutput == null && b.GridPos == OutputTile())
+        {
+            AddOutput(b.Simulator);
+        }
+    }
+
+    public void InitialiseOutputs()
+    {
+        OutputMachines = new List<Machine>();
+        OnInitialiseOutputs();
+    }
+    protected virtual void OnInitialiseOutputs()
+    {
+        if (this is Trebuchet) Debug.Log(OutputTile());
+        if (BuildingManager.main.TryGetBuildingAtPos(OutputTile(), out Building b))
+        {
+           AddOutput(b.Simulator);
+        }
+    } // find connections
+
+    protected virtual Vector2Int OutputTile()
+    {
+        return Building.GridPos + new Vector2Int(Building.Direction.x * Building.GridSize.x, Building.Direction.y * Building.GridSize.y);
+    }
 
     public void AnimateEachItem(float percentage, Action<int, float, Item> act) // index, percentage, item
     {
@@ -44,10 +71,10 @@ public abstract class Machine : MonoBehaviour
             Item item = GetItemInInventory(i);
             if (item != null && !ItemIsStuck(i))
             {
-               
+
                 act(i, t, item);
             }
-            
+
         }
     }
 
@@ -57,41 +84,83 @@ public abstract class Machine : MonoBehaviour
     public List<Machine> OutputMachines = new List<Machine>(); // machines where this outputs
     public Machine MainOutput => OutputMachines.Count == 0 ? null : OutputMachines[0];
 
+    public void AddOutput(Machine output)
+    {
+        if (output == null) return;
+        OutputMachines.Add(output);
+        output.InputMachines.Add(this);
+
+        OnOutputAdded(output);
+        output.OnInputAdded(this);
+
+        if (IsRoot)
+        {
+            SimulationManager.main.RemoveRoot(this);
+        }
+    } 
+    public bool MachineIsAhead(Machine target, Machine failsafe = null)
+    {
+        Debug.Log("target: " + target.name + " failsafe: " + (failsafe != null ? failsafe.name : "null") + " this: " + this.name); 
+        if (this == failsafe) return false; // if it hits the same one twice, it's in a loop
+        foreach (Machine m in OutputMachines)
+        {
+            if (m == target) return true;
+
+            // propogate the failsafe if exists else use this
+            if (m.MachineIsAhead(target, failsafe == null ? this : failsafe)) return true;
+        }
+        return false;
+    }
+    public virtual void OnOutputAdded(Machine output)
+    {
+        
+    }
+    public virtual void OnInputAdded(Machine input)
+    {
+        
+    }
+
+    #region Inventory
     [SerializeField]
-    Item[] Inventory;
+    Item[] Inventory = new Item[0];
 
     public int InventoryLength => Inventory.Length;
 
-    bool[] IsStuck;
+    bool[] IsStuck = new bool[0];
 
     int inventoryOffset;
 
     // adjust index of each item, returning
     public bool TryIncrementItems()
     {
+        if (InventoryLength == 0) return false;
+         
         inventoryOffset -= 1;
         inventoryOffset = (int)Mathf.Repeat(inventoryOffset, Inventory.Length);
 
-
-        for (int i = 0; i < IsStuck.Length; i++)
+        if (IsStuck != null)
         {
-            IsStuck[i] = false;
-        } 
+            for (int i = 0; i < IsStuck.Length; i++)
+            {
+                IsStuck[i] = false;
+            }
+        }
+        
 
         return GetItemInInventory(0) != null;
     }
     public void UndoIncrementAndCompress()
     {
-       
+
         inventoryOffset -= 1;
-         SetItemIsStuck(-1);
-        CompressItems(); 
+        SetItemIsStuck(-1);
+        CompressItems();
     }
 
     // iterate through list moving each up one if there's an empty space
     public void CompressItems()
     {
-         
+
         for (int i = Inventory.Length - 1; i > 0; i--)
         {
             if (IsEmptyInInventory(i))
@@ -100,10 +169,10 @@ public abstract class Machine : MonoBehaviour
                 if (prev != null)
                 {
                     SetItemInInventory(i, prev);
-                    SetItemInInventory(i  - 1, null);
+                    SetItemInInventory(i - 1, null);
                     SetItemIsStuck(i);
                 }
-                
+
             }
 
         }
@@ -142,11 +211,11 @@ public abstract class Machine : MonoBehaviour
     {
         int ind = GetInventoryIndex(index);
         Inventory[ind] = i;
-         
-    }
-     public bool TrySetItemInInventory(int index, Item i)
-    {
 
+    }
+    public bool TrySetItemInInventory(int index, Item i)
+    {
+        if (Inventory.Length == 0) return false;
         if (GetItemInInventory(index) != null) return false;
 
         i.SavePosition();
@@ -186,24 +255,12 @@ public abstract class Machine : MonoBehaviour
         return false;
     }
 
+    #endregion
 
 
     // debug
     public Item[] Debug_StartWith;
 
-    public void Start()
-    {
-        int ind = 0;
-        foreach (Item i in Debug_StartWith)
-        {
-            if (i == null) continue;
-            Vector3 dir = Vector2.right;
-            if (ind == 1) dir = Vector2.down;
-            RecieveItem(i, dir);
-
-            ind++;
-        }
-    }
 
 #if UNITY_EDITOR
     void OnDrawGizmosSelected()
@@ -236,7 +293,7 @@ public abstract class Machine : MonoBehaviour
 
     public bool Piecewise(float t, float startIndex, out float p)
     {
-       return Piecewise(t, startIndex, InventoryLength, out p);
+        return Piecewise(t, startIndex, InventoryLength, out p);
     }
     public bool Piecewise(float t, float startIndex, float endIndex, out float p)
     {
@@ -248,6 +305,6 @@ public abstract class Machine : MonoBehaviour
 
         return p > 0 && p <= 1;
     }
-    
+
 }
 

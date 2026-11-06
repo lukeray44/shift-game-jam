@@ -1,8 +1,11 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SimulationManager : MonoBehaviour
 {
+    public static SimulationManager main;
+    
     public static int TickIndex;
 
 
@@ -13,11 +16,23 @@ public class SimulationManager : MonoBehaviour
     {
         TickIndex = 0;
 
-        for (int i = 0; i < 100; i++)
+        
+    }
+
+    void Awake()
+    {
+        main = this;
+        BuildingManager.main.OnBuildingAdd += _buildingAdded;
+    }
+
+    private void _buildingAdded(Building building)
+    {
+        if (building.Simulator != null)
         {
-            Tick();
+            AddMachine(building.Simulator);
         }
     }
+
     public void Tick()
     {
         TickIndex++;
@@ -34,6 +49,36 @@ public class SimulationManager : MonoBehaviour
             if (m == null) continue;
             m.Animate(percentage);
         }
+    }
+
+    public void AddRoot(Machine m)
+    {
+        
+        Roots.Add(m);
+        m.IsRoot = true;
+    }
+    public void RemoveRoot(Machine m)
+    {
+        
+        Roots.Remove(m);
+        m.IsRoot = false;
+    }
+    public void AddMachine(Machine m)
+    {
+        BuildingManager.main.OnBuildingAdd += m.OnBuildingAdded;
+        All.Add(m);
+        m.InitialiseOutputs();
+
+        if (m.MainOutput == null)
+        {
+            AddRoot(m);
+        }
+
+        if (m.MachineIsAhead(m))
+        {
+            Debug.Log("LOOP FOUND " + m.name, m);
+        }
+
     }
 
     float simulationTimer;

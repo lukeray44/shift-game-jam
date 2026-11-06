@@ -23,7 +23,7 @@ public class producer : EaseAndDestroy
             i.transform.position = transform.position;
             if (!RecieveItem(i, Vector3.down))
             {
-                Destroy(i);
+                Destroy(i.gameObject);
             } else 
             {
                  timer = 0;
