@@ -4,6 +4,17 @@ public class Trebuchet : Machine
 {
     public AnimationCurve Arc;
     public float DistPerItem;
+    public EaseAndDestroy Excess;
+
+    public override void Initialise()
+    {
+        base.Initialise();
+        SimulationManager.main.AddMachine(Excess);
+    }
+    public override int ExtraOutputs()
+    {
+        return 1;
+    }
 
     protected override Vector2Int OutputTile()
     { 
@@ -41,6 +52,7 @@ public class Trebuchet : Machine
         
         float dist = Vector3.Distance(transform.position, MainOutput.transform.position);
         int items = Mathf.CeilToInt(dist / DistPerItem) + 1;
+        Excess.transform.position = MainOutput.GetItemTarget(Vector3.down);
         InitialiseInventory(items);
     }
 
@@ -56,7 +68,11 @@ public class Trebuchet : Machine
         {
             if (!TransferItem(0, MainOutput, Vector3.down)) 
             {
-                UndoIncrementAndCompress();    
+                if (!TransferItem(0, Excess, Vector3.down))
+                {
+                    UndoIncrementAndCompress();   
+                }
+                 
             }
         }
     }

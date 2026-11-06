@@ -67,18 +67,21 @@ public class SimulationManager : MonoBehaviour
     {
         BuildingManager.main.OnBuildingAdd += m.OnBuildingAdded;
         All.Add(m);
-        m.InitialiseOutputs();
+        m.Initialise();
 
-        if (m.MainOutput == null)
+        if (m.MainOutput == null) 
         {
             AddRoot(m);
         }
+    }
 
-        if (m.MachineIsAhead(m))
+    public void CheckForLoop(Machine m)
+    {
+         if (m.CheckForLoop(m, new HashSet<Machine>()))
         {
-            Debug.Log("LOOP FOUND " + m.name, m);
+            m.IsLoopRoot = true;
+           AddRoot(m);
         }
-
     }
 
     float simulationTimer;

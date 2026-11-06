@@ -20,6 +20,15 @@ public class EaseAndDestroy : Machine
         if (items < 1) items = 1;
         InitialiseInventory(items);
     }
+    protected override void OnInitialiseOutputs()
+    {
+         
+    }
+
+    public override void OnBuildingAdded(Building b)
+    {
+        
+    }
     public override void Animate(float percentage)
     {
         Vector3 target = OverrideTarget != null ? OverrideTarget.position : MainOutput.GetItemTarget(Vector3.down);

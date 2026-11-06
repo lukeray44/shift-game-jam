@@ -7,12 +7,17 @@ public abstract class Machine : MonoBehaviour
 {
     public Building Building;
     public bool IsRoot;
+    public bool IsLoopRoot;
+    public virtual int ExtraOutputs()
+    {
+        return 0;
+    }
     int lastTick;
     int childrenCountSimulated;
     public void TryTickRecursive()
     {
         childrenCountSimulated++;
-        if (childrenCountSimulated >= OutputMachines.Count)
+        if (childrenCountSimulated >= OutputMachines.Count + ExtraOutputs())
         {
             childrenCountSimulated = 0;
             if (lastTick != SimulationManager.TickIndex)
@@ -43,17 +48,29 @@ public abstract class Machine : MonoBehaviour
         }
     }
 
+    public virtual void Initialise()
+    {
+        InitialiseOutputs();
+    }
     public void InitialiseOutputs()
     {
         OutputMachines = new List<Machine>();
         OnInitialiseOutputs();
+
+        if (MainOutput == null)
+        {
+            if (IsRoot) SimulationManager.main.AddRoot(this);
+        } else
+        {
+            if (!IsRoot) SimulationManager.main.RemoveRoot(this);
+        }
     }
     protected virtual void OnInitialiseOutputs()
     {
-        if (this is Trebuchet) Debug.Log(OutputTile());
+
         if (BuildingManager.main.TryGetBuildingAtPos(OutputTile(), out Building b))
         {
-           AddOutput(b.Simulator);
+            AddOutput(b.Simulator);
         }
     } // find connections
 
@@ -97,27 +114,33 @@ public abstract class Machine : MonoBehaviour
         {
             SimulationManager.main.RemoveRoot(this);
         }
-    } 
-    public bool MachineIsAhead(Machine target, Machine failsafe = null)
+
+        SimulationManager.main.CheckForLoop(this);
+    }
+    public bool CheckForLoop(Machine target, HashSet<Machine> traversed)
     {
-        Debug.Log("target: " + target.name + " failsafe: " + (failsafe != null ? failsafe.name : "null") + " this: " + this.name); 
-        if (this == failsafe) return false; // if it hits the same one twice, it's in a loop
+        Debug.Log(OutputMachines.Count); 
         foreach (Machine m in OutputMachines)
         {
+            Debug.Log("comparing: " + m.name + " vs " + target.name, m); 
             if (m == target) return true;
-
-            // propogate the failsafe if exists else use this
-            if (m.MachineIsAhead(target, failsafe == null ? this : failsafe)) return true;
+            if (traversed.Contains(m)) 
+            {
+                continue;
+            }
+            traversed.Add(m); 
+            if (m.CheckForLoop(target, traversed)) return true;
         }
+
         return false;
     }
     public virtual void OnOutputAdded(Machine output)
     {
-        
+
     }
     public virtual void OnInputAdded(Machine input)
     {
-        
+
     }
 
     #region Inventory
@@ -134,7 +157,7 @@ public abstract class Machine : MonoBehaviour
     public bool TryIncrementItems()
     {
         if (InventoryLength == 0) return false;
-         
+
         inventoryOffset -= 1;
         inventoryOffset = (int)Mathf.Repeat(inventoryOffset, Inventory.Length);
 
@@ -145,7 +168,7 @@ public abstract class Machine : MonoBehaviour
                 IsStuck[i] = false;
             }
         }
-        
+
 
         return GetItemInInventory(0) != null;
     }
