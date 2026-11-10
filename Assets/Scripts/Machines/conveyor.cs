@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Conveyor : Machine
 {
-    public void Start()
+    public override void Initialise()
     {
         InitialiseInventory(1);
+        base.Initialise();
     }
     public override void Animate(float percentage)
     {
@@ -14,8 +15,7 @@ public class Conveyor : Machine
             Vector3 end = MainOutput == null ? GetItemTarget(Vector3.left) : MainOutput.GetItemTarget(Vector3.right);
 
             i.transform.position = Vector3.Lerp(GetItemTarget(Vector3.right), end, percentage);
-  
-             //i.transform.position = Vector3.Lerp(i.PreviousPosition, i.NextPosition, percentage);
+
         }
     } 
 
@@ -33,7 +33,13 @@ public class Conveyor : Machine
 
     public override bool RecieveItem(Item i, Vector3 direction)
     { 
-        return TrySetItemInInventory(0, i);
+        if (direction.x == Building.Direction.x || direction.x == 0) 
+        {
+            bool success = TrySetItemInInventory(0, i);
+            if (success) LoopInputs();
+            return success;
+        } 
+        return false;
     }
 
 }

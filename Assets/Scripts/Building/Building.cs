@@ -32,5 +32,7 @@ public class Building : MonoBehaviour
         #endif
     }
 
-    public Machine Simulator;
+    public Machine[] Simulators;
+
+    public Machine MainSimulator => (Simulators == null || Simulators.Length == 0) ? null : Simulators[0];
 }

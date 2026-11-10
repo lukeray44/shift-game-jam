@@ -21,7 +21,7 @@ public class producer : EaseAndDestroy
         {
             Item i = Instantiate(Prefab);
             i.transform.position = transform.position;
-            if (!RecieveItem(i, Vector3.down))
+            if (!RecieveItem(i, Vector3.zero))
             {
                 Destroy(i.gameObject);
             } else 
@@ -31,5 +31,10 @@ public class producer : EaseAndDestroy
 
            
         }
+    }
+    public override bool RecieveItem(Item i, Vector3 direction)
+    {
+        if (direction != Vector3.zero) return false;
+        return base.RecieveItem(i, direction);
     }
 }

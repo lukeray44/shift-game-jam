@@ -135,6 +135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Building: {fileID: 7881230249015929812}
   IsRoot: 0
+  IsLoopRoot: 0
+  SimulationPriority: 1
   InputMachines: []
   OutputMachines: []
   Inventory: []
@@ -151,7 +153,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a94fe33c661cc0b48b6d50b6eb0c7ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridPos: {x: -11, y: -2}
+  GridPos: {x: 1, y: -2}
   GridSize: {x: 1, y: 1}
-  AutoAdd: 0
-  Simulator: {fileID: 5678954157727733124}
+  AutoAdd: 1
+  Direction: {x: 1, y: 0}
+  Simulators:
+  - {fileID: 5678954157727733124}

@@ -189,9 +189,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GridPos: {x: -7, y: -2}
   GridSize: {x: 1, y: 1}
-  AutoAdd: 0
+  AutoAdd: 1
   Direction: {x: 1, y: 0}
-  Simulator: {fileID: 7323316749097423289}
+  Simulators:
+  - {fileID: 7323316749097423289}
+  - {fileID: 1654559201954229162}
 --- !u!1 &8633433165649714211
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ public class Trebuchet : Machine
 
     protected override Vector2Int OutputTile()
     { 
-        return Building.GridPos + Vector2Int.right * 5 * Building.DirectionX;
+        return Building.GridPos + Vector2Int.right * 6 * Building.DirectionX;
     }
     public override void Animate(float percentage)
     {

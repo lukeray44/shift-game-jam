@@ -6,8 +6,11 @@ public class EaseAndDestroy : Machine
     public float DistPerItem;
     public Transform OverrideTarget;
     public float Rotations;
-    public void Start()
+
+    public override void Initialise()
     {
+        base.Initialise();
+
         int items = 1; 
 
         if (MainOutput != null)
@@ -20,6 +23,7 @@ public class EaseAndDestroy : Machine
         if (items < 1) items = 1;
         InitialiseInventory(items);
     }
+
     protected override void OnInitialiseOutputs()
     {
          

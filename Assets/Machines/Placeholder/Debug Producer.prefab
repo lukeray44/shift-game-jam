@@ -137,7 +137,10 @@ MonoBehaviour:
   GridPos: {x: -13, y: -2}
   GridSize: {x: 2, y: 1}
   AutoAdd: 1
-  Simulator: {fileID: 3863337776365783171}
+  Direction: {x: 1, y: 0}
+  Simulators:
+  - {fileID: 3863337776365783171}
+  - {fileID: 5936699081921648796}
 --- !u!1 &4142893408019380673
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,6 +275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Building: {fileID: 0}
   IsRoot: 0
+  IsLoopRoot: 0
   InputMachines: []
   OutputMachines:
   - {fileID: 3863337776365783171}

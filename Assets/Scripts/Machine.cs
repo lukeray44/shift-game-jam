@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 
@@ -13,6 +14,7 @@ public abstract class Machine : MonoBehaviour
         return 0;
     }
     int lastTick;
+    public int SimulationPriority;
     int childrenCountSimulated;
     public void TryTickRecursive()
     {
@@ -21,19 +23,35 @@ public abstract class Machine : MonoBehaviour
         {
             childrenCountSimulated = 0;
             if (lastTick != SimulationManager.TickIndex)
-            {
+            { 
                 lastTick = SimulationManager.TickIndex;
 
                 Tick();
-
+                int offset = inputOffset;
                 // recursively tick from end to start
-                foreach (Machine m in InputMachines)
+                int count = InputMachines.Count;
+                for (int i = 0; i < count; i++)
                 {
+                    Machine m = InputMachines[(i + offset) % count];
                     m.TryTickRecursive();
                 }
+                
             }
         }
 
+    }
+
+    int inputOffset = 0;
+    public void LoopInputs()
+    {
+        int count = InputMachines.Count;
+        inputOffset += 1;
+        inputOffset %= count; 
+    }
+
+    public void TickSelf()
+    {
+        Tick();
     }
 
     protected abstract void Tick();
@@ -44,25 +62,31 @@ public abstract class Machine : MonoBehaviour
     {
         if (MainOutput == null && b.GridPos == OutputTile())
         {
-            AddOutput(b.Simulator);
+            AddOutput(b.MainSimulator);
         }
     }
 
     public virtual void Initialise()
     {
+        outputIsPreset = OutputMachines.Count != 0;
         InitialiseOutputs();
+
+
     }
+    bool outputIsPreset;
     public void InitialiseOutputs()
     {
-        OutputMachines = new List<Machine>();
+
+        if (!outputIsPreset) OutputMachines = new List<Machine>();
         OnInitialiseOutputs();
 
         if (MainOutput == null)
         {
-            if (IsRoot) SimulationManager.main.AddRoot(this);
-        } else
+            if (!IsRoot) SimulationManager.main.AddRoot(this);
+        }
+        else
         {
-            if (!IsRoot) SimulationManager.main.RemoveRoot(this);
+            if (IsRoot) SimulationManager.main.RemoveRoot(this);
         }
     }
     protected virtual void OnInitialiseOutputs()
@@ -70,7 +94,7 @@ public abstract class Machine : MonoBehaviour
 
         if (BuildingManager.main.TryGetBuildingAtPos(OutputTile(), out Building b))
         {
-            AddOutput(b.Simulator);
+            AddOutput(b.MainSimulator);
         }
     } // find connections
 
@@ -106,7 +130,7 @@ public abstract class Machine : MonoBehaviour
         if (output == null) return;
         OutputMachines.Add(output);
         output.InputMachines.Add(this);
-
+       
         OnOutputAdded(output);
         output.OnInputAdded(this);
 
@@ -116,20 +140,36 @@ public abstract class Machine : MonoBehaviour
         }
 
         SimulationManager.main.CheckForLoop(this);
+
+        if (OutputMachines.Count > 1) OutputMachines = OutputMachines.OrderBy(a => a.SimulationPriority).ToList();
     }
-    public bool CheckForLoop(Machine target, HashSet<Machine> traversed)
+
+    public void RemoveOutput(Machine output)
     {
-        Debug.Log(OutputMachines.Count); 
+        OutputMachines.Remove(output);
+        output.InputMachines.Remove(this);
+
+        InitialiseOutputs();
+
+        if (MainOutput == null)
+        {
+            SimulationManager.main.AddRoot(this);
+        }
+    }
+
+    public bool CheckForLoop(Machine target, HashSet<Machine> traversed, out Machine previous)
+    {
+        previous = this;
         foreach (Machine m in OutputMachines)
         {
-            Debug.Log("comparing: " + m.name + " vs " + target.name, m); 
+            if (m.IsLoopRoot) continue;
             if (m == target) return true;
-            if (traversed.Contains(m)) 
+            if (traversed.Contains(m))
             {
                 continue;
             }
-            traversed.Add(m); 
-            if (m.CheckForLoop(target, traversed)) return true;
+            traversed.Add(m);
+            if (m.CheckForLoop(target, traversed, out previous)) return true;
         }
 
         return false;

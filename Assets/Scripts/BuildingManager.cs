@@ -62,6 +62,7 @@ public class BuildingManager : MonoBehaviour
 
     // adding buildings
     public Action<Building> OnBuildingAdd;
+    public Action<Building> OnBuildingRemove;
     public void AddBuilding(Building b)
     {
         b.GridPos = WorldToLocal(b.transform.position);
@@ -70,10 +71,27 @@ public class BuildingManager : MonoBehaviour
         OnBuildingAdd?.Invoke(b);
     }
 
+    public void DeleteBuilding(Building b)
+    {
+        OnBuildingRemove?.Invoke(b);
+        AllBuildings.Remove(b);
+        Destroy(b.gameObject);
+    }
 
+
+    void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Vector3 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Vector2Int pos = WorldToLocal(mouse);
+
+            if (TryGetBuildingAtPos(pos, out var b)) DeleteBuilding(b);
+        }
+    }
 
     // editor
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     public static BuildingManager Editor
     {
         get
