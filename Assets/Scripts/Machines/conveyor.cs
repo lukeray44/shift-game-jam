@@ -34,9 +34,9 @@ public class Conveyor : Machine
 
     public override bool RecieveItem(Item i, Vector3 direction)
     { 
-        Debug.Log(direction.x + " vs " + Building.Direction.x);
+       
         if (direction.x == Building.Direction.x || direction.x == 0) 
-        {
+        { 
             bool success = TrySetItemInInventory(0, i); 
             if (success) LoopInputs();
             return success;

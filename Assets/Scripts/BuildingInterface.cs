@@ -5,10 +5,10 @@ public class BuildingInterface : MonoBehaviour
 {
     public BuildingManager Manager;
 
-
+    public BuildingData CurrentlyPlacing;
     public Building Placing;
 
-    public Building[] TempToolbar;
+    public BuildingData[] TempToolbar;
     int selectedIndex;
     Vector2Int lastDir = Vector2Int.right;
     void LoadIndex(int index)
@@ -23,14 +23,15 @@ public class BuildingInterface : MonoBehaviour
         Placing = null;
         LoadIndex(selectedIndex);
     }
-    public void SetPlacing(Building prefab)
+    public void SetPlacing(BuildingData data)
     {
         if (Placing != null)
         {
             Destroy(Placing.gameObject);
         }
 
-        Placing = Instantiate(prefab);
+        CurrentlyPlacing = data;
+        Placing = Instantiate(data.Prefab);
         Placing.gameObject.SetActive(false); 
         Placing.SetRotation(lastDir);
         setDirty();
@@ -62,6 +63,7 @@ public class BuildingInterface : MonoBehaviour
 
     Building selected;
     bool valid;
+    bool holdingRightClick;
     void Update()
     {
         Vector3 input = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -80,7 +82,7 @@ public class BuildingInterface : MonoBehaviour
             selected = Manager.GetBuildingAtPos(mouseTile);
         }
 
-
+         if (Input.GetMouseButtonUp(1)) holdingRightClick = false;
 
         if (selected != null)
         {
@@ -92,14 +94,16 @@ public class BuildingInterface : MonoBehaviour
                 cursor.color = Color.red;
             }
 
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1) ) holdingRightClick = true;
+           
+            if (holdingRightClick)
             {
                 Manager.DeleteBuilding(selected);
                 setDirty();
                 return;
             }
         }
-        else if (Placing != null)
+        else if (Placing != null) 
         {
             if (tileChanged)
             {
@@ -117,10 +121,11 @@ public class BuildingInterface : MonoBehaviour
 
 
 
-            if (valid && Input.GetMouseButtonDown(0))
+            if (valid && (Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && CurrentlyPlacing.DragPlace)))
             {
                 Manager.AddBuilding(Placing);
-                Placing = null;
+                CurrentlyPlacing = null;
+                Placing = null; 
                 ReloadIndex();
                 setDirty();
                 return;

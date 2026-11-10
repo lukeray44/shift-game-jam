@@ -168,7 +168,7 @@ public abstract class Machine : MonoBehaviour
         OnOutputRemoved(output);
         output.OnInputRemoved(this);
  
-        InitialiseOutputs();
+        InitialiseOutputs(); 
 
     }
 

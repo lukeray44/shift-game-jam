@@ -33,13 +33,12 @@ public class loopBuffer : Machine
 
     public override void OnInputRemoved(Machine input)
     {
-        Debug.Log("REMOVED INPUT");
-        SimulationManager.main.RemoveMachine(this);
+        
+        SimulationManager.main.DeleteMachine(this);
     }
 
     public override void OnOutputRemoved(Machine input)
-    {
-        Debug.Log("REMOVED OUTPUT");
-        SimulationManager.main.RemoveMachine(this);
+    { 
+        SimulationManager.main.DeleteMachine(this);
     }
 }

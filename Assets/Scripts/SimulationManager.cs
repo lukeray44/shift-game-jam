@@ -95,9 +95,17 @@ public class SimulationManager : MonoBehaviour
         }
 
     }
+    public void DeleteMachine(Machine m)
+    {
+        RemoveMachine(m);
+        Destroy(m.gameObject);
+    }
     public void RemoveMachine(Machine m)
     {
         All.Remove(m);
+        if (m.IsRoot) RemoveRoot(m);
+        if (m.IsLoopRoot) LoopRoots.Remove(m);
+
         BuildingManager.main.OnBuildingAdd -= m.OnBuildingAdded;
 
         while (m.InputMachines.Count > 0)
@@ -106,12 +114,12 @@ public class SimulationManager : MonoBehaviour
         }
 
         foreach (Machine outmm in m.OutputMachines)
-        {
+        { 
             outmm.InputMachines.Remove(m);
+            outmm.OnInputRemoved(m);
         }
 
-        if (m.IsRoot) RemoveRoot(m);
-        if (m.IsLoopRoot) LoopRoots.Remove(m);
+        
     }
  
     public void CheckForLoop(Machine m)
@@ -122,6 +130,7 @@ public class SimulationManager : MonoBehaviour
 
             loopBuffer loopRoot = new GameObject("Loop").AddComponent<loopBuffer>();
             loopRoot.IsLoopRoot = true;
+            loopRoot.SimulationPriority = 1000;
             
             m.InputMachines.Remove(previous);
             loopRoot.AddOutput(m);
