@@ -105,10 +105,15 @@ public class SimulationManager : MonoBehaviour
             m.InputMachines[0].RemoveOutput(m);
         }
 
+        foreach (Machine outmm in m.OutputMachines)
+        {
+            outmm.InputMachines.Remove(m);
+        }
+
         if (m.IsRoot) RemoveRoot(m);
         if (m.IsLoopRoot) LoopRoots.Remove(m);
     }
-
+ 
     public void CheckForLoop(Machine m)
     {
         if (m is loopBuffer) return;
@@ -118,12 +123,11 @@ public class SimulationManager : MonoBehaviour
             loopBuffer loopRoot = new GameObject("Loop").AddComponent<loopBuffer>();
             loopRoot.IsLoopRoot = true;
             
-            previous.OutputMachines.Remove(m);
-            previous.AddOutput(loopRoot);
-
             m.InputMachines.Remove(previous);
             loopRoot.AddOutput(m);
             
+            previous.OutputMachines.Remove(m);
+            previous.AddOutput(loopRoot);
 
             AddMachine(loopRoot);
             LoopRoots.Add(loopRoot);

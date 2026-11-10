@@ -31,11 +31,11 @@ public class EaseAndDestroy : Machine
 
     public override void OnBuildingAdded(Building b)
     {
-        
+         
     }
     public override void Animate(float percentage)
     {
-        Vector3 target = OverrideTarget != null ? OverrideTarget.position : MainOutput.GetItemTarget(Vector3.down);
+        Vector3 target = OverrideTarget != null ? OverrideTarget.position : MainOutput.GetItemTarget((Vector2)MainOutput.Building.Direction);
         Vector3 start =  transform.position;
         bool easeDestroy = MainOutput == null;
         AnimateEachItem(percentage, (ind, t, item) =>

@@ -100,7 +100,23 @@ public abstract class Machine : MonoBehaviour
 
     protected virtual Vector2Int OutputTile()
     {
-        return Building.GridPos + new Vector2Int(Building.Direction.x * Building.GridSize.x, Building.Direction.y * Building.GridSize.y);
+        Vector2Int offset = new Vector2Int(0, 0); 
+        if (Building.Direction.x > 0)
+        {
+            offset.x = Building.GridSize.x - 1;
+        }
+        if (Building.Direction.y > 0)
+        {
+            offset.y = Building.GridSize.y - 1;
+        }
+
+        int adjust(int x)
+        {
+            if (x == 0) return 0;
+            return x > 0 ? 1 : -1;
+        }
+        
+        return Building.GridPos + offset + new Vector2Int(Building.Direction.x * adjust(Building.GridSize.x), Building.Direction.y * adjust(Building.GridSize.y));
     }
 
     public void AnimateEachItem(float percentage, Action<int, float, Item> act) // index, percentage, item
@@ -149,12 +165,11 @@ public abstract class Machine : MonoBehaviour
         OutputMachines.Remove(output);
         output.InputMachines.Remove(this);
 
+        OnOutputRemoved(output);
+        output.OnInputRemoved(this);
+ 
         InitialiseOutputs();
 
-        if (MainOutput == null)
-        {
-            SimulationManager.main.AddRoot(this);
-        }
     }
 
     public bool CheckForLoop(Machine target, HashSet<Machine> traversed, out Machine previous)
@@ -181,6 +196,16 @@ public abstract class Machine : MonoBehaviour
     public virtual void OnInputAdded(Machine input)
     {
 
+    }
+
+    public virtual void OnInputRemoved(Machine input)
+    {
+        
+    }
+
+     public virtual void OnOutputRemoved(Machine input)
+    {
+        
     }
 
     #region Inventory
@@ -273,6 +298,7 @@ public abstract class Machine : MonoBehaviour
     public void SetItemInInventory(int index, Item i)
     {
         int ind = GetInventoryIndex(index);
+        if (i != null) i.transform.parent = transform;
         Inventory[ind] = i;
 
     }
@@ -283,6 +309,7 @@ public abstract class Machine : MonoBehaviour
 
         i.SavePosition();
         Inventory[GetInventoryIndex(index)] = i;
+        if (i != null) i.transform.parent = transform;
         if (i == null) IsStuck[GetInventoryIndex(index)] = false;
         else i.parent = this;
         return true;

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class BuildingManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class BuildingManager : MonoBehaviour
 
 
     public Grid Grid;
+    public Tilemap Ground;
     public List<Building> AllBuildings;
     
     // transformations
@@ -46,6 +48,33 @@ public class BuildingManager : MonoBehaviour
         
         return true;
     }
+
+    bool BuildingsOverlap(Building b1, Building b2)
+    { 
+        Vector2Int min1 = b1.GridPos;
+        Vector2Int max1 = b1.GridPos + b1.GridSize;
+
+        Vector2Int min2 = b2.GridPos;
+        Vector2Int max2 = b2.GridPos + b2.GridSize;
+
+        if (Vector2IntInArea(min2, min1, max1)) return true;
+        if (Vector2IntInArea(max2, min1, max1)) return true;
+
+        if (Vector2IntInArea(min1, min2, max2)) return true;
+        if (Vector2IntInArea(max1, min2, max2)) return true;
+
+        return false;
+    }
+    public Building FindOverlappingBuilding(Building b)
+    {
+        foreach (Building b2 in AllBuildings)
+        {
+            if (b == b2) continue;
+
+            if (BuildingsOverlap(b2, b)) return b2;
+        }
+        return null;
+    }
     public bool TryGetBuildingAtPos(Vector2Int lPos, out Building b)
     {
         b = GetBuildingAtPos(lPos);
@@ -60,34 +89,56 @@ public class BuildingManager : MonoBehaviour
         return null;
     }
 
+    public TileBase Ramp;
+
+    public bool IsSolidTile(Vector2Int pos)
+    {
+        TileBase t = Ground.GetTile(Ground.WorldToCell(LocalToWorld(pos)));
+
+        return t != null && t != Ramp;
+    } 
+    public bool IsAnyTile(Vector2Int pos)
+    {
+        TileBase t = Ground.GetTile(Ground.WorldToCell(LocalToWorld(pos)));
+
+        return t != null;
+    }
+    public bool IsRamp(Vector2Int pos)
+    {
+        TileBase t = Ground.GetTile(Ground.WorldToCell(LocalToWorld(pos)));
+
+        return t == Ramp;
+    }
+
     // adding buildings
     public Action<Building> OnBuildingAdd;
     public Action<Building> OnBuildingRemove;
-    public void AddBuilding(Building b)
+    public void AddBuilding(Building b) // assume transform and gridPos set
     {
-        b.GridPos = WorldToLocal(b.transform.position);
-        b.transform.position = LocalToWorld(b.GridPos);
         AllBuildings.Add(b);
         OnBuildingAdd?.Invoke(b);
     }
-
+ 
     public void DeleteBuilding(Building b)
     {
-        OnBuildingRemove?.Invoke(b);
         AllBuildings.Remove(b);
+        OnBuildingRemove?.Invoke(b);
+        
         Destroy(b.gameObject);
     }
+    
 
-
-    void Update()
+    public Vector3 GetAreaCentre(Vector2Int pos, Vector2Int sizeInt)
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 mouse = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2Int pos = WorldToLocal(mouse);
-
-            if (TryGetBuildingAtPos(pos, out var b)) DeleteBuilding(b);
-        }
+        Vector3 root = LocalToWorld(pos);
+        Vector3 offset = new Vector3((sizeInt.x - 1)  * Grid.cellSize.x, (sizeInt.y - 1) * Grid.cellSize.y);
+        return root + offset * 0.5f;
+    }
+    public Vector2Int GetAreaPositionLocal(Vector3 worldPos, Vector2Int sizeInt)
+    {
+        Vector3 offset =  new Vector3((sizeInt.x - 1)  * Grid.cellSize.x, (sizeInt.y - 1) * Grid.cellSize.y);
+        Vector2Int pos = WorldToLocal(worldPos - offset * 0.5f);
+        return pos;
     }
 
     // editor

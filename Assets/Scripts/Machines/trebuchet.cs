@@ -9,7 +9,8 @@ public class Trebuchet : Machine
     public override void Initialise()
     {
         base.Initialise();
-        SimulationManager.main.AddMachine(Excess);
+        Excess.transform.position = BuildingManager.main.LocalToWorld(OutputTile());
+        OnOutputAdded(Excess);
     }
     public override int ExtraOutputs()
     {
@@ -47,12 +48,10 @@ public class Trebuchet : Machine
     }
 
     public override void OnOutputAdded(Machine output)
-    {
-        if (MainOutput == null) return;
-        
-        float dist = Vector3.Distance(transform.position, MainOutput.transform.position);
+    {        
+        float dist = Vector3.Distance(transform.position, output.transform.position);
         int items = Mathf.CeilToInt(dist / DistPerItem) + 1;
-        Excess.transform.position = MainOutput.GetItemTarget(Vector3.down);
+        Excess.transform.position = output.GetItemTarget(Vector3.down);
         InitialiseInventory(items);
     }
 

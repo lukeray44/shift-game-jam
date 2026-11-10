@@ -9,14 +9,14 @@ public class loopBuffer : Machine
 
     protected override void Tick()
     {
-        TransferItem(0, MainOutput, (Vector2)MainOutput.Building.Direction);
+        if (MainOutput != null) TransferItem(0, MainOutput, (Vector2)MainOutput.Building.Direction);
     }
 
     protected override void OnInitialiseOutputs()
     {
-        if (MainOutput == null) SimulationManager.main.RemoveMachine(this);
+       
     }
-    public override void Initialise()
+    public override void Initialise() 
     {
         InitialiseInventory(1);
     }
@@ -29,5 +29,17 @@ public class loopBuffer : Machine
     public override bool RecieveItem(Item i, Vector3 direction)
     {
         return TrySetItemInInventory(0, i);
+    } 
+
+    public override void OnInputRemoved(Machine input)
+    {
+        Debug.Log("REMOVED INPUT");
+        SimulationManager.main.RemoveMachine(this);
+    }
+
+    public override void OnOutputRemoved(Machine input)
+    {
+        Debug.Log("REMOVED OUTPUT");
+        SimulationManager.main.RemoveMachine(this);
     }
 }

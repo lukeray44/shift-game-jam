@@ -25,8 +25,9 @@ public class painter : Conveyor
         if (i != null)
         {
             i.Sprite.color = Color.red;
+            i.SavePosition();
         }
 
-         base.Tick();
+        base.Tick();
     }
 }

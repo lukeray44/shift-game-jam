@@ -24,8 +24,8 @@ public class Building : MonoBehaviour
 
         if (BuildingManager.Editor != null)
         {
-            GridPos = BuildingManager.Editor.WorldToLocal(transform.position);
-            transform.position = BuildingManager.Editor.LocalToWorld(GridPos);
+            GridPos = PositionToCell();
+            Position(GridPos);
             BuildingManager.CellAreaGizmo(GridPos, GridSize);
         }
 
@@ -35,4 +35,29 @@ public class Building : MonoBehaviour
     public Machine[] Simulators;
 
     public Machine MainSimulator => (Simulators == null || Simulators.Length == 0) ? null : Simulators[0];
+
+    public virtual bool CanPlaceHere(Vector2Int pos)
+    {
+        return false;
+    }
+
+    public virtual bool Rotate()
+    {
+        return false;
+    }
+
+    public virtual void SetRotation(Vector2Int rotation)
+    {
+        Direction = rotation;
+    }
+ 
+    public virtual void Position(Vector2Int position)
+    {
+        transform.position = BuildingManager.main.GetAreaCentre(GridPos, GridSize);
+    }
+
+    public virtual Vector2Int PositionToCell()
+    {
+       return BuildingManager.main.GetAreaPositionLocal(transform.position, GridSize);
+    }
 }

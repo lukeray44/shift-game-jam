@@ -113,7 +113,7 @@ Transform:
   m_GameObject: {fileID: 2205886340450069638}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.5, y: -1.5, z: 0}
+  m_LocalPosition: {x: -12, y: -1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -131,12 +131,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2205886340450069638}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a94fe33c661cc0b48b6d50b6eb0c7ab2, type: 3}
+  m_Script: {fileID: 11500000, guid: 2c4b8c286fa6b9748a38395264b2d1f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   GridPos: {x: -13, y: -2}
-  GridSize: {x: 2, y: 1}
-  AutoAdd: 1
+  GridSize: {x: 2, y: 2}
+  AutoAdd: 0
   Direction: {x: 1, y: 0}
   Simulators:
   - {fileID: 3863337776365783171}
@@ -167,7 +167,7 @@ Transform:
   m_GameObject: {fileID: 4142893408019380673}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.3508, y: 0.4951, z: 0}
+  m_LocalPosition: {x: -0.155, y: 0.4951, z: 0}
   m_LocalScale: {x: 1.57444, y: 1.9903, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -255,7 +255,7 @@ Transform:
   m_GameObject: {fileID: 6340622096532179108}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5057993, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -276,6 +276,7 @@ MonoBehaviour:
   Building: {fileID: 0}
   IsRoot: 0
   IsLoopRoot: 0
+  SimulationPriority: 0
   InputMachines: []
   OutputMachines:
   - {fileID: 3863337776365783171}
@@ -320,7 +321,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5243064410823340709, guid: 601854f0715d0a049add377c4fa3b26b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 0.4942007
       objectReference: {fileID: 0}
     - target: {fileID: 5243064410823340709, guid: 601854f0715d0a049add377c4fa3b26b, type: 3}
       propertyPath: m_LocalPosition.y
