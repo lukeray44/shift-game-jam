@@ -108,10 +108,14 @@ public class BuildingManager : MonoBehaviour
 
         return t != null;
     }
-    public bool IsRamp(Vector2Int pos)
+    public bool IsRamp(Vector2Int pos, out Vector3 normal)
     {
-        TileBase t = Ground.GetTile(Ground.WorldToCell(LocalToWorld(pos)));
+       
 
+        Vector3Int cellPos = Ground.WorldToCell(LocalToWorld(pos));
+        TileBase t = Ground.GetTile(cellPos);
+        normal = Ground.GetTransformMatrix(cellPos).rotation * new Vector3(1, 1);
+         
         return t == Ramp;
     }
 

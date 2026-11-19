@@ -122,6 +122,7 @@ namespace SingularityGroup.HotReload.Editor {
         
         public HotReloadRunTabState RunTabState { get; private set; }
         void OnGUI() {
+
             // TabState ensures rendering is consistent between Layout and Repaint calls
             // Without it errors like this happen:
             // ArgumentException: Getting control 2's position in a group with only 2 controls when doing repaint

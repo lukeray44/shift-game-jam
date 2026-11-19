@@ -31,6 +31,11 @@ public class BuildingInterface : MonoBehaviour
         }
 
         CurrentlyPlacing = data;
+        if (data.Prefab == null)
+        {
+            Debug.Log("NO PREFAB");
+            return;
+        }
         Placing = Instantiate(data.Prefab);
         Placing.gameObject.SetActive(false); 
         Placing.SetRotation(lastDir);
@@ -85,6 +90,19 @@ public class BuildingInterface : MonoBehaviour
 
          if (Input.GetMouseButtonUp(1)) holdingRightClick = false;
 
+
+        if (selected != null)
+        {
+            if (Input.GetMouseButtonDown(1) ) holdingRightClick = true;
+           
+            if (holdingRightClick)
+            {
+                Manager.DeleteBuilding(selected);
+                setDirty();
+                return;
+            }
+        }
+
         if (selected != null && Placing == null)
         {
 
@@ -94,15 +112,6 @@ public class BuildingInterface : MonoBehaviour
                 HighlightBuilding(selected);
                 cursor.color = Color.red;
                 BuildingManager.main.Visualise(selected);
-            }
-
-            if (Input.GetMouseButtonDown(1) ) holdingRightClick = true;
-           
-            if (holdingRightClick)
-            {
-                Manager.DeleteBuilding(selected);
-                setDirty();
-                return;
             }
         }
         else if (Placing != null) 
@@ -160,7 +169,9 @@ public class BuildingInterface : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.Escape))
         {
-            SetPlacing(null);
+            Destroy(Placing.gameObject);
+            Placing = null;
+            setDirty();
         }
     }
 

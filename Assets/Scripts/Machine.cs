@@ -74,30 +74,34 @@ public abstract class Machine : MonoBehaviour
                 if (m != previous) m.Visualise(this);
             }
 
-            foreach (Machine m in OutputMachines)
+            if (!foundFuture)
             {
-                Debug.Log(m.name);
-                if (m != previous) m.Visualise(this);
+                foreach (Machine m in OutputMachines)
+                {
+
+                    if (m != previous) m.Visualise(this);
+                }
             }
+
         }
     }
     public virtual void VisualiseSelf(bool foundOutput = false)
     {
-        
+
     }
 
     public virtual void VisualiseIfOutput(Building b)
     {
-        
+
     }
 
     public virtual void OnAddToSimulation()
     {
-        
+
     }
     public virtual void OnRemoveFromSimulation()
     {
-        
+
     }
 
     public virtual void Initialise()
@@ -118,7 +122,7 @@ public abstract class Machine : MonoBehaviour
     }
     public void UpdateIsRoot()
     {
-        
+
         if (MainOutput == null)
         {
             if (!IsRoot) SimulationManager.main.AddRoot(this);

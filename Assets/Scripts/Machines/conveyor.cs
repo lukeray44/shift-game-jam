@@ -24,11 +24,12 @@ public class Conveyor : adjacencyMachine
 
         if (MainOutput == null)
         {
-             SimulationManager.CreatePhysics(this, GetItemTarget(Vector3.left * Building.DirectionX), new Vector3(2 * Building.DirectionX, 0));
+             SimulationManager.CreatePhysics(this, GetItemTarget(Vector3.left * Building.DirectionX),vel);
         }
         
     }
-
+    
+    Vector3 vel => (Vector2)Building.Direction * 2;
  
     protected override void Tick()
     {
@@ -50,9 +51,9 @@ public class Conveyor : adjacencyMachine
     {
         base.VisualiseSelf(foundOutput);
 
-        if (MainOutput == null && ! foundOutput)
+        if (MainOutput == null && !foundOutput)
         {
-            Visualiser.VisualisePhysics(Building, GetItemTarget(Vector3.left * Building.DirectionX), new Vector3(2 * Building.DirectionX, 0));
+            Visualiser.VisualisePhysics(Building, GetItemTarget(Vector3.left * Building.DirectionX), vel);
         }
     }
 
