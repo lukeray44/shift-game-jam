@@ -1,0 +1,362 @@
+using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using UnityEngine;
+
+public class PhysicsMachine : EaseAndDestroy
+{
+
+    itemSimulation simulation;
+
+    protected override void OnInitialiseOutputs()
+    {
+
+    }
+    public override void Initialise()
+    {
+
+    }
+
+    Vector3 startPos;
+    Vector3 startVelocity;
+    Building startCause;
+    public void Simulate(Building cause, Vector3 pos, Vector3 velocity)
+    {
+        startCause = cause;
+        startPos = pos;
+        startVelocity = velocity;
+        BuildingManager build = BuildingManager.main;
+        transform.position = pos;
+        simulation = new itemSimulation(pos, velocity);
+
+        if (MainOutput != null)
+        {
+            RemoveOutput(MainOutput);
+        }
+
+        simulation.NewTile += tile =>
+        {
+
+            if (build.PositionMap.TryGetValue(tile, out Building b))
+            {
+                if (b != null && b != cause)
+                {
+
+                    AddOutput(b.MainSimulator);
+
+                    simulation.ShiftEnd(MainOutput.GetItemTarget(simulation.GetOutputDir()));
+                    simulation.Break();
+
+                }
+            }
+        };
+
+        simulation.SimulateTime(build);
+
+        int itemCount = Mathf.CeilToInt(simulation.maxTime);
+
+        InitialiseInventory(itemCount);
+    }
+
+    public override void OnBuildingAdded(Building b)
+    {
+        base.OnBuildingAdded(b);
+        if (MainInput == null) return;
+        if (buildingOnPath(b))
+        {
+             MainInput.RemoveOutput(this);
+        }
+    }
+
+    public override void OnOutputRemoved(Machine input)
+    {
+        base.OnOutputRemoved(input);
+        if (MainInput == null) return;
+        Machine lastInput = MainInput;
+        MainInput.RemoveOutput(this);
+
+        if (lastInput.MainOutput is PhysicsMachine p)
+        {
+            p.TransferInventory(this);
+        }
+    }
+
+    bool buildingOnPath(Building b)
+    {
+        foreach (Vector2Int tile in simulation.tileSpaces)
+        {
+            if (b.ContainsTile(tile))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    public override void Animate(float percentage)
+    {
+        int length = InventoryLength;
+        bool easeDestroy = MainOutput == null;
+        AnimateEachItem(percentage, (ind, t, item) =>
+        {
+            item.transform.position = simulation.GetPositionByPercentage(t);
+
+            if (easeDestroy && ind == InventoryLength - 1)
+            {
+                item.transform.localScale = Vector3.one * Mathf.Lerp(1, 0, percentage * percentage);
+            }
+        });
+    }
+
+
+    public float maxTime = 2;
+
+    public override void Visualise(Machine previous, bool foundFuture = false)
+    {
+        if (MainInput != null && previous != MainInput) MainInput.Visualise(this);
+
+        simulation.Visualise();
+    }
+
+    public override void VisualiseIfOutput(Building b)
+    {
+        if (buildingOnPath(b))
+        {
+            Visualiser.VisualisePhysics(startCause, startPos, startVelocity, b);
+        }
+
+
+    }
+}
+
+
+class itemSimulation
+{
+    public List<Vector2Int> tileSpaces = new List<Vector2Int>();
+
+    public List<Vector3> positions = new List<Vector3>();
+
+    public const float timeStep = 0.1f;
+    public const float gravity = 9f;
+
+    public float maxTime => (positions.Count - 1) * timeStep;
+    bool wasInTileLastTick;
+    float currentTime;
+    public Vector3 lastVelocity;
+    Vector3 currentVelocity;
+    Vector3 currentPosition;
+    Vector2Int currentCell;
+
+    public float Distance;
+
+    int timeToIndex(float time)
+    {
+        return Mathf.FloorToInt(time / timeStep);
+    }
+    public Vector3 GetOutputDir()
+    {
+        if (currentVelocity.y < -Mathf.Abs(currentVelocity.x)) return Vector3.down;
+        return Vector3.right * Mathf.Sign(currentVelocity.x);
+    }
+    public void ShiftEnd(Vector3 pos, int shiftMax = -1)
+    {
+        if (shiftMax == -1) shiftMax = positions.Count - 2;
+        Vector3 last = positions[positions.Count - 2]; // second to last
+        Vector3 lastDelta = positions[positions.Count - 1] - last;
+
+        int min = positions.Count / 2;
+
+        for (min = shiftMax; min >= 2; min--)
+        {
+            Vector3 cur = positions[min];
+            Vector3 delta = last - cur;
+
+            if (Vector3.Dot(delta, lastDelta) < 0) break;
+
+            last = cur;
+            lastDelta = delta;
+
+        }
+
+        Vector3 origin = positions[min];
+        Vector3 add = pos - positions[positions.Count - 1];
+
+
+        int count = positions.Count - 1;
+        positions[positions.Count - 1] = pos;
+        for (int i = positions.Count - 2; i >= min; i--)
+        {
+            float scalar = 1 - (count - i) / (float)(count - min);
+            positions[i] = positions[i] + add * scalar;
+        }
+    }
+    public Vector3 GetPosition(float time)
+    {
+        int ind = timeToIndex(time);
+        int max = positions.Count;
+        if (ind >= max - 1) return positions[max - 1];
+
+        Vector3 p1 = positions[ind];
+        Vector3 p2 = positions[ind + 1];
+
+        return Vector3.Lerp(p1, p2, (time % timeStep) / timeStep);
+    }
+    public Vector3 GetPositionByPercentage(float t)
+    {
+        return GetPosition(t * (positions.Count - 1) * timeStep);
+    }
+
+    public itemSimulation(Vector3 position, Vector3 velocity)
+    {
+        currentPosition = position;
+        currentVelocity = velocity;
+        currentCell = BuildingManager.main.WorldToLocal(position);
+        wasInTileLastTick = true;
+        positions.Add(currentPosition);
+    }
+
+    public Action<Vector2Int> NewTile;
+
+    public void Break()
+    {
+        breakImmediate = true;
+    }
+    bool breakImmediate = false;
+    public void SimulateTime(BuildingManager build, float time = 25)
+    {
+
+        int ind = timeToIndex(time);
+
+        for (int i = 0; i < ind; i++)
+        {
+            if (breakImmediate) break;
+            SimulateStep(build);
+
+            if (deadTime > 1.5f || currentPosition.y < -10)
+            {
+
+                break;
+            }
+        }
+
+    }
+    float deadTime = 0;
+    int collisions;
+    float radius = 0.3f;
+
+    Vector3 lastProjection;
+    bool dontGravity;
+    Vector3 lastAdded;
+    public void SimulateStep(BuildingManager build)
+    {
+        if (!dontGravity)
+        {
+            currentVelocity += Vector3.down * gravity * timeStep;
+            if (currentVelocity.y < -gravity) currentVelocity.y = -gravity;
+        }
+        if (currentVelocity.y > 0.2f) dontGravity = false;
+
+        Vector3 toMove = currentVelocity * timeStep;
+        currentTime += timeStep;
+
+        Vector3 radiusOffset = toMove.normalized * radius;
+        if (toMove.magnitude < 0.1f) radiusOffset = lastProjection;
+        lastProjection = radiusOffset;
+
+
+        Vector3 lastPos = currentPosition;
+        Vector2Int cell = build.WorldToLocal(currentPosition + toMove + radiusOffset);
+
+        bool newTile = false;
+        if (cell != currentCell || wasInTileLastTick)
+        {
+            if (cell != currentCell) newTile = true;
+            wasInTileLastTick = build.IsAnyTile(cell);
+
+
+            if (build.RaycastTiles(currentPosition, toMove + radiusOffset, currentCell, cell, out Vector3 collisionPoint, out Vector3 normal))
+            {
+                collisions++;
+
+
+                currentVelocity = Vector2.Reflect(currentVelocity, normal.normalized) * 0.8f;
+
+
+                if (normal.x == 0) currentVelocity.x *= 0.9f;
+                if (normal.x == 0 && normal.y == 1 && currentVelocity.y < 0.2f && Mathf.Abs(currentVelocity.x) < 0.2f)
+                {
+                    currentVelocity.y = 0;
+                    dontGravity = true;
+                }
+
+                Vector3 last = currentPosition;
+                currentPosition = collisionPoint - radiusOffset;
+                if (Mathf.Abs(last.x - currentPosition.x) < 0.15f) currentPosition.x = last.x;
+                toMove = new Vector3();
+
+                if (Vector3.Distance(lastAdded, currentPosition) < 0.1f && currentVelocity.magnitude > 0.1f)
+                {
+                    lastAdded = Vector3.negativeInfinity;
+                    return;
+                }
+
+
+
+
+            }
+            else
+            {
+                tileSpaces.Add(cell);
+            }
+            currentCell = cell;
+
+        }
+
+        currentPosition += toMove;
+        float dist = Vector3.Distance(currentPosition, lastAdded);
+
+        if (dist < 0.25f || dist > 100)
+        {
+            deadTime += timeStep;
+
+        }
+        else
+        {
+            lastVelocity = currentVelocity;
+            deadTime = 0;
+
+        }
+
+
+
+
+
+        if (dist < 100) Distance += dist;
+
+        lastAdded = currentPosition;
+        positions.Add(currentPosition);
+        if (newTile) NewTile?.Invoke(cell); ;
+
+    }
+
+    public void Gizmo()
+    {
+        for (int i = 0; i < positions.Count - 1; i++)
+        {
+            Vector3 pos = positions[i];
+            Vector3 pos2 = positions[i + 1];
+
+            Gizmos.DrawLine(pos, pos2);
+            Gizmos.DrawSphere(pos, 0.02f);
+        }
+
+        // foreach (Vector2Int pos in tileSpaces)
+        // {
+        //     BuildingManager.CellGizmo(pos);
+        // } 
+    }
+    public void Visualise()
+    {
+        Visualiser.DrawLine(positions.ToArray());
+    }
+}
+

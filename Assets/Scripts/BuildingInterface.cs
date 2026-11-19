@@ -43,7 +43,7 @@ public class BuildingInterface : MonoBehaviour
     void setDirty()
     {
         dirty = true;
-        Debug.Log(dirty);
+
     }
 
     public SpriteRenderer cursor;
@@ -80,11 +80,12 @@ public class BuildingInterface : MonoBehaviour
             cursor.gameObject.SetActive(false);
             cursor.color = Color.yellow;
             selected = Manager.GetBuildingAtPos(mouseTile);
+            Visualiser.HideAll();
         }
 
          if (Input.GetMouseButtonUp(1)) holdingRightClick = false;
 
-        if (selected != null)
+        if (selected != null && Placing == null)
         {
 
             if (tileChanged)
@@ -92,6 +93,7 @@ public class BuildingInterface : MonoBehaviour
                 if (Placing != null) Placing.gameObject.SetActive(false);
                 HighlightBuilding(selected);
                 cursor.color = Color.red;
+                BuildingManager.main.Visualise(selected);
             }
 
             if (Input.GetMouseButtonDown(1) ) holdingRightClick = true;
@@ -110,11 +112,13 @@ public class BuildingInterface : MonoBehaviour
                 Placing.gameObject.SetActive(true);
                 Placing.GridPos = mouseTile;
                 Placing.Position(mouseTile);
+                
                 HighlightBuilding(Placing); 
 
                 valid = Placing.CanPlaceHere(mouseTile);
 
                 if (!valid) cursor.color = Color.red;
+                else BuildingManager.main.PreVisualise(Placing);
 
             }
 
@@ -128,6 +132,7 @@ public class BuildingInterface : MonoBehaviour
                 Placing = null; 
                 ReloadIndex();
                 setDirty();
+                
                 return;
             }
 
@@ -147,10 +152,15 @@ public class BuildingInterface : MonoBehaviour
         {
             LoadIndex(selectedIndex + 1);
         }
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && Placing != null)
         {
             Placing.Rotate();
             lastDir = Placing.Direction;
+            setDirty();
+        }
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            SetPlacing(null);
         }
     }
 

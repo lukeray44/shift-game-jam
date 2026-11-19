@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Conveyor : Machine
+public class Conveyor : adjacencyMachine
 {
     public override void Initialise()
     {
@@ -18,30 +18,42 @@ public class Conveyor : Machine
 
         }
     } 
+    protected override void OnInitialiseOutputs()
+    {
+        base.OnInitialiseOutputs();
+
+        if (MainOutput == null)
+        {
+             SimulationManager.CreatePhysics(this, GetItemTarget(Vector3.left * Building.DirectionX), new Vector3(2 * Building.DirectionX, 0));
+        }
+        
+    }
+
  
     protected override void Tick()
     {
         TransferItem(0, MainOutput, Vector3.right * Building.DirectionX); 
     }
 
-    public override Vector3 GetItemTarget(Vector3 direction) 
+
+    public override void OnAddToSimulation()
     {
-        Vector3 facing = transform.right;
-        float sign = Building.DirectionX;
-        if (direction.x == -Building.DirectionX) sign *= -1; 
-        return transform.position + Vector3.up * 0.25f - facing * 0.5f * sign - facing * Building.DirectionX * 0.2f;
+        base.OnAddToSimulation();
+
+        if (MainOutput is PhysicsMachine phys && !phys.Added)
+        {
+            SimulationManager.main.AddMachine(phys);
+        }
     }
 
-    public override bool RecieveItem(Item i, Vector3 direction)
-    { 
-       
-        if (direction.x == Building.Direction.x || direction.x == 0) 
-        { 
-            bool success = TrySetItemInInventory(0, i); 
-            if (success) LoopInputs();
-            return success;
-        } 
-        return false;
+    public override void VisualiseSelf(bool foundOutput = false)
+    {
+        base.VisualiseSelf(foundOutput);
+
+        if (MainOutput == null && ! foundOutput)
+        {
+            Visualiser.VisualisePhysics(Building, GetItemTarget(Vector3.left * Building.DirectionX), new Vector3(2 * Building.DirectionX, 0));
+        }
     }
 
 }

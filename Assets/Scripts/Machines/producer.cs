@@ -1,27 +1,30 @@
 using UnityEngine;
 
-public class producer : EaseAndDestroy
+public class producer : Machine
 {
     public int SpawnPeriod;
     public Item Prefab;
 
     int timer;
 
-    public override void Animate(float percentage)
+    protected override void OnInitialiseOutputs()
     {
-        base.Animate(percentage);
+         
     }
 
+    public override void OnBuildingAdded(Building b)
+    {
+         
+    }
     protected override void Tick()
     {
-        base.Tick();
-
+ 
         timer += 1;
         if (timer >= SpawnPeriod)
         {
             Item i = Instantiate(Prefab);
             i.transform.position = transform.position;
-            if (!RecieveItem(i, Vector3.zero))
+            if (!MainOutput.RecieveItem(i, Vector3.zero))
             {
                 Destroy(i.gameObject);
             } else 
@@ -32,9 +35,10 @@ public class producer : EaseAndDestroy
            
         }
     }
-    public override bool RecieveItem(Item i, Vector3 direction)
+
+
+    public override void Animate(float percentage)
     {
-        if (direction != Vector3.zero) return false;
-        return base.RecieveItem(i, direction);
+        
     }
 }

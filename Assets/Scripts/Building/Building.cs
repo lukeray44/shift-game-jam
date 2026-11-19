@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Building : MonoBehaviour
@@ -20,7 +21,7 @@ public class Building : MonoBehaviour
     }
     void OnDrawGizmos()
     {
-        #if UNITY_EDITOR
+#if UNITY_EDITOR
 
         if (BuildingManager.Editor != null)
         {
@@ -29,7 +30,7 @@ public class Building : MonoBehaviour
             BuildingManager.CellAreaGizmo(GridPos, GridSize);
         }
 
-        #endif
+#endif
     }
 
     public Machine[] Simulators;
@@ -50,7 +51,7 @@ public class Building : MonoBehaviour
     {
         Direction = rotation;
     }
- 
+
     public virtual void Position(Vector2Int position)
     {
         transform.position = BuildingManager.main.GetAreaCentre(GridPos, GridSize);
@@ -58,6 +59,28 @@ public class Building : MonoBehaviour
 
     public virtual Vector2Int PositionToCell()
     {
-       return BuildingManager.main.GetAreaPositionLocal(transform.position, GridSize);
+        return BuildingManager.main.GetAreaPositionLocal(transform.position, GridSize);
+    }
+
+    public void ForeachTile(Action<Vector2Int> act)
+    {
+        Vector2Int pos = new Vector2Int();
+        for (pos.x = GridPos.x; pos.x < GridPos.x + GridSize.x; pos.x++)
+        {
+            for (pos.y = GridPos.y; pos.y < GridPos.y + GridSize.y; pos.y++)
+            {
+                act(pos);
+            }
+        }
+    }
+
+    public bool ContainsTile(Vector2Int pos)
+    {
+        if (pos.x >= GridPos.x && pos.x < GridPos.x + GridSize.x
+        && pos.y >= GridPos.y && pos.y < GridPos.y + GridSize.y)
+        {
+            return true;
+        }
+        return false;
     }
 }

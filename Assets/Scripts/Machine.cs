@@ -9,6 +9,7 @@ public abstract class Machine : MonoBehaviour
     public Building Building;
     public bool IsRoot;
     public bool IsLoopRoot;
+    public bool Added;
     public virtual int ExtraOutputs()
     {
         return 0;
@@ -23,7 +24,7 @@ public abstract class Machine : MonoBehaviour
         {
             childrenCountSimulated = 0;
             if (lastTick != SimulationManager.TickIndex)
-            { 
+            {
                 lastTick = SimulationManager.TickIndex;
 
                 Tick();
@@ -35,7 +36,7 @@ public abstract class Machine : MonoBehaviour
                     Machine m = InputMachines[(i + offset) % count];
                     m.TryTickRecursive();
                 }
-                
+
             }
         }
 
@@ -46,7 +47,7 @@ public abstract class Machine : MonoBehaviour
     {
         int count = InputMachines.Count;
         inputOffset += 1;
-        inputOffset %= count; 
+        inputOffset %= count;
     }
 
     public void TickSelf()
@@ -60,26 +61,64 @@ public abstract class Machine : MonoBehaviour
 
     public virtual void OnBuildingAdded(Building b)
     {
-        if (MainOutput == null && b.GridPos == OutputTile())
+
+    }
+
+    public virtual void Visualise(Machine previous, bool foundFuture = false)
+    {
+        VisualiseSelf(foundFuture);
+        if (previous == null)
         {
-            AddOutput(b.MainSimulator);
+            foreach (Machine m in InputMachines)
+            {
+                if (m != previous) m.Visualise(this);
+            }
+
+            foreach (Machine m in OutputMachines)
+            {
+                Debug.Log(m.name);
+                if (m != previous) m.Visualise(this);
+            }
         }
+    }
+    public virtual void VisualiseSelf(bool foundOutput = false)
+    {
+        
+    }
+
+    public virtual void VisualiseIfOutput(Building b)
+    {
+        
+    }
+
+    public virtual void OnAddToSimulation()
+    {
+        
+    }
+    public virtual void OnRemoveFromSimulation()
+    {
+        
     }
 
     public virtual void Initialise()
     {
-        outputIsPreset = OutputMachines.Count != 0;
+        if (outputIsPreset == null) outputIsPreset = OutputMachines.Count > 0;
         InitialiseOutputs();
-
-
     }
-    bool outputIsPreset;
+    bool? outputIsPreset;
     public void InitialiseOutputs()
     {
+        if (!(outputIsPreset != null && outputIsPreset.Value))
+        {
+            OutputMachines = new List<Machine>();
 
-        if (!outputIsPreset) OutputMachines = new List<Machine>();
-        OnInitialiseOutputs();
+            OnInitialiseOutputs();
+        }
 
+    }
+    public void UpdateIsRoot()
+    {
+        
         if (MainOutput == null)
         {
             if (!IsRoot) SimulationManager.main.AddRoot(this);
@@ -92,32 +131,53 @@ public abstract class Machine : MonoBehaviour
     protected virtual void OnInitialiseOutputs()
     {
 
-        if (BuildingManager.main.TryGetBuildingAtPos(OutputTile(), out Building b))
-        {
-            AddOutput(b.MainSimulator);
-        }
     } // find connections
 
-    protected virtual Vector2Int OutputTile()
-    {
-        Vector2Int offset = new Vector2Int(0, 0); 
-        if (Building.Direction.x > 0)
-        {
-            offset.x = Building.GridSize.x - 1;
-        }
-        if (Building.Direction.y > 0)
-        {
-            offset.y = Building.GridSize.y - 1;
-        }
 
-        int adjust(int x)
-        {
-            if (x == 0) return 0;
-            return x > 0 ? 1 : -1;
-        }
-        
-        return Building.GridPos + offset + new Vector2Int(Building.Direction.x * adjust(Building.GridSize.x), Building.Direction.y * adjust(Building.GridSize.y));
-    }
+    // public void Visualise(Machine previous, bool foundFuture = false)
+    // {
+    //     if (previous == null || AlwaysVisualiseInputs)
+    //     {
+    //         foreach (Machine m in InputMachines)
+    //         {
+    //             if (m != previous) m.Visualise(this);
+    //         }
+    //     }
+    //     if (previous == null || AlwaysVisualiseOutputs)
+    //     {
+    //         foreach (Machine m in OutputMachines)
+    //         {
+    //             if (m != previous) m.Visualise(this);
+    //         }
+
+
+    //     }
+
+    //     VisualiseOutputs();
+    // }
+    // protected virtual void VisualiseOutputs()
+    // {
+    //     if (Building == null) return;
+
+    //     Vector3 dir = Vector3.right * Building.DirectionX;
+
+    //     if (MainOutput != null)
+    //     {
+    //         foreach (Machine m in OutputMachines)
+    //         {
+    //             if (m == null) return;
+
+    //             Vector3 pos = m.GetItemTarget(dir);
+    //             Visualiser.DrawSpritePointer(GetItemTarget(-dir), pos);
+    //         }
+    //     }
+    //     else
+    //     {
+    //         Visualiser.DrawSpritePointer(GetItemTarget(dir), GetItemTarget(-dir));
+    //     }
+
+    // }
+
 
     public void AnimateEachItem(float percentage, Action<int, float, Item> act) // index, percentage, item
     {
@@ -144,9 +204,10 @@ public abstract class Machine : MonoBehaviour
     public void AddOutput(Machine output)
     {
         if (output == null) return;
+
         OutputMachines.Add(output);
         output.InputMachines.Add(this);
-       
+
         OnOutputAdded(output);
         output.OnInputAdded(this);
 
@@ -160,15 +221,18 @@ public abstract class Machine : MonoBehaviour
         if (OutputMachines.Count > 1) OutputMachines = OutputMachines.OrderBy(a => a.SimulationPriority).ToList();
     }
 
-    public void RemoveOutput(Machine output)
+    int overflowPrevention;
+    public void RemoveOutput(Machine output, bool suppressInitialise = false)
     {
         OutputMachines.Remove(output);
         output.InputMachines.Remove(this);
 
         OnOutputRemoved(output);
         output.OnInputRemoved(this);
- 
-        InitialiseOutputs(); 
+
+        if (!suppressInitialise) InitialiseOutputs();
+
+        UpdateIsRoot();
 
     }
 
@@ -200,12 +264,12 @@ public abstract class Machine : MonoBehaviour
 
     public virtual void OnInputRemoved(Machine input)
     {
-        
+
     }
 
-     public virtual void OnOutputRemoved(Machine input)
+    public virtual void OnOutputRemoved(Machine input)
     {
-        
+
     }
 
     #region Inventory
@@ -215,7 +279,7 @@ public abstract class Machine : MonoBehaviour
     public int InventoryLength => Inventory.Length;
 
     bool[] IsStuck = new bool[0];
-
+    public int ItemCount;
     int inventoryOffset;
 
     // adjust index of each item, returning
@@ -257,7 +321,7 @@ public abstract class Machine : MonoBehaviour
                 if (prev != null)
                 {
                     SetItemInInventory(i, prev);
-                    SetItemInInventory(i - 1, null);
+                    RemoveItemInInventory(i - 1);
                     SetItemIsStuck(i);
                 }
 
@@ -269,10 +333,21 @@ public abstract class Machine : MonoBehaviour
 
     }
 
+    public void TransferInventory(Machine from)
+    {
+        int minLength = Mathf.Min(from.InventoryLength, InventoryLength);
+
+        for (int i = 0; i < minLength; i++)
+        {
+            TrySetItemInInventory(i, from.GetItemInInventory(i));
+            from.RemoveItemInInventory(i);
+        }
+    }
 
     public void InitialiseInventory(int length)
     {
         if (Inventory.Length != length) Inventory = new Item[length];
+
         IsStuck = new bool[length];
     }
     public bool ItemIsStuck(int index)
@@ -295,7 +370,15 @@ public abstract class Machine : MonoBehaviour
     {
         return GetItemInInventory(index) == null;
     }
-    public void SetItemInInventory(int index, Item i)
+    public void RemoveItemInInventory(int index)
+    {
+        if (!IsEmptyInInventory(index))
+        {
+            ItemCount--;
+            SetItemInInventory(index, null);
+        }
+    }
+    void SetItemInInventory(int index, Item i)
     {
         int ind = GetInventoryIndex(index);
         if (i != null) i.transform.parent = transform;
@@ -306,7 +389,9 @@ public abstract class Machine : MonoBehaviour
     {
         if (Inventory.Length == 0) return false;
         if (GetItemInInventory(index) != null) return false;
+        if (i == null) return false;
 
+        ItemCount++;
         i.SavePosition();
         Inventory[GetInventoryIndex(index)] = i;
         if (i != null) i.transform.parent = transform;
@@ -326,7 +411,7 @@ public abstract class Machine : MonoBehaviour
     public void DestroyItemInInventory(int i)
     {
         Destroy(GetItemInInventory(i).gameObject);
-        SetItemInInventory(i, null);
+        RemoveItemInInventory(i);
     }
 
     public bool TransferItem(int index, Machine target, Vector3 direction)
@@ -336,7 +421,7 @@ public abstract class Machine : MonoBehaviour
         Item toMove = GetItemInInventory(index);
         if (target != null && target.RecieveItem(toMove, direction))
         {
-            SetItemInInventory(index, null);
+            RemoveItemInInventory(index);
             SetItemIsStuck(index, false);
             return true;
         }

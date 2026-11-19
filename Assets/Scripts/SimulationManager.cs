@@ -36,8 +36,10 @@ public class SimulationManager : MonoBehaviour
         }
     }
 
+    bool isTick;
     public void Tick()
     {
+        isTick = true;
         TickIndex++;
 
         foreach (Machine m in LoopRoots)
@@ -45,7 +47,7 @@ public class SimulationManager : MonoBehaviour
             if (m == null) continue;
             m.TryTickRecursive();
         }
-         
+
         foreach (Machine m in Roots)
         {
             if (m == null) continue;
@@ -57,6 +59,13 @@ public class SimulationManager : MonoBehaviour
             if (m == null) continue;
             m.TickSelf();
         }
+        isTick = false;
+
+        foreach (Machine m in toRemove)
+        {
+            RemoveMachine(m);
+        }
+        toRemove.Clear();
     }
     public void Animate(float percentage)
     {
@@ -82,11 +91,16 @@ public class SimulationManager : MonoBehaviour
     public void AddMachine(Machine m)
     {
         BuildingManager.main.OnBuildingAdd += m.OnBuildingAdded;
+        BuildingManager.main.OnBuildingVisualise += m.VisualiseIfOutput;
         All.Add(m);
+        
         m.Initialise();
+        m.UpdateIsRoot();
+        m.OnAddToSimulation();
+        m.Added = true;
 
     }
-
+    List<Machine> toRemove = new List<Machine>();
     public void RemoveBuilding(Building b)
     {
         foreach (Machine s in b.Simulators)
@@ -97,16 +111,25 @@ public class SimulationManager : MonoBehaviour
     }
     public void DeleteMachine(Machine m)
     {
+        if (m == null) return;
         RemoveMachine(m);
         Destroy(m.gameObject);
     }
     public void RemoveMachine(Machine m)
     {
+        if (isTick)
+        {
+            toRemove.Add(m);
+            return;
+        }
+        m.OnRemoveFromSimulation();
+        m.Added = false;
         All.Remove(m);
         if (m.IsRoot) RemoveRoot(m);
         if (m.IsLoopRoot) LoopRoots.Remove(m);
 
         BuildingManager.main.OnBuildingAdd -= m.OnBuildingAdded;
+        BuildingManager.main.OnBuildingVisualise -= m.VisualiseIfOutput;
 
         while (m.InputMachines.Count > 0)
         {
@@ -114,14 +137,16 @@ public class SimulationManager : MonoBehaviour
         }
 
         foreach (Machine outmm in m.OutputMachines)
-        { 
+        {
             outmm.InputMachines.Remove(m);
             outmm.OnInputRemoved(m);
         }
 
-        
+
+
+
     }
- 
+
     public void CheckForLoop(Machine m)
     {
         if (m is loopBuffer) return;
@@ -131,16 +156,16 @@ public class SimulationManager : MonoBehaviour
             loopBuffer loopRoot = new GameObject("Loop").AddComponent<loopBuffer>();
             loopRoot.IsLoopRoot = true;
             loopRoot.SimulationPriority = 1000;
-            
+
             m.InputMachines.Remove(previous);
             loopRoot.AddOutput(m);
-            
+
             previous.OutputMachines.Remove(m);
             previous.AddOutput(loopRoot);
 
             AddMachine(loopRoot);
             LoopRoots.Add(loopRoot);
-            
+
         }
     }
 
@@ -165,5 +190,34 @@ public class SimulationManager : MonoBehaviour
         {
             Animate(tickPercentage);
         }
+    }
+
+    public PhysicsMachine PhysicsPrefab;
+    public static void CreatePhysics(Machine cause, Vector3 pos, Vector3 velocity)
+    {
+        PhysicsMachine physics = cause.MainOutput as PhysicsMachine;
+        Building build = cause.Building;
+
+        if (physics != null)
+        {
+            if (!physics.Added)
+            {
+                physics.Simulate(build, pos, velocity);
+                return;
+            }
+        }
+
+        PhysicsMachine m = Instantiate(main.PhysicsPrefab);
+        m.transform.parent = cause.transform;
+        m.Simulate(build, pos, velocity);
+        cause.AddOutput(m);
+        physics = m;
+
+        if (cause.Added)
+        {
+            main.AddMachine(physics);
+        }
+
+
     }
 }
