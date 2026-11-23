@@ -14,7 +14,7 @@ public abstract class adjacencyMachine : Machine
         if (direction.x == -Building.DirectionX) sign *= -1;
 
 
-        return centre + transform.right * sign * -0.5f;
+        return centre + transform.right * sign * -0.5f * Building.GridSize.x;
     }
 
     public override bool RecieveItem(Item i, Vector3 direction)

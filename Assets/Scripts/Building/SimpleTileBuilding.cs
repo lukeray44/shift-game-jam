@@ -19,7 +19,6 @@ public class SimpleTileBuilding : Building
         Building overlap = BuildingManager.main.FindOverlappingBuilding(this);
         if (overlap != null)
         {
-            Debug.Log(overlap.name, overlap);
              return false;
         }
 

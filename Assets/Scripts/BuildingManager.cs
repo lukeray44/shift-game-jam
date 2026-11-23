@@ -230,7 +230,7 @@ public class BuildingManager : MonoBehaviour
         AllBuildings.Add(b);
         b.ForeachTile(a =>
         {
-            PositionMap.Add(a, b);
+            PositionMap[a] = b;
         });
 
         OnBuildingAdd?.Invoke(b);

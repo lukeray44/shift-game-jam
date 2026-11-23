@@ -168,7 +168,7 @@ public class BuildingInterface : MonoBehaviour
             lastDir = Placing.Direction;
             setDirty();
         }
-        if (Input.GetKey(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && Placing != null)
         {
             Destroy(Placing.gameObject);
             Placing = null;

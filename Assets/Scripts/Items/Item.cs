@@ -182,8 +182,7 @@ public class ItemComposite
     {
         Vector2 multiply(Vector2 v1, Vector2 v2) => new Vector2(v1.x * v2.x, v1.y * v2.y);
 
-        c1.Translate(multiply(-dir, c2.size) * 0.5f);
-        c2.Translate(multiply(dir, c1.size) * 0.5f);
+        c2.Translate(multiply(dir, c1.size));
 
         ItemComposite composite = new ItemComposite();
 
