@@ -19,6 +19,8 @@ public class Building : MonoBehaviour
             BuildingManager.main.AddBuilding(this);
         }
     }
+    public bool CantDestroy;
+    
     void OnDrawGizmos()
     {
 #if UNITY_EDITOR

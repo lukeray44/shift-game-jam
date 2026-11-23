@@ -20,13 +20,18 @@ public abstract class adjacencyMachine : Machine
     public override bool RecieveItem(Item i, Vector3 direction)
     {
 
-        if (direction.x == Building.Direction.x || direction.x == 0)
+        bool success = TrySetItemInInventory(0, i);
+        if (success) LoopInputs();
+        return success;
+    }
+
+    public override bool CanRecieveInDirection(Vector3 direction)
+    {
+        if (direction.x != Building.Direction.x && direction.x != 0)
         {
-            bool success = TrySetItemInInventory(0, i);
-            if (success) LoopInputs();
-            return success;
+            return false;
         }
-        return false;
+        return base.CanRecieveInDirection(direction);
     }
 
 
@@ -82,7 +87,7 @@ public abstract class adjacencyMachine : Machine
         {
             if (BuildingManager.main.TryGetBuildingAtPos(OutputTile(), out Building b))
             {
-                 base.Visualise(previous, true);
+                base.Visualise(previous, true);
                 return;
             }
         }

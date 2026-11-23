@@ -160,7 +160,7 @@ public class Visualiser : MonoBehaviour
             }
             if (tryGetBuilding(out Building b))
             {
-                if (b != null && b != source)
+                if (b != null && b != source && b.MainSimulator.CanRecieveFromPosition(sim.GetOutputDir(), sim.Position()))
                 {
 
                    sim.Break();

@@ -39,7 +39,7 @@ public class PhysicsMachine : EaseAndDestroy
 
             if (build.PositionMap.TryGetValue(tile, out Building b))
             {
-                if (b != null && b != cause)
+                if (b != null && b != cause && b.MainSimulator.CanRecieveFromPosition(simulation.GetOutputDir(), simulation.Position()))
                 {
 
                     AddOutput(b.MainSimulator);
@@ -146,6 +146,7 @@ class itemSimulation
     Vector3 currentPosition;
     Vector2Int currentCell;
 
+    
     public float Distance;
 
     int timeToIndex(float time)
@@ -157,6 +158,7 @@ class itemSimulation
         if (currentVelocity.y < -Mathf.Abs(currentVelocity.x)) return Vector3.down;
         return Vector3.right * Mathf.Sign(currentVelocity.x);
     }
+    public Vector3 Position() => currentPosition;
     public void ShiftEnd(Vector3 pos, int shiftMax = -1)
     {
         if (shiftMax == -1) shiftMax = positions.Count - 2;

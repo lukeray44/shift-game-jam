@@ -71,8 +71,9 @@ public class BuildingInterface : MonoBehaviour
     bool holdingRightClick;
     void Update()
     {
+        if ( float.IsInfinity(Input.mousePosition.x)) return;
         Vector3 input = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
+        
         Vector2Int mouseTile = Manager.WorldToLocal(input);
 
 
@@ -95,7 +96,7 @@ public class BuildingInterface : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(1) ) holdingRightClick = true;
            
-            if (holdingRightClick)
+            if (holdingRightClick && !selected.CantDestroy)
             {
                 Manager.DeleteBuilding(selected);
                 setDirty();

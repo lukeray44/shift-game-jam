@@ -17,6 +17,10 @@ public abstract class Machine : MonoBehaviour
     int lastTick;
     public int SimulationPriority;
     int childrenCountSimulated;
+
+    public bool NoInputs;
+
+
     public void TryTickRecursive()
     {
         childrenCountSimulated++;
@@ -417,13 +421,21 @@ public abstract class Machine : MonoBehaviour
         Destroy(GetItemInInventory(i).gameObject);
         RemoveItemInInventory(i);
     }
-
+    public virtual bool CanRecieveInDirection(Vector3 direction)
+    {
+        if (NoInputs) return false;
+        return true;
+    }
+    public virtual bool CanRecieveFromPosition(Vector3 direction, Vector3 pos)
+    {
+        return CanRecieveInDirection(direction);
+    }
     public bool TransferItem(int index, Machine target, Vector3 direction)
     {
         if (IsEmptyInInventory(index)) return false;
 
         Item toMove = GetItemInInventory(index);
-        if (target != null && target.RecieveItem(toMove, direction))
+        if (target != null && target.CanRecieveInDirection(direction) && target.RecieveItem(toMove, direction))
         {
             RemoveItemInInventory(index);
             SetItemIsStuck(index, false);
