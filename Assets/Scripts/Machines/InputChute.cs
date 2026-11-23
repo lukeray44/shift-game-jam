@@ -4,7 +4,7 @@ public class InputChute : Machine
 {
     public int SpawnPeriod;
     public ItemByRows ToSpawn;
-
+    
 
     public Transform dropFrom;
 

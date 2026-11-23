@@ -155,7 +155,7 @@ public class ItemComposite
         int y = 0;
         foreach (ItemType[] idRow in rows)
         {
-            float ypos = getAxis(spany, y);
+            float ypos = y;
 
 
             int x = 0;

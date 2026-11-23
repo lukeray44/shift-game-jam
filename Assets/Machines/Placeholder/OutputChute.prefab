@@ -167,7 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c4b8c286fa6b9748a38395264b2d1f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridPos: {x: -3, y: -12}
+  GridPos: {x: 5, y: -8}
   GridSize: {x: 2, y: 6}
   AutoAdd: 1
   Direction: {x: 1, y: 0}
@@ -311,8 +311,8 @@ Transform:
   m_GameObject: {fileID: 5519450440209131570}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.4399, z: 0}
-  m_LocalScale: {x: 1.3771, y: 5.7560287, z: 1}
+  m_LocalPosition: {x: 0, y: -1.2103, z: 0}
+  m_LocalScale: {x: 1.3771, y: 13.0564, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5212356720491227112}

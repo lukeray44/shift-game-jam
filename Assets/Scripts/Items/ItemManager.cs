@@ -73,6 +73,10 @@ public class ItemManager : MonoBehaviour
         return CreateByRows(GetStructure(items));
     } 
     
+    public ItemComposite GetStateStructure(ItemByRows items)
+    {
+        return ItemComposite.CreateByRows(GetStructure(items));
+    }
 
     public ItemType[][] GetStructure(ItemByRows items)
     {
