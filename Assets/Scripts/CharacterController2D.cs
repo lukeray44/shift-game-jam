@@ -69,7 +69,8 @@ public class CharacterController2D : MonoBehaviour
 					OnLandEvent.Invoke();
 			}
 		}*/
-		airbourne = !checkGrounded(ref nothing);
+		double a = 0;
+		airbourne = !checkGrounded(ref nothing, ref a);
         if (airbourne)
         {
             airTime += 0.1f;
@@ -77,9 +78,9 @@ public class CharacterController2D : MonoBehaviour
         {
             airTime = 0;
         }
-		m_Grounded = checkGrounded(ref nothing) && (airTime < coyoteTime);
+		m_Grounded = checkGrounded(ref nothing, ref a) || (airTime < coyoteTime && m_Rigidbody2D.linearVelocity.y <= 0);
 		//Debug.Log(m_Grounded);
-		if (checkGrounded(ref nothing))
+		if (checkGrounded(ref nothing, ref a))
 		{
 			if (!wasGrounded)
 			{
@@ -88,8 +89,9 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
-	public bool checkGrounded(ref String name)
+	public bool checkGrounded(ref String name, ref double angle)
 	{
+		angle = 0;
 		RaycastHit2D hit = Physics2D.Raycast(m_GroundCheck1.transform.position, Vector3.down, 0.15f);
         RaycastHit2D hit2 = Physics2D.Raycast(m_GroundCheck2.transform.position, Vector3.down, 0.15f);
         RaycastHit2D bigHit = Physics2D.Raycast(m_BigGroundCheck.transform.position, Vector3.down,0.15f);
@@ -99,23 +101,26 @@ public class CharacterController2D : MonoBehaviour
 		if (hit) 
 		{
 			name = hit.collider.gameObject.name;
+			angle = Vector3.Angle(hit.normal, Vector3.up);
 			/*distance = hit.distance;
 			direction = hit.normal;*/
-			return Math.Round(Vector3.Angle(hit.normal, Vector3.up)) == 0;
+			return Math.Round(angle) == 0;
 		}
 		if (hit2) 
 		{
 			name = hit2.collider.gameObject.name;
+			angle = Vector3.Angle(hit2.normal, Vector3.up);
 			/*distance = hit2.distance;
 			direction = hit2.normal;*/
-			return Math.Round(Vector3.Angle(hit2.normal, Vector3.up)) == 0;
+			return Math.Round(angle) == 0;
 		}
 		if (bigHit) 
 		{
 			name = bigHit.collider.gameObject.name;
+			angle = Vector3.Angle(bigHit.normal, Vector3.up);
 			/*distance = bigHit.distance;
 			direction = bigHit.normal;*/
-			return Math.Round(Vector3.Angle(bigHit.normal, Vector3.up)) == 0;
+			return Math.Round(angle) == 0;
 		}
 		return false;
 	}
@@ -165,11 +170,14 @@ public class CharacterController2D : MonoBehaviour
 				}
 			}
 
-			// Move the character by finding the target velocity
-			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.linearVelocity.y);
-			// Check if standing on conveyor belt, increase velocity of player if so
 			String standingOn = "";
-			checkGrounded(ref standingOn);
+			/*double angle = 0;
+			checkGrounded(ref standingOn, ref angle);
+			float finalAngle = (float)(90 - angle);
+			Debug.Log("Ang " + finalAngle + "\nAdded velocity " + Mathf.Sin(Mathf.Rad2Deg * finalAngle) * 8);*/
+			// Move the character by finding the target velocity
+			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.linearVelocity.y /*+ Mathf.Sin(Mathf.Rad2Deg * finalAngle) * 8*/);
+			// Check if standing on conveyor belt, increase velocity of player if so
 			if (m_Grounded && (standingOn.Length >= 8) && (standingOn.Substring(0,8) == "Conveyor"))
 			{
 				targetVelocity += Vector3.right * conveyorSpeed;
@@ -189,15 +197,15 @@ public class CharacterController2D : MonoBehaviour
 				Flip();
 			}
 		}
+		double b = 0;
 		// If the player should jump...
 		if (m_Grounded && jump/* && m_Rigidbody2D.linearVelocityY <= 0*/)
 		{
 			// Add a vertical force to the player.
 			m_Grounded = false;
 			jump = false;
-			if (!checkGrounded(ref nothing)) {m_JumpForce += additionalForce; Debug.Log("Jump force" + m_JumpForce);}
+			if (!checkGrounded(ref nothing, ref b)) m_JumpForce += additionalForce;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
-			Debug.Log("Jumping ");
 		}
 	}
 

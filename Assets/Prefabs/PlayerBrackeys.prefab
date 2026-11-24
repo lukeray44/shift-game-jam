@@ -89,7 +89,7 @@ Transform:
   m_GameObject: {fileID: 3982868227219311001}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.81, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -318,9 +318,9 @@ MonoBehaviour:
   bigFeet: {fileID: 1987067609073734055}
   feet1: {fileID: 3982868227219311001}
   feet2: {fileID: 8093584745862986723}
-  moveSpeed: 40
+  moveSpeed: 0.8
   wasAirbourne: 0
-  time: 0.25
+  time: 1
   justLanded: 0
 --- !u!114 &4052695681201066208
 MonoBehaviour:
@@ -337,7 +337,7 @@ MonoBehaviour:
   m_JumpForce: 1000
   m_CrouchSpeed: 0.36
   m_MovementSmoothing: 0.05
-  m_AirControl: 0
+  m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
     m_Bits: 55
@@ -348,7 +348,7 @@ MonoBehaviour:
   m_CrouchDisableCollider: {fileID: 0}
   m_Grounded: 0
   conveyorSpeed: 100
-  coyoteTime: 25
+  coyoteTime: 0.55
   airbourne: 0
   airTime: 0
   additionalForce: 0
@@ -383,7 +383,7 @@ Transform:
   m_GameObject: {fileID: 8093584745862986723}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.83, y: 0, z: 0}
+  m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
