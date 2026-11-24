@@ -18,10 +18,10 @@ public class PlayerBrackeysScript : MonoBehaviour
     public GameObject feet2;
 
     public float moveSpeed;
-    public bool wasAirbourne;
     public float time = 0.25f;
-    public bool justLanded; // whether the character had just landed a frame ago
     private string nothing = "";
+    [SerializeField] bool canJump = true;
+    [SerializeField] bool hasLetGo;
     
     
     void Start()
@@ -41,31 +41,31 @@ public class PlayerBrackeysScript : MonoBehaviour
         {
             rigidB.bodyType = RigidbodyType2D.Kinematic;
             rigidB.useFullKinematicContacts = true;
-            rigidB.linearVelocityY = 0;
+            //rigidB.linearVelocityY = 0;
+            //rigidB.linearVelocityY = nothing.Length >= 8 && nothing.Substring(0,8) == "Platform"? rigidB.linearVelocityY : 0;
         }
     }
     // Update is called once per frame
     void FixedUpdate()
     {
-        double a = 0;
-        if (!wasAirbourne && justLanded)
+        // canJump is false after holding jump and only true when jump is released and player is falling
+        //canJump = rigidB.linearVelocityY <= 0 && !canJump;
+        if (!hasLetGo)
         {
-            //Debug.Log("Changed");
-            justLanded = false;
+            hasLetGo = !jump.action.IsPressed();
         }
+        canJump = hasLetGo;
         //jumped = jumped == true? false : jumped;
         //Debug.Log("Grounded " + checkGrounded() + " Jumped " + jump.action.IsPressed() + " Jumps " + jumps + " Result " + (jump.action.IsPressed() && jumps > 0 && checkGrounded()));
-
-        wasAirbourne = rigidB.linearVelocityY >= 0.1f;
         
         //Debug.Log("Jumps after " + jumps);
         // Moves the character. 1st argument is the horizontal movement, 3rd argument is whether the player has jumped and can jump
-        controller.Move(moveSpeed * move.action.ReadValue<float>(), false, jump.action.IsPressed() && !justLanded);  
-        if (!controller.checkGrounded(ref nothing, ref a))
+        controller.Move(moveSpeed * move.action.ReadValue<float>(), false, jump.action.IsPressed(), canJump);  
+        if (hasLetGo && jump.action.IsPressed() && rigidB.linearVelocityY > 0)
         {
-            Debug.Log("movespeed " + moveSpeed + "\nMove " + move.action.ReadValue<float>());
+            hasLetGo = false;
+            canJump = false;
         }
-        justLanded = !wasAirbourne;
         //Debug.Log(rigidB.linearVelocity);
         // if the player is not moving and not jumping
     }

@@ -27,6 +27,10 @@ public class CharacterController2D : MonoBehaviour
     [SerializeField] bool airbourne;
     [SerializeField] float airTime;
 	[SerializeField] float additionalForce;
+	[SerializeField] float holdJumpMultiplier = 1;
+	[SerializeField] float upperbound = 0.75f;
+	[SerializeField] float holdJumpAdditionalForce = 0.001f;
+	[SerializeField] bool canRise = true;
 
 	[Header("Events")]
 	[Space]
@@ -91,7 +95,8 @@ public class CharacterController2D : MonoBehaviour
 
 	public bool checkGrounded(ref String name, ref double angle)
 	{
-		angle = 0;
+		return m_BigGroundCheck.GetComponent<feetScript>().isGrounded;
+		/*angle = 0;
 		RaycastHit2D hit = Physics2D.Raycast(m_GroundCheck1.transform.position, Vector3.down, 0.15f);
         RaycastHit2D hit2 = Physics2D.Raycast(m_GroundCheck2.transform.position, Vector3.down, 0.15f);
         RaycastHit2D bigHit = Physics2D.Raycast(m_BigGroundCheck.transform.position, Vector3.down,0.15f);
@@ -102,31 +107,29 @@ public class CharacterController2D : MonoBehaviour
 		{
 			name = hit.collider.gameObject.name;
 			angle = Vector3.Angle(hit.normal, Vector3.up);
-			/*distance = hit.distance;
-			direction = hit.normal;*/
+			
 			return Math.Round(angle) == 0;
 		}
 		if (hit2) 
 		{
 			name = hit2.collider.gameObject.name;
 			angle = Vector3.Angle(hit2.normal, Vector3.up);
-			/*distance = hit2.distance;
-			direction = hit2.normal;*/
+			
 			return Math.Round(angle) == 0;
 		}
 		if (bigHit) 
 		{
 			name = bigHit.collider.gameObject.name;
 			angle = Vector3.Angle(bigHit.normal, Vector3.up);
-			/*distance = bigHit.distance;
-			direction = bigHit.normal;*/
+			
 			return Math.Round(angle) == 0;
 		}
 		return false;
+		*/
 	}
 
 
-	public void Move(float move, bool crouch, bool jump)
+	public void Move(float move, bool crouch, bool jump, bool canJump)
 	{
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
@@ -182,8 +185,10 @@ public class CharacterController2D : MonoBehaviour
 			{
 				targetVelocity += Vector3.right * conveyorSpeed;
 			}
+			targetVelocity.y = m_Rigidbody2D.bodyType == RigidbodyType2D.Kinematic? 0 : targetVelocity.y;
 			// And then smoothing it out and applying it to the character
 			m_Rigidbody2D.linearVelocity = Vector3.SmoothDamp(m_Rigidbody2D.linearVelocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+			//Debug.Log("target " + targetVelocity + "\nvelocity " + m_Rigidbody2D.linearVelocity);
 			// If the input is moving the player right and the player is facing left...
 			if (move > 0 && !m_FacingRight)
 			{
@@ -198,6 +203,20 @@ public class CharacterController2D : MonoBehaviour
 			}
 		}
 		double b = 0;
+		Debug.Log("Jumped " + jump + "\ngrounded " + m_Grounded + "\nmult " + holdJumpMultiplier + "\nupperbound " + upperbound + "\nresult " + ((!jump || m_Grounded) && (holdJumpMultiplier >= upperbound)));
+		if (!jump || m_Grounded)
+		{
+			holdJumpMultiplier = 0;
+			canRise = m_Grounded ? true : false;
+		} else if (jump && canRise)
+		{
+			holdJumpMultiplier += holdJumpAdditionalForce;
+			if (holdJumpMultiplier >= upperbound)
+			{
+				holdJumpMultiplier = 0;
+				canRise = false;
+			}
+		}
 		// If the player should jump...
 		if (m_Grounded && jump/* && m_Rigidbody2D.linearVelocityY <= 0*/)
 		{
@@ -206,6 +225,10 @@ public class CharacterController2D : MonoBehaviour
 			jump = false;
 			if (!checkGrounded(ref nothing, ref b)) m_JumpForce += additionalForce;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+		} else if (!m_Grounded && m_Rigidbody2D.linearVelocityY > 0 && jump)
+		{
+			// if holding jump while rising midair then add more force to jump
+			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce * holdJumpMultiplier));
 		}
 	}
 
