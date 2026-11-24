@@ -13,7 +13,7 @@ public class BuildingInterface : MonoBehaviour
     Vector2Int lastDir = Vector2Int.right;
     void LoadIndex(int index)
     {
-       
+
         selectedIndex = (int)Mathf.Repeat(index, TempToolbar.Length);
 
         SetPlacing(TempToolbar[selectedIndex]);
@@ -21,24 +21,37 @@ public class BuildingInterface : MonoBehaviour
     void ReloadIndex()
     {
         Placing = null;
-        LoadIndex(selectedIndex);
+        SetPlacing(lastAdded);
     }
+    BuildingData lastAdded;
+
+    public Action<BuildingData> OnSetPlacing;
+    public Action<BuildingData> OnPlace;
+    public Action<Building> OnDestroy;
     public void SetPlacing(BuildingData data)
     {
+
+        lastAdded = data;
         if (Placing != null)
         {
             Destroy(Placing.gameObject);
         }
 
         CurrentlyPlacing = data;
-        if (data.Prefab == null)
+        if (data != null)
         {
-            Debug.Log("NO PREFAB");
-            return;
+            if (data.Prefab == null)
+            {
+
+                return;
+            }
+            Placing = Instantiate(data.Prefab);
+            Placing.gameObject.SetActive(false);
+            Placing.SetRotation(lastDir);
+            Placing.Data = data;
         }
-        Placing = Instantiate(data.Prefab);
-        Placing.gameObject.SetActive(false); 
-        Placing.SetRotation(lastDir);
+
+        OnSetPlacing?.Invoke(data);
         setDirty();
     }
 
@@ -69,11 +82,26 @@ public class BuildingInterface : MonoBehaviour
     Building selected;
     bool valid;
     bool holdingRightClick;
+
+    void OnDisable()
+    {
+        Cursor.visible = true;
+    }
     void Update()
     {
-        if ( float.IsInfinity(Input.mousePosition.x)) return;
+        if (UIManager.Hovered)
+        {
+            if (Placing != null) Placing.gameObject.SetActive(false);
+            setDirty();
+            cursor.gameObject.SetActive(false);
+            Cursor.visible = true;
+            return;
+        }
+
+        Cursor.visible = false;
+        if (float.IsInfinity(Input.mousePosition.x)) return;
         Vector3 input = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        
+
         Vector2Int mouseTile = Manager.WorldToLocal(input);
 
 
@@ -84,46 +112,44 @@ public class BuildingInterface : MonoBehaviour
             dirty = false;
             lastPos = mouseTile;
             cursor.gameObject.SetActive(false);
-            cursor.color = Color.yellow;
+            cursor.color = Color.white;
             selected = Manager.GetBuildingAtPos(mouseTile);
             Visualiser.HideAll();
         }
 
-         if (Input.GetMouseButtonUp(1)) holdingRightClick = false;
+        if (Input.GetMouseButtonUp(1)) holdingRightClick = false;
 
 
         if (selected != null)
         {
-            if (Input.GetMouseButtonDown(1) ) holdingRightClick = true;
-           
-            if (holdingRightClick && !selected.CantDestroy)
+            if (Input.GetMouseButtonDown(1)) holdingRightClick = true;
+
+            if (holdingRightClick && selected.Destroyable)
             {
+                OnDestroy?.Invoke(selected);
                 Manager.DeleteBuilding(selected);
                 setDirty();
                 return;
             }
-        }
-
-        if (selected != null && Placing == null)
-        {
 
             if (tileChanged)
             {
-                if (Placing != null) Placing.gameObject.SetActive(false);
-                HighlightBuilding(selected);
-                cursor.color = Color.red;
                 BuildingManager.main.Visualise(selected);
+                HighlightBuilding(selected);
+                cursor.color = Color.white;
+
             }
         }
-        else if (Placing != null) 
+
+        if (Placing != null)
         {
             if (tileChanged)
             {
                 Placing.gameObject.SetActive(true);
                 Placing.GridPos = mouseTile;
                 Placing.Position(mouseTile);
-                
-                HighlightBuilding(Placing); 
+
+                if (selected == null) HighlightBuilding(Placing);
 
                 valid = Placing.CanPlaceHere(mouseTile);
 
@@ -137,43 +163,30 @@ public class BuildingInterface : MonoBehaviour
 
             if (valid && (Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && CurrentlyPlacing.DragPlace)))
             {
+                OnPlace?.Invoke(CurrentlyPlacing);
                 Manager.AddBuilding(Placing);
                 CurrentlyPlacing = null;
-                Placing = null; 
+                Placing = null;
                 ReloadIndex();
                 setDirty();
-                
+
                 return;
             }
 
 
         }
-        else
+        else if (selected == null)
         {
             HighlightTile(mouseTile, Vector2Int.one);
         }
 
-
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            LoadIndex(selectedIndex - 1);
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            LoadIndex(selectedIndex + 1);
-        }
         if (Input.GetKeyDown(KeyCode.R) && Placing != null)
         {
             Placing.Rotate();
             lastDir = Placing.Direction;
             setDirty();
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && Placing != null)
-        {
-            Destroy(Placing.gameObject);
-            Placing = null;
-            setDirty();
-        }
+
     }
 
 

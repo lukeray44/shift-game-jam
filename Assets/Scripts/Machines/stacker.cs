@@ -14,6 +14,7 @@ public class stacker : Conveyor
 
     public override bool RecieveItem(Item i, Vector3 direction)
     {
+
         if (direction == Vector3.down) return TrySetItemInInventory(1, i);
         return base.RecieveItem(i, direction);
     }

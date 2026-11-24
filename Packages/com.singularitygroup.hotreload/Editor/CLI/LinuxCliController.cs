@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using SingularityGroup.HotReload.Editor.Localization;
 using Debug = UnityEngine.Debug;
 
 namespace SingularityGroup.HotReload.Editor.Cli {
@@ -9,7 +10,7 @@ namespace SingularityGroup.HotReload.Editor.Cli {
     class LinuxCliController : ICliController {
         Process process;
 
-        public string BinaryFileName => "CodePatcherCLI";
+        public string BinaryFileName => "HotReloadServer";
         public string PlatformName => "linux-x64";
         public bool CanOpenInBackground => true;
 
@@ -45,7 +46,7 @@ namespace SingularityGroup.HotReload.Editor.Cli {
                 if (File.Exists(cliargsfile)) {
                     File.Delete(cliargsfile);
                 }
-                throw new Exception("Could not start code patcher process.");
+                throw new Exception(Translations.Errors.ExceptionCouldNotStartCodePatcher);
             }
             codePatcherProc.BeginErrorReadLine();
             codePatcherProc.BeginOutputReadLine();

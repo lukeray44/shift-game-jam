@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Building : MonoBehaviour
 {
+    public BuildingData Data;
     public Vector2Int GridPos;
     public Vector2Int GridSize = new Vector2Int(1, 1);
 
@@ -20,6 +21,8 @@ public class Building : MonoBehaviour
         }
     }
     public bool CantDestroy;
+
+    public bool Destroyable => !CantDestroy && Data != null && !AutoAdd;
     
     void OnDrawGizmos()
     {

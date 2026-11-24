@@ -1,5 +1,4 @@
-﻿#if ENABLE_MONO && (DEVELOPMENT_BUILD || UNITY_EDITOR)
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,9 +31,9 @@ namespace SingularityGroup.HotReload.Demo {
         // Update is called once per frame
         void Update() {
             if (Demo.I.IsServerRunning()) {
-                informationText.text = "Hot Reload is running";
+                informationText.text = Localization.Translations.Common.HotReloadIsRunning;
             } else {
-                informationText.text = "Hot Reload is not running";
+                informationText.text = Localization.Translations.Common.HotReloadIsNotRunning;
             }
 
             // // 2. Editing functions in monobehaviours, normal classes or static classes
@@ -214,4 +213,3 @@ namespace SingularityGroup.HotReload.Demo {
         // }
     }
 }
-#endif

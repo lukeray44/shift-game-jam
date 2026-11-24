@@ -105,7 +105,7 @@ public abstract class Machine : MonoBehaviour
     }
     public virtual void OnRemoveFromSimulation()
     {
-
+        
     }
 
     public virtual void Initialise()

@@ -12,12 +12,16 @@ namespace SingularityGroup.HotReload.Editor {
         public readonly BuildTarget activeBuildTarget;
         public readonly string[] omittedProjects;
         public readonly bool batchMode;
+        public readonly string locale;
+        public readonly bool disableTelemetry;
 
-        public BuildInfoInput(string allDefineSymbols, BuildTarget activeBuildTarget, string[] omittedProjects, bool batchMode) {
+        public BuildInfoInput(string allDefineSymbols, BuildTarget activeBuildTarget, string[] omittedProjects, bool batchMode, string locale, bool disableTelemetry) {
             this.allDefineSymbols = allDefineSymbols;
             this.activeBuildTarget = activeBuildTarget;
             this.omittedProjects = omittedProjects;
             this.batchMode = batchMode;
+            this.locale = locale;
+            this.disableTelemetry = disableTelemetry;
         }
     }
     
@@ -26,17 +30,22 @@ namespace SingularityGroup.HotReload.Editor {
             var buildTarget = EditorUserBuildSettings.activeBuildTarget;
             var activeDefineSymbols = EditorUserBuildSettings.activeScriptCompilationDefines;
             var batchMode = Application.isBatchMode;
+            var disableTelemetry = HotReloadPrefs.DisableTelemetry;
+            var developmentBuild = PlayerDefinesDevelopmentBuild();
             var allDefineSymbols = await Task.Run(() => {
-                return GetAllAndroidMonoBuildDefineSymbolsThreaded(activeDefineSymbols);
+                return GetAllAndroidMonoBuildDefineSymbolsThreaded(activeDefineSymbols, developmentBuild);
             });
             // cached so unexpensive most of the time
             var omittedProjects = AssemblyOmission.GetOmittedProjects(allDefineSymbols);
+            var locale = PackageConst.DefaultLocale;
 
             return new BuildInfoInput(
                 allDefineSymbols: allDefineSymbols,
                 activeBuildTarget: buildTarget,
                 omittedProjects: omittedProjects,
-                batchMode: batchMode
+                batchMode: batchMode,
+                locale: locale,
+                disableTelemetry: disableTelemetry
             );
         }
 
@@ -45,12 +54,14 @@ namespace SingularityGroup.HotReload.Editor {
         }
         
         public static BuildInfo GenerateBuildInfoMainThread(BuildTarget buildTarget) {
-            var allDefineSymbols = GetAllAndroidMonoBuildDefineSymbolsThreaded(EditorUserBuildSettings.activeScriptCompilationDefines);
+            var allDefineSymbols = GetAllAndroidMonoBuildDefineSymbolsThreaded(EditorUserBuildSettings.activeScriptCompilationDefines, PlayerDefinesDevelopmentBuild());
             return GenerateBuildInfoThreaded(new BuildInfoInput(
                 allDefineSymbols: allDefineSymbols, 
                 activeBuildTarget: buildTarget, 
                 omittedProjects: AssemblyOmission.GetOmittedProjects(allDefineSymbols),
-                batchMode: Application.isBatchMode
+                batchMode: Application.isBatchMode,
+                locale: PackageConst.DefaultLocale,
+                disableTelemetry: HotReloadPrefs.DisableTelemetry
             ));
         }
 
@@ -72,6 +83,8 @@ namespace SingularityGroup.HotReload.Editor {
                 buildMachinePort = RequestHelper.port,
                 activeBuildTarget = input.activeBuildTarget.ToString(),
                 buildMachineRequestOrigin = RequestHelper.origin,
+                locale = input.locale,
+                disableTelemetry = input.disableTelemetry,
             };
         }
 
@@ -84,6 +97,12 @@ namespace SingularityGroup.HotReload.Editor {
             return !isCI;
         }
 
+        // Known gap: the diagnostic symbols (UNITY_INCLUDE_INSTRUMENTATION, UNITY_ENABLE_CHECKS,
+        //   DEBUG, ENABLE_PROFILER, UNITY_ASSERTIONS) are always defined in the editor on Unity 6.6+
+        //   and are not removed here, so we report them even when the player does not have them.
+        //   They depend on the Development Build checkbox and the Managed Code Variant, which this
+        //   static list cannot express. Harmless while few projects use the 6.6 symbols; to make it
+        //   exact, strip them here and re-add only what the variant implies.
         private static readonly string[] editorSymbolsToRemove = {
             "PLATFORM_ARCH_64",
             "UNITY_64",
@@ -112,7 +131,9 @@ namespace SingularityGroup.HotReload.Editor {
             "UNITY_ANDROID",
             "UNITY_ANDROID_API",
             "ENABLE_EGL",
-            "DEVELOPMENT_BUILD",
+            #if UNITY_6000_6_OR_NEWER
+            "UNITY_INCLUDE_INSTRUMENTATION",
+            #endif
             "ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING",
             "PLATFORM_SUPPORTS_ADS_ID",
             "UNITY_CAN_SHOW_SPLASH_SCREEN",
@@ -132,13 +153,31 @@ namespace SingularityGroup.HotReload.Editor {
         //   Hardcoding the differences was less effort and is less error prone.
         // I also looked into it and tried all the Build interfaces like this one https://docs.unity3d.com/ScriptReference/Build.IPostBuildPlayerScriptDLLs.html
         //   and logging EditorUserBuildSettings.activeScriptCompilationDefines in the callbacks - result: all same like editor, so I agree that hardcode is best. 
-        public static string GetAllAndroidMonoBuildDefineSymbolsThreaded(string[] defineSymbols) {
+        private static string GetAllAndroidMonoBuildDefineSymbolsThreaded(string[] defineSymbols, bool developmentBuild) {
             var defines = new HashSet<string>(defineSymbols);
             defines.ExceptWith(editorSymbolsToRemove);
             defines.UnionWith(androidSymbolsToAdd);
+            if (developmentBuild) {
+                defines.Add("DEVELOPMENT_BUILD");
+            }
             // sort for consistency, must be deterministic
             var definesArray = defines.OrderBy(def => def).ToArray();
             return String.Join(";", definesArray);
+        }
+
+        /// Does the player define DEVELOPMENT_BUILD? Must be called on the main thread.
+        private static bool PlayerDefinesDevelopmentBuild() {
+#if UNITY_7000_0_OR_NEWER
+            // removed in Unity 7, a Development Build no longer defines it
+            return false;
+#elif UNITY_6000_6_OR_NEWER
+            // deprecated but still defined by a Development Build. The runtime can also be included
+            // by the Managed Code Variant alone, and then the player does not define it.
+            return EditorUserBuildSettings.development;
+#else
+            // the runtime is only included in development builds
+            return true;
+#endif
         }
     }
 }

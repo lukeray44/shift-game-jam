@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SingularityGroup.HotReload.Editor {
     internal class Spinner {
-        internal static string SpinnerIconPath => "icon_loading_star_light_mode_96";
+        internal static string SpinnerIconPath => "Hot_Reload_icon_loading_star_light_mode_96";
         internal static Texture2D spinnerTexture => GUIHelper.GetInvertibleIcon(InvertibleIcon.Spinner);
         private Texture2D _rotatedTextureLight;
         private Texture2D _rotatedTextureDark;
@@ -20,6 +20,10 @@ namespace SingularityGroup.HotReload.Editor {
         }
         
         internal Texture2D GetIcon() {
+            // Resources.Load finds nothing while a player builds, and the windows still repaint
+            if (!spinnerTexture) {
+                return null;
+            }
             if (DateTime.UtcNow - _lastRotation > TimeSpan.FromMilliseconds(_rotationPeriod)) {
                 _lastRotation = DateTime.UtcNow;
                 _rotationAngle += 45;

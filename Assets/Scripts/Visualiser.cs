@@ -32,6 +32,16 @@ public class Visualiser : MonoBehaviour
 
     public static Arrow DrawLine(params Vector3[] positions)
     {
+        float dist = 0;
+        Vector3 last = positions[0];
+        foreach (Vector3 v in positions)
+        {
+            dist +=Vector3.Distance(last, v);
+            last = v;
+        }
+
+        if (dist < 0.5f || Vector3.Distance(positions[0], last) < 0.2f) return null;
+
         Arrow a = main.lines.Next();
         a.SetPositions(positions);
 
@@ -40,7 +50,7 @@ public class Visualiser : MonoBehaviour
         for (int i = positions.Length - 1; i >= 0; i--)
         {
             penultimate = positions[i];
-            if (Vector3.Distance(end, penultimate) > 0.5f) break;
+            if (Vector3.Distance(end, penultimate) > 0.2f) break;
         }
 
         DrawSpritePointer(penultimate, end);

@@ -17,6 +17,16 @@ public abstract class adjacencyMachine : Machine
         return centre + transform.right * sign * -0.5f * Building.GridSize.x;
     }
 
+    public override void OnRemoveFromSimulation()
+    {
+        base.OnRemoveFromSimulation();
+
+        if (MainOutput is PhysicsMachine phys)
+        {
+            SimulationManager.main.RemoveMachine(phys);
+        }
+    }
+
     public override bool RecieveItem(Item i, Vector3 direction)
     {
 

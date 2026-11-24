@@ -20,6 +20,10 @@ public class Trebuchet : Conveyor
     {
         
     }
+    public override bool CanRecieveInDirection(Vector3 direction)
+    {
+        return true;
+    }
 
 
     public override void VisualiseSelf(bool foundOutput = false)

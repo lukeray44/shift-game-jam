@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
-public class PhysicsMachine : EaseAndDestroy
+public class PhysicsMachine : Machine
 {
+    public Machine Excess;
 
     itemSimulation simulation;
 
@@ -14,7 +15,53 @@ public class PhysicsMachine : EaseAndDestroy
     }
     public override void Initialise()
     {
+        
+    }
 
+    public override int ExtraOutputs()
+    {
+        return base.ExtraOutputs() + 1;
+    }
+    public override void OnAddToSimulation()
+    {
+        base.OnAddToSimulation();
+
+        SimulationManager.main.AddMachine(Excess);
+    }
+
+    
+    public override Vector3 GetItemTarget(Vector3 direction)
+    {
+        return transform.position;
+    } 
+
+    protected override void Tick()
+    {
+        if (TryIncrementItems())
+        {
+            if (MainOutput == null || !TransferItem(0, MainOutput, Vector3.down)) 
+            {
+                TransferItem(0, Excess, Vector3.zero);
+            }
+        }
+
+
+        if (MainInput == null && ItemCount == 0)
+        {
+            SimulationManager.main.DeleteMachine(this);
+        }
+    }
+ 
+    public override bool RecieveItem(Item i, Vector3 direction)
+    { 
+        return TrySetItemInInventory(0, i);
+    }
+
+    public override void OnRemoveFromSimulation()
+    {
+        base.OnRemoveFromSimulation();
+        Excess.InputMachines.Remove(this);
+        SimulationManager.main.RemoveMachine(Excess);
     }
 
     Vector3 startPos;
@@ -44,8 +91,11 @@ public class PhysicsMachine : EaseAndDestroy
 
                     AddOutput(b.MainSimulator);
 
-                    simulation.ShiftEnd(MainOutput.GetItemTarget(simulation.GetOutputDir()));
+
+                    Vector3 endPos = MainOutput.GetItemTarget(simulation.GetOutputDir());
+                    simulation.ShiftEnd(endPos);
                     simulation.Break();
+                    Excess.transform.position = endPos;
 
                 }
             }
@@ -161,23 +211,41 @@ class itemSimulation
     public Vector3 Position() => currentPosition;
     public void ShiftEnd(Vector3 pos, int shiftMax = -1)
     {
+        
+        Vector3 addVelocity = GetOutputDir().y < 0 ? Vector3.up * 5 * timeStep : Vector3.zero;
+
         if (shiftMax == -1) shiftMax = positions.Count - 2;
         Vector3 last = positions[positions.Count - 2]; // second to last
         Vector3 lastDelta = positions[positions.Count - 1] - last;
 
         int min = positions.Count / 2;
-
+        float lastYDelta = -1000;
         for (min = shiftMax; min >= 2; min--)
         {
             Vector3 cur = positions[min];
             Vector3 delta = last - cur;
 
             if (Vector3.Dot(delta, lastDelta) < 0) break;
+            
+            float yComp = delta.y;
+            if (Mathf.Abs(yComp) > 0.5f)
+            {
+                if (lastYDelta != -1000)
+                {
+                    if (Mathf.Sign(lastYDelta) != Mathf.Sign(yComp))
+                    {
+                        break;
+                    }
+                }
+                lastYDelta = yComp;
+            }
 
             last = cur;
             lastDelta = delta;
 
         }
+
+    
 
         Vector3 origin = positions[min];
         Vector3 add = pos - positions[positions.Count - 1];
@@ -187,8 +255,10 @@ class itemSimulation
         positions[positions.Count - 1] = pos;
         for (int i = positions.Count - 2; i >= min; i--)
         {
-            float scalar = 1 - (count - i) / (float)(count - min);
-            positions[i] = positions[i] + add * scalar;
+            float completion = (count - i) / (float)(count - min);
+
+            float adjustedScalar = 1 - Mathf.Clamp01(completion * 2);
+            positions[i] = positions[i] + add * (1 - completion) + addVelocity * adjustedScalar;
         }
     }
     public Vector3 GetPosition(float time)

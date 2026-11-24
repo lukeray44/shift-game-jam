@@ -1,7 +1,9 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using SingularityGroup.HotReload.Editor.Localization;
 using SingularityGroup.HotReload.Editor.Semver;
 using Debug = UnityEngine.Debug;
 
@@ -9,9 +11,13 @@ namespace SingularityGroup.HotReload.Editor.Cli {
     class OsxCliController : ICliController {
         Process process;
 
+        /// The server uses the same architecture as the Unity editor. An Intel editor on Apple Silicon runs via Rosetta 2,
+        /// so the osx-x64 server can run too.
+        static readonly bool isArm64Editor = RuntimeInformation.ProcessArchitecture == Architecture.Arm64;
+
         public string BinaryFileName => "HotReload.app.zip";
-        public string PlatformName => "osx-x64";
-        public bool CanOpenInBackground => false;
+        public string PlatformName => isArm64Editor ? "osx-arm64" : "osx-x64";
+        public bool CanOpenInBackground => true;
 
         /// In MacOS 13 Ventura, our app cannot launch a terminal window.
         /// We use a custom app that launches HotReload server and shows it's output (just like a terminal would). 
@@ -38,14 +44,14 @@ namespace SingularityGroup.HotReload.Editor.Cli {
                 return macosVersion;
             }
             // should never happen
-            Log.Warning("Failed to detect MacOS version, if Hot Reload fails to start, please contact support.");
+            Log.Warning(Translations.Errors.WarningMacOSVersionDetectionFailed);
             return SemVersion.None;
         });
 
         public async Task Start(StartArgs args) {
             // Unzip the .app.zip to temp folder .app
             var appExecutablePath = $"{args.executableTargetDir}/HotReload.app/Contents/MacOS/HotReload";
-            var cliExecutablePath = $"{args.executableTargetDir}/HotReload.app/Contents/Resources/CodePatcherCLI";
+            var cliExecutablePath = $"{args.executableTargetDir}/HotReload.app/Contents/Resources/HotReloadServer";
             
             // ensure running on threadpool
             await ThreadUtility.SwitchToThreadPool();
@@ -70,20 +76,26 @@ namespace SingularityGroup.HotReload.Editor.Cli {
                 // ignored
             }
 
-            if (UseCustomConsoleApp()) {
-                await StartCustomConsole(args, appExecutablePath);
+            if (args.createNoWindow) {
+                await StartExecutableOrApp(args, cliExecutablePath);
+            } else if (UseCustomConsoleApp()) {
+                await StartExecutableOrApp(args, appExecutablePath);
             } else {
                 await StartTerminal(args, cliExecutablePath);
             }
         }
 
-        public Task StartCustomConsole(StartArgs args, string executablePath) {
+        public Task StartExecutableOrApp(StartArgs args, string executablePath) {
             process = Process.Start(new ProcessStartInfo {
                 // Path to the HotReload.app
                 FileName = executablePath,
                 Arguments = args.cliArguments,
                 UseShellExecute = false,
             });
+            
+            var pidFilePath = CliUtils.GetPidFilePath(args.hotreloadTempDir);
+            // ReSharper disable once PossibleNullReferenceException
+            File.WriteAllText(pidFilePath, process.Id.ToString());
             return Task.CompletedTask;
         }
 
@@ -114,14 +126,14 @@ namespace SingularityGroup.HotReload.Editor.Cli {
 
             if (process.WaitForExit(1000)) {
                 if (process.ExitCode != 0) {
-                    Log.Warning("Failed to the run the start server command. ExitCode={0}\nFilepath: {1}", process.ExitCode, executableScriptPath);
+                    Log.Warning(Translations.Errors.WarningFailedToRunServerCommand, process.ExitCode, executableScriptPath);
                 }
             }
             else {
                 process.EnableRaisingEvents = true;
                 process.Exited += (_, __) => {
                     if (process.ExitCode != 0) {
-                        Log.Warning("Failed to the run the start server command. ExitCode={0}\nFilepath: {1}", process.ExitCode, executableScriptPath);
+                        Log.Warning(Translations.Errors.WarningFailedToRunServerCommand, process.ExitCode, executableScriptPath);
                     }
                 };
             }
@@ -141,11 +153,11 @@ namespace SingularityGroup.HotReload.Editor.Cli {
         static void UnzipMacOsPackage(string zipPath, string unzippedFolderPath) {
             //Log.Info("UnzipMacOsPackage called with {0}\n workingDirectory = {1}", zipPath, unzippedFolderPath);
             if (!zipPath.EndsWith(".zip")) {
-                throw new ArgumentException($"Expected to end with .zip, but it was: {zipPath}", nameof(zipPath));
+                throw new ArgumentException(string.Format(Translations.Errors.ExceptionExpectedZipFile, zipPath), nameof(zipPath));
             }
 
             if (!File.Exists(zipPath)) {
-                throw new ArgumentException($"zip file not found {zipPath}", nameof(zipPath));
+                throw new ArgumentException(string.Format(Translations.Errors.ExceptionZipFileNotFound, zipPath), nameof(zipPath));
             }
             var processStartInfo = new ProcessStartInfo {
                 FileName = "unzip",
@@ -158,7 +170,7 @@ namespace SingularityGroup.HotReload.Editor.Cli {
             Process process = Process.Start(processStartInfo);
             process.WaitForExit();
             if (process.ExitCode != 0) {
-                throw new Exception($"unzip failed with ExitCode {process.ExitCode}");
+                throw new Exception(string.Format(Translations.Errors.ExceptionUnzipFailed, process.ExitCode));
             }
             //Log.Info($"did unzip to {unzippedFolderPath}");
             // Move the .app folder to unzippedFolderPath
@@ -181,7 +193,7 @@ namespace SingularityGroup.HotReload.Editor.Cli {
             }
 
             if (!done) {
-                throw new Exception("Failed to find .app directory and move it to " + destDir);
+                throw new Exception(string.Format(Translations.Errors.ExceptionFailedToFindAppDirectory, destDir));
             }
             //Log.Info($"did unzip to {unzippedFolderPath}");
         }

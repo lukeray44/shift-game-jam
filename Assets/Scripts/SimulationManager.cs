@@ -113,19 +113,23 @@ public class SimulationManager : MonoBehaviour
     {
         if (m == null) return;
         RemoveMachine(m);
-        Destroy(m.gameObject);
     }
     public void RemoveMachine(Machine m)
     {
+
         if (isTick)
         {
             toRemove.Add(m);
             return;
         }
-        m.OnRemoveFromSimulation();
+        
         m.Added = false;
         All.Remove(m);
-        if (m.IsRoot) RemoveRoot(m);
+        if (m.IsRoot)
+        {
+            RemoveRoot(m);
+           
+        }
         if (m.IsLoopRoot) LoopRoots.Remove(m);
 
         BuildingManager.main.OnBuildingAdd -= m.OnBuildingAdded;
@@ -142,6 +146,8 @@ public class SimulationManager : MonoBehaviour
             outmm.OnInputRemoved(m);
         }
 
+        m.OnRemoveFromSimulation();
+        if (m.Building == null) Destroy(m.gameObject);
 
 
 

@@ -11,5 +11,8 @@ public class BuildingData : ScriptableObject
     public float Cost;
     public Building Prefab;
 
+
+    public Sprite Icon;
+
     public bool DragPlace;
 }
