@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector.Editor.Internal;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,9 +10,8 @@ public class CharacterController2D : MonoBehaviour
 	[Range(0, .3f)] [SerializeField] private float m_MovementSmoothing = .05f;	// How much to smooth out the movement
 	[SerializeField] private bool m_AirControl = false;							// Whether or not a player can steer while jumping;
 	[SerializeField] private LayerMask m_WhatIsGround;	
-	[SerializeField] private Transform m_BigGroundCheck;						// A mask determining what is ground to the character
-	[SerializeField] private Transform m_GroundCheck1;	
-	[SerializeField] private Transform m_GroundCheck2;							// A position marking where to check if the player is grounded.
+	[SerializeField] private Transform m_GroundCheck;						// A mask determining what is ground to the character
+	[SerializeField] private Transform m_SlopeCheck;								// A position marking where to check if the player is grounded.
 						// A position marking where to check if the player is grounded.
 	[SerializeField] private Transform m_CeilingCheck;							// A position marking where to check for ceilings
 	[SerializeField] private Collider2D m_CrouchDisableCollider;				// A collider that will be disabled when crouching
@@ -31,6 +31,7 @@ public class CharacterController2D : MonoBehaviour
 	[SerializeField] float upperbound = 0.75f;
 	[SerializeField] float holdJumpAdditionalForce = 0.001f;
 	[SerializeField] bool canRise = true;
+	[SerializeField] float speedIncreaseOnSlope = 0.3f;
 
 	[Header("Events")]
 	[Space]
@@ -42,7 +43,6 @@ public class CharacterController2D : MonoBehaviour
 
 	public BoolEvent OnCrouchEvent;
 	private bool m_wasCrouching = false;
-	private string nothing = "";
 
 
 	private void Awake()
@@ -58,23 +58,10 @@ public class CharacterController2D : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		String nothing = "";
 		bool wasGrounded = m_Grounded;
 		m_Grounded = false;
-
-		// The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
-		// This can be done using layers instead but Sample Assets will not overwrite your project settings.
-		/*Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
-		for (int i = 0; i < colliders.Length; i++)
-		{
-			if (colliders[i].gameObject != gameObject)
-			{
-				m_Grounded = true;
-				if (!wasGrounded)
-					OnLandEvent.Invoke();
-			}
-		}*/
-		double a = 0;
-		airbourne = !checkGrounded(ref nothing, ref a);
+		airbourne = !checkGrounded(ref nothing);
         if (airbourne)
         {
             airTime += 0.1f;
@@ -82,9 +69,9 @@ public class CharacterController2D : MonoBehaviour
         {
             airTime = 0;
         }
-		m_Grounded = checkGrounded(ref nothing, ref a) || (airTime < coyoteTime && m_Rigidbody2D.linearVelocity.y <= 0);
+		m_Grounded = checkGrounded(ref nothing) || (airTime < coyoteTime && m_Rigidbody2D.linearVelocity.y <= 0);
 		//Debug.Log(m_Grounded);
-		if (checkGrounded(ref nothing, ref a))
+		if (checkGrounded(ref nothing))
 		{
 			if (!wasGrounded)
 			{
@@ -93,44 +80,19 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
-	public bool checkGrounded(ref String name, ref double angle)
+	public bool checkGrounded(ref string standingOn)
 	{
-		return m_BigGroundCheck.GetComponent<feetScript>().isGrounded;
-		/*angle = 0;
-		RaycastHit2D hit = Physics2D.Raycast(m_GroundCheck1.transform.position, Vector3.down, 0.15f);
-        RaycastHit2D hit2 = Physics2D.Raycast(m_GroundCheck2.transform.position, Vector3.down, 0.15f);
-        RaycastHit2D bigHit = Physics2D.Raycast(m_BigGroundCheck.transform.position, Vector3.down,0.15f);
-		//Debug.DrawRay(hit.point, hit.normal, Color.black);
-        Debug.DrawRay(hit2.point, hit2.normal, Color.black);
-		Debug.DrawRay(hit.point, hit.normal, Color.red);
-		if (hit) 
-		{
-			name = hit.collider.gameObject.name;
-			angle = Vector3.Angle(hit.normal, Vector3.up);
-			
-			return Math.Round(angle) == 0;
-		}
-		if (hit2) 
-		{
-			name = hit2.collider.gameObject.name;
-			angle = Vector3.Angle(hit2.normal, Vector3.up);
-			
-			return Math.Round(angle) == 0;
-		}
-		if (bigHit) 
-		{
-			name = bigHit.collider.gameObject.name;
-			angle = Vector3.Angle(bigHit.normal, Vector3.up);
-			
-			return Math.Round(angle) == 0;
-		}
-		return false;
-		*/
+		feetScript fScript = m_GroundCheck.GetComponent<feetScript>();
+		if (fScript.isGrounded) standingOn = fScript.collidedWith.name;
+		feetScript checkSlopeScript = m_SlopeCheck.GetComponent<feetScript>();
+		if (checkSlopeScript.isGrounded) standingOn = checkSlopeScript.collidedWith.name;
+		return fScript.isGrounded || checkSlopeScript.isGrounded;
 	}
 
 
 	public void Move(float move, bool crouch, bool jump, bool canJump)
 	{
+		String currentStandingOn = "";
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
 		{
@@ -173,19 +135,25 @@ public class CharacterController2D : MonoBehaviour
 				}
 			}
 
-			String standingOn = "";
 			/*double angle = 0;
 			checkGrounded(ref standingOn, ref angle);
 			float finalAngle = (float)(90 - angle);
 			Debug.Log("Ang " + finalAngle + "\nAdded velocity " + Mathf.Sin(Mathf.Rad2Deg * finalAngle) * 8);*/
 			// Move the character by finding the target velocity
-			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.linearVelocity.y /*+ Mathf.Sin(Mathf.Rad2Deg * finalAngle) * 8*/);
+			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.linearVelocity.y);
 			// Check if standing on conveyor belt, increase velocity of player if so
-			if (m_Grounded && (standingOn.Length >= 8) && (standingOn.Substring(0,8) == "Conveyor"))
+			checkGrounded(ref currentStandingOn);
+			if (m_Grounded && (currentStandingOn.Length >= 8) && (currentStandingOn.Substring(0,8) == "Conveyor"))
 			{
 				targetVelocity += Vector3.right * conveyorSpeed;
+				m_Rigidbody2D.linearVelocityX += conveyorSpeed;
+				Debug.Log("Target " + targetVelocity);
 			}
-			targetVelocity.y = m_Rigidbody2D.bodyType == RigidbodyType2D.Kinematic? 0 : targetVelocity.y;
+			m_Rigidbody2D.linearVelocityX += checkSlope() ? speedIncreaseOnSlope : 0;
+			
+			// if airbourne then air speed = speed on the ground
+			//targetVelocity.y = m_Rigidbody2D.bodyType == RigidbodyType2D.Kinematic? 0 : targetVelocity.y;
+			m_Rigidbody2D.linearVelocityY = m_Rigidbody2D.bodyType == RigidbodyType2D.Kinematic? 0 : m_Rigidbody2D.linearVelocityY;
 			// And then smoothing it out and applying it to the character
 			m_Rigidbody2D.linearVelocity = Vector3.SmoothDamp(m_Rigidbody2D.linearVelocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 			//Debug.Log("target " + targetVelocity + "\nvelocity " + m_Rigidbody2D.linearVelocity);
@@ -202,8 +170,7 @@ public class CharacterController2D : MonoBehaviour
 				Flip();
 			}
 		}
-		double b = 0;
-		Debug.Log("Jumped " + jump + "\ngrounded " + m_Grounded + "\nmult " + holdJumpMultiplier + "\nupperbound " + upperbound + "\nresult " + ((!jump || m_Grounded) && (holdJumpMultiplier >= upperbound)));
+//		Debug.Log("Jumped " + jump + "\ngrounded " + m_Grounded + "\nmult " + holdJumpMultiplier + "\nupperbound " + upperbound + "\nresult " + ((!jump || m_Grounded) && (holdJumpMultiplier >= upperbound)));
 		if (!jump || m_Grounded)
 		{
 			holdJumpMultiplier = 0;
@@ -217,13 +184,14 @@ public class CharacterController2D : MonoBehaviour
 				canRise = false;
 			}
 		}
+		
 		// If the player should jump...
-		if (m_Grounded && jump/* && m_Rigidbody2D.linearVelocityY <= 0*/)
+		if (m_Grounded && jump && canJump/* && m_Rigidbody2D.linearVelocityY <= 0*/)
 		{
 			// Add a vertical force to the player.
 			m_Grounded = false;
 			jump = false;
-			if (!checkGrounded(ref nothing, ref b)) m_JumpForce += additionalForce;
+			if (!checkGrounded(ref currentStandingOn)) m_JumpForce += additionalForce;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 		} else if (!m_Grounded && m_Rigidbody2D.linearVelocityY > 0 && jump)
 		{
@@ -242,5 +210,16 @@ public class CharacterController2D : MonoBehaviour
 		Vector3 theScale = transform.localScale;
 		theScale.x *= -1;
 		transform.localScale = theScale;
+	}
+	// check whether the player is on a slope
+	bool checkSlope()
+	{
+		//Debug.Log("Ground " + m_GroundCheck.GetComponent<feetScript>().isGrounded + "\nSlope " + m_SlopeCheck.GetComponent<feetScript>().isGrounded);
+		if (!m_GroundCheck.GetComponent<feetScript>().isGrounded && m_SlopeCheck.GetComponent<feetScript>().isGrounded)
+		{
+			//Debug.Log("On slope");
+			return true;
+		} 
+		return false;
 	}
 }

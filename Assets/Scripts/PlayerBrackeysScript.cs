@@ -14,12 +14,9 @@ public class PlayerBrackeysScript : MonoBehaviour
     public Vector3 origin;
 
     public GameObject bigFeet;
-    public GameObject feet1;
-    public GameObject feet2;
 
     public float moveSpeed;
     public float time = 0.25f;
-    private string nothing = "";
     [SerializeField] bool canJump = true;
     [SerializeField] bool hasLetGo;
     
@@ -32,9 +29,10 @@ public class PlayerBrackeysScript : MonoBehaviour
 
     void Update()
     {
-        double a = 0;
+        String nothing = "";
+        //Debug.Log("not grounded "+!controller.checkGrounded(ref nothing));
         // check whether the player is moving, has jumped or is airbourne. Set rigidbody to dynamic if true, otherwise kinematic
-         if (move.action.IsPressed() || jump.action.IsPressed() || (!controller.checkGrounded(ref nothing, ref a))) {
+         if (move.action.IsPressed() || jump.action.IsPressed() || !controller.checkGrounded(ref nothing)) {
             rigidB.bodyType = RigidbodyType2D.Dynamic;
             //rigidB.linearVelocityY = 0;
         } else
@@ -42,7 +40,7 @@ public class PlayerBrackeysScript : MonoBehaviour
             rigidB.bodyType = RigidbodyType2D.Kinematic;
             rigidB.useFullKinematicContacts = true;
             //rigidB.linearVelocityY = 0;
-            //rigidB.linearVelocityY = nothing.Length >= 8 && nothing.Substring(0,8) == "Platform"? rigidB.linearVelocityY : 0;
+            //rigidB.linearVelocityY = collidedWith.name.Length >= 8 && collidedWith.name.Substring(0,8) == "Platform"? rigidB.linearVelocityY : 0;
         }
     }
     // Update is called once per frame
@@ -60,7 +58,8 @@ public class PlayerBrackeysScript : MonoBehaviour
         
         //Debug.Log("Jumps after " + jumps);
         // Moves the character. 1st argument is the horizontal movement, 3rd argument is whether the player has jumped and can jump
-        controller.Move(moveSpeed * move.action.ReadValue<float>(), false, jump.action.IsPressed(), canJump);  
+        controller.Move(moveSpeed * move.action.ReadValue<float>(), false, jump.action.IsPressed(), canJump);
+        //Debug.Log("Let go " + hasLetGo + "\nJumped " + jump.action.IsPressed() + "\nrigidbody " + rigidB.linearVelocityY);
         if (hasLetGo && jump.action.IsPressed() && rigidB.linearVelocityY > 0)
         {
             hasLetGo = false;
