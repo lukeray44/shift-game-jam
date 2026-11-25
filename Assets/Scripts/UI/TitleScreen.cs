@@ -11,6 +11,8 @@ public class TitleScreen : MonoBehaviour
 
     public Slider MainVol, MusicVol, SFXVol;
     public AudioMixerGroup MainGroup, MusicGroup, SFXGroup;
+    public UIButton ResetData;
+
     CursorButtonGroup current;
     public void ChangeMenu(CursorButtonGroup to, float dir = 1)
     {
@@ -65,5 +67,15 @@ public class TitleScreen : MonoBehaviour
         handleGroup(MainVol, MainGroup);
         handleGroup(SFXVol, SFXGroup);
         handleGroup(MusicVol, MusicGroup);
+
+        ResetData.Clicked += () => LevelMeta.main.DeleteData();
+
+        if (Application.platform == RuntimePlatform.WebGLPlayer)
+        {
+            Exit.gameObject.SetActive(false);
+        } else
+        {
+            Exit.Clicked += () => Application.Quit();
+        }
     }
 }

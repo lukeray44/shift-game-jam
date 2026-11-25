@@ -14,7 +14,7 @@ public class Item : MonoBehaviour
     public ItemComposite state;
     public List<ItemElement> Elements = new List<ItemElement>();
 
-    public const float ElementRadius = 0.9f;
+    public const float ElementRadius = 0.6f;
 
     public Vector3 GetLocalPosition(ItemElement e)
     {

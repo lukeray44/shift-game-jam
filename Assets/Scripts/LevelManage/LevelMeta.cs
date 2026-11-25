@@ -79,11 +79,16 @@ public class LevelMeta : Singleton<LevelMeta>
     {
         LevelSaveData s = Data.Data[Cur];
 
-        s.BestMoney = s.BestMoney != 0 ? Mathf.Min(s.BestMoney, money) : money;
+        s.BestMoney = Mathf.Max(s.BestMoney, money) ;
         s.Beaten = true;
         Save();
     }
 
+    public void DeleteData()
+    {
+        Data = new SaveData(Levels.Levels.Length);
+        Save();
+    }
 }
 
 [System.Serializable]
@@ -115,7 +120,7 @@ public class SaveData
 public class LevelSaveData
 {
     public bool Beaten;
-    public float BestMoney = float.MaxValue;
+    public float BestMoney = 0;
 }
 
 public static class BinaryUtility

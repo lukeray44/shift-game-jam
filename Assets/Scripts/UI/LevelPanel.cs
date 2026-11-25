@@ -10,6 +10,8 @@ public class LevelPanel : MonoBehaviour
 
     public RawImage LevelPreview;
 
+    public ThreeStarDisplay Stars;
+
     public void LoadLevel(int index = -1)
     {
         if (index == -1)
@@ -19,6 +21,7 @@ public class LevelPanel : MonoBehaviour
             Best.text = "";
             Play.gameObject.SetActive(false);
             LevelPreview.gameObject.SetActive(false);
+            Stars.gameObject.SetActive(false);
         }
         else
         {
@@ -31,15 +34,21 @@ public class LevelPanel : MonoBehaviour
             LevelPreview.gameObject.SetActive(true);
             LevelPreview.texture = data.LevelScreenshot;
 
+            
+
             if (save != null && save.Beaten)
             {
                 Completion.text = "Level Completed!";
                 Best.text = $"Best: ${save.BestMoney}<size=70%>/${data.Money}";
+                Stars.gameObject.SetActive(true);
+                Stars.Init(data, save.BestMoney);
             }
             else
             {
+                  Stars.gameObject.SetActive(false);
                 Completion.text = "Not Completed";
                 Best.text = "";
+
             }
         }
     }

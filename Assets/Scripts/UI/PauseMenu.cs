@@ -6,6 +6,8 @@ public class PauseMenu : MonoBehaviour
 
     public CanvasGroup Panel;
 
+    public LevelManager Level;
+
     void Start()
     {
         Resume.Clicked += () => SetPaused(false);
@@ -16,7 +18,15 @@ public class PauseMenu : MonoBehaviour
         else Skip.Clicked += () => LevelMeta.main.LoadLevel(LevelMeta.main.Cur + 1);
 
         Exit.Clicked += () => LevelMeta.main.LoadScene("Level Select");
+
+        Level.HideHUD += () =>
+        {
+            if (isPaused) SetPaused(false);
+          cantPause = true;  
+        };
     }
+
+    bool cantPause = false;
 
     bool isPaused;
 
@@ -30,6 +40,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void SetPaused(bool paused)
     {
+        if (cantPause) return;
         if (isPaused != paused)
         {
             isPaused = paused;

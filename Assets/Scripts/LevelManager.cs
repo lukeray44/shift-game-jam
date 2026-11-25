@@ -1,7 +1,8 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class LevelManager : MonoBehaviour
+public class LevelManager : Singleton<LevelManager>
 {
     public int Level;
     public LevelData LevelData;
@@ -17,6 +18,10 @@ public class LevelManager : MonoBehaviour
     int current = 0;
     ItemComposite target;
     public BuildingInterface Building;
+
+    public Action HideHUD;
+
+    public LevelSuccess WinScreen;
     void Start()
     {
         Output.OnItemEntered += ItemGot;
@@ -27,6 +32,7 @@ public class LevelManager : MonoBehaviour
 
         Level = LevelMeta.main.Cur;
         LevelData = LevelMeta.main.CurData;
+        Money = LevelData.Money;
 
         TimeKeeper.AddTimer(0.1f).OnTimerEnd += () => CutoutTransition.main.TransitionIn(Vector3.zero, 1);
     }
@@ -57,9 +63,23 @@ public class LevelManager : MonoBehaviour
         OnQuotaChange?.Invoke(Quota - current);
     }
 
+    [Button]
     private void Win()
     {
-        Debug.Log("VICTORY");
         Output.OnItemEntered -= ItemGot;
+
+        HideHUD?.Invoke();
+
+        WinScreen.Show(Money > 0);
+        
+        if (Money < 0 || !LevelMeta.main.isNextLevel) WinScreen.Next.gameObject.SetActive(false);
+        else WinScreen.Next.Clicked += () => LevelMeta.main.LoadLevel(LevelMeta.main.Cur + 1);
+
+        WinScreen.Restart.Clicked += () => LevelMeta.main.LoadLevel(LevelMeta.main.Cur);
+
+        WinScreen.Exit.Clicked += () => LevelMeta.main.LoadScene("Level Select");
+
+        
+        LevelMeta.main.Win(Money);
     }
 }

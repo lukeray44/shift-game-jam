@@ -10,4 +10,9 @@ public class LevelData : ScriptableObject
     public float OneStarsMoney;
 
     public Texture2D LevelScreenshot; 
+
+    public float GetMoneyTarget(int number)
+    {
+        return Mathf.RoundToInt(Mathf.Lerp(OneStarsMoney, ThreeStarsMoney, number / 2f));
+    }
 }
