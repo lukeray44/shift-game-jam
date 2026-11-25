@@ -29,9 +29,10 @@ public class PlayerBrackeysScript : MonoBehaviour
 
     void Update()
     {
+        String nothing = "";
         //Debug.Log("not grounded "+!controller.checkGrounded(ref nothing));
         // check whether the player is moving, has jumped or is airbourne. Set rigidbody to dynamic if true, otherwise kinematic
-         if (move.action.IsPressed() || jump.action.IsPressed() || !controller.checkGrounded()) {
+         if (move.action.IsPressed() || jump.action.IsPressed() || !controller.checkGrounded(ref nothing)) {
             rigidB.bodyType = RigidbodyType2D.Dynamic;
             //rigidB.linearVelocityY = 0;
         } else

@@ -58,9 +58,10 @@ public class CharacterController2D : MonoBehaviour
 
 	private void FixedUpdate()
 	{
+		String nothing = "";
 		bool wasGrounded = m_Grounded;
 		m_Grounded = false;
-		airbourne = !checkGrounded();
+		airbourne = !checkGrounded(ref nothing);
         if (airbourne)
         {
             airTime += 0.1f;
@@ -68,9 +69,9 @@ public class CharacterController2D : MonoBehaviour
         {
             airTime = 0;
         }
-		m_Grounded = checkGrounded() || (airTime < coyoteTime && m_Rigidbody2D.linearVelocity.y <= 0);
+		m_Grounded = checkGrounded(ref nothing) || (airTime < coyoteTime && m_Rigidbody2D.linearVelocity.y <= 0);
 		//Debug.Log(m_Grounded);
-		if (checkGrounded())
+		if (checkGrounded(ref nothing))
 		{
 			if (!wasGrounded)
 			{
@@ -79,15 +80,19 @@ public class CharacterController2D : MonoBehaviour
 		}
 	}
 
-	public bool checkGrounded()
+	public bool checkGrounded(ref string standingOn)
 	{
 		feetScript fScript = m_GroundCheck.GetComponent<feetScript>();
-		return fScript.isGrounded || checkSlope();
+		if (fScript.isGrounded) standingOn = fScript.collidedWith.name;
+		feetScript checkSlopeScript = m_SlopeCheck.GetComponent<feetScript>();
+		if (checkSlopeScript.isGrounded) standingOn = checkSlopeScript.collidedWith.name;
+		return fScript.isGrounded || checkSlopeScript.isGrounded;
 	}
 
 
 	public void Move(float move, bool crouch, bool jump, bool canJump)
 	{
+		String currentStandingOn = "";
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
 		{
@@ -130,22 +135,23 @@ public class CharacterController2D : MonoBehaviour
 				}
 			}
 
-			String currentStandingOn = "";
 			/*double angle = 0;
 			checkGrounded(ref standingOn, ref angle);
 			float finalAngle = (float)(90 - angle);
 			Debug.Log("Ang " + finalAngle + "\nAdded velocity " + Mathf.Sin(Mathf.Rad2Deg * finalAngle) * 8);*/
 			// Move the character by finding the target velocity
-			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.linearVelocity.y /*+ Mathf.Sin(Mathf.Rad2Deg * finalAngle) * 8*/);
+			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.linearVelocity.y);
 			// Check if standing on conveyor belt, increase velocity of player if so
-			Debug.Log("ground check " + (m_GroundCheck != null) + "\nfeet script " + (m_GroundCheck.GetComponent<feetScript>()!=null) + "\ncollidedwith " + (m_GroundCheck.GetComponent<feetScript>().collidedWith != null));
-			if (checkGrounded()) currentStandingOn = m_GroundCheck.GetComponent<feetScript>().collidedWith.name;
+			checkGrounded(ref currentStandingOn);
 			if (m_Grounded && (currentStandingOn.Length >= 8) && (currentStandingOn.Substring(0,8) == "Conveyor"))
 			{
 				targetVelocity += Vector3.right * conveyorSpeed;
+				m_Rigidbody2D.linearVelocityX += conveyorSpeed;
+				Debug.Log("Target " + targetVelocity);
 			}
 			m_Rigidbody2D.linearVelocityX += checkSlope() ? speedIncreaseOnSlope : 0;
-			Debug.Log("Target " + targetVelocity);
+			
+			// if airbourne then air speed = speed on the ground
 			//targetVelocity.y = m_Rigidbody2D.bodyType == RigidbodyType2D.Kinematic? 0 : targetVelocity.y;
 			m_Rigidbody2D.linearVelocityY = m_Rigidbody2D.bodyType == RigidbodyType2D.Kinematic? 0 : m_Rigidbody2D.linearVelocityY;
 			// And then smoothing it out and applying it to the character
@@ -178,13 +184,14 @@ public class CharacterController2D : MonoBehaviour
 				canRise = false;
 			}
 		}
+		
 		// If the player should jump...
 		if (m_Grounded && jump && canJump/* && m_Rigidbody2D.linearVelocityY <= 0*/)
 		{
 			// Add a vertical force to the player.
 			m_Grounded = false;
 			jump = false;
-			if (!checkGrounded()) m_JumpForce += additionalForce;
+			if (!checkGrounded(ref currentStandingOn)) m_JumpForce += additionalForce;
 			m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
 		} else if (!m_Grounded && m_Rigidbody2D.linearVelocityY > 0 && jump)
 		{
@@ -207,10 +214,10 @@ public class CharacterController2D : MonoBehaviour
 	// check whether the player is on a slope
 	bool checkSlope()
 	{
-		Debug.Log("Ground " + m_GroundCheck.GetComponent<feetScript>().isGrounded + "\nSlope " + m_SlopeCheck.GetComponent<feetScript>().isGrounded);
+		//Debug.Log("Ground " + m_GroundCheck.GetComponent<feetScript>().isGrounded + "\nSlope " + m_SlopeCheck.GetComponent<feetScript>().isGrounded);
 		if (!m_GroundCheck.GetComponent<feetScript>().isGrounded && m_SlopeCheck.GetComponent<feetScript>().isGrounded)
 		{
-			Debug.Log("On slope");
+			//Debug.Log("On slope");
 			return true;
 		} 
 		return false;
