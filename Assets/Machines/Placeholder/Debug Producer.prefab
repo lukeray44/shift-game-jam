@@ -134,10 +134,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c4b8c286fa6b9748a38395264b2d1f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Data: {fileID: 0}
   GridPos: {x: -13, y: -2}
   GridSize: {x: 2, y: 2}
   AutoAdd: 0
   Direction: {x: 1, y: 0}
+  CantDestroy: 0
   Simulators:
   - {fileID: 3863337776365783171}
   - {fileID: 5936699081921648796}
@@ -276,39 +278,15 @@ MonoBehaviour:
   Building: {fileID: 0}
   IsRoot: 0
   IsLoopRoot: 0
+  Added: 0
   SimulationPriority: 0
+  NoInputs: 0
   InputMachines: []
   OutputMachines:
   - {fileID: 3863337776365783171}
   Inventory: []
+  ItemCount: 0
   Debug_StartWith: []
-  Ease:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  DistPerItem: 0
-  OverrideTarget: {fileID: 0}
-  Rotations: 0
   SpawnPeriod: 2
   Prefab: {fileID: 9166577487905804986, guid: c5dad7fc42c7cbd428882c9cd619e719, type: 3}
 --- !u!1001 &8886419598081498375

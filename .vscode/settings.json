@@ -66,5 +66,5 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "Platformer Automation.sln"
+    "dotnet.defaultSolution": "shift-game-jam.sln"
 }

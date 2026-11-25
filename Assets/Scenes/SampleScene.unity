@@ -129,11 +129,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1353905530705691888, guid: b90aa3aa94fc64cd08eabf6f069db262, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.38
+      value: -1.62
       objectReference: {fileID: 0}
     - target: {fileID: 1353905530705691888, guid: b90aa3aa94fc64cd08eabf6f069db262, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.46
+      value: -0.63
       objectReference: {fileID: 0}
     - target: {fileID: 1353905530705691888, guid: b90aa3aa94fc64cd08eabf6f069db262, type: 3}
       propertyPath: m_LocalPosition.z
@@ -167,17 +167,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4052695681201066208, guid: b90aa3aa94fc64cd08eabf6f069db262, type: 3}
-      propertyPath: upperbound
-      value: 0.75
-      objectReference: {fileID: 0}
     - target: {fileID: 5081284268730789926, guid: b90aa3aa94fc64cd08eabf6f069db262, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 7426207078602922235, guid: b90aa3aa94fc64cd08eabf6f069db262, type: 3}
-      propertyPath: hasLetGo
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4638,10 +4630,6 @@ PrefabInstance:
     - target: {fileID: 3450394265053038845, guid: 1dccabb248bd84b13b6efbf4aa0a8bba, type: 3}
       propertyPath: m_Name
       value: Platform
-      objectReference: {fileID: 0}
-    - target: {fileID: 3450394265053038845, guid: 1dccabb248bd84b13b6efbf4aa0a8bba, type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
