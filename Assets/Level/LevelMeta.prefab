@@ -45,4 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Levels: {fileID: 11400000, guid: 6c8451f296a18a34b998668959180400, type: 2}
-  Cur: 0
+  Cur: -1
+  SFX: {fileID: 5807168435902702158, guid: d0ca0bafb623dcd4797fad598f5fffd3, type: 2}
+  Music: {fileID: -5865401351405459791, guid: d0ca0bafb623dcd4797fad598f5fffd3, type: 2}
+  Data:
+    Data: []

@@ -69,8 +69,12 @@ public class Logo : MonoBehaviour
     }
     public void AnimateAppearance()
     {
-        Coroutines.RunCoroutine(Appear());
-        CutoutTransition.main.TransitionIn(transform.position, 1.5f, 1.5f);
+        
+        TimeKeeper.AddTimer(0.1f).OnTimerEnd += () =>
+        {
+            CutoutTransition.main.TransitionIn(transform.position, 1.5f, 1.5f);
+            Coroutines.RunCoroutine(Appear());
+        };
     }
     IEnumerator<float> Appear()
     {

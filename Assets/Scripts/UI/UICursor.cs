@@ -7,7 +7,8 @@ public class UICursor : MonoBehaviour
     public float growSize;
 
     Vector3 size;
-
+    
+    public bool Unscaled;
     bool flipped;
 
     void Start()
@@ -18,7 +19,7 @@ public class UICursor : MonoBehaviour
 
     public void Update()
     {
-        flipped = Mathf.FloorToInt(Time.time * alternateFrequency) % 2 == 0;
+        flipped = Mathf.FloorToInt((Unscaled ? Time.unscaledTime : Time.time) * alternateFrequency) % 2 == 0;
         rect.sizeDelta = size + (flipped ? growSize : 0) * Vector3.one;
     }
 
@@ -32,22 +33,22 @@ public class UICursor : MonoBehaviour
         if (hidden)
         {
             transform.position = focus;
-            alpha.LeanAlpha(1, 0.05f);
+            alpha.LeanAlpha(1, 0.05f).setIgnoreTimeScale(true);
             gameObject.transform.localScale = Vector3.one * 0.95f;
-            gameObject.LeanScale(Vector3.one, 0.05f).setEaseOutExpo();
+            gameObject.LeanScale(Vector3.one, 0.05f).setEaseOutExpo().setIgnoreTimeScale(true);
             hidden = false;
         } else
         {
             alpha.alpha = 1;
-            gameObject.LeanMove(focus, 0.05f).setEaseOutExpo();
+            gameObject.LeanMove(focus, 0.08f).setEaseOutExpo().setIgnoreTimeScale(true);
         }
     }
     
     public void Hide()
     {
         hidden = true;
-        gameObject.LeanScale(transform.localScale * 0.95f, 0.05f);
-        alpha.LeanAlpha(0, 0.05f);
+        gameObject.LeanScale(transform.localScale * 0.95f, 0.05f).setIgnoreTimeScale(true);
+        alpha.LeanAlpha(0, 0.05f).setIgnoreTimeScale(true);
     }
 
     public void SetHidden()

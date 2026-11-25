@@ -3,6 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 public class LevelMeta : Singleton<LevelMeta>
@@ -11,14 +12,19 @@ public class LevelMeta : Singleton<LevelMeta>
     public int Cur;
     public LevelData CurData => Levels.Levels[Cur];
 
+    public AudioMixerGroup SFX, Music;
     bool isAnimating;
+
+    public bool isNextLevel => Cur < Levels.Levels.Length - 1;
 
     protected override void onInitialise()
     {
         base.onInitialise();
         Load();
+        Sound.set(Music, SFX);
+        DontDestroyOnLoad(gameObject);
     }
-    public void LoadLevel(int level)
+    public void LoadLevel(int level, Vector3? zoomPos = null)
     {
        
         Cur = level;
@@ -29,7 +35,8 @@ public class LevelMeta : Singleton<LevelMeta>
             isAnimating = false;
         }
 
-        CutoutTransition.main.FadeOut(0.15f).OnTimerEnd += () => loadLevel();
+        if (zoomPos == null) CutoutTransition.main.FadeOut(0.15f).OnTimerEnd += () => loadLevel();
+        else CutoutTransition.main.TransitionOut(zoomPos.Value, 1.5f).OnTimerEnd += () => loadLevel();
     }
 
     public void LoadScene(string scene)

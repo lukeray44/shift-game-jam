@@ -4,7 +4,7 @@ using UnityEngine;
 public class UIPanel : coroutineAnimator
 {
 
-
+    public bool WorkWhenPaused;
     public Action<bool> OnHoverSet;
     public bool Active = true;
     RectTransform rect;
@@ -20,6 +20,8 @@ public class UIPanel : coroutineAnimator
     // Update is called once per frame
     public void Update()
     {
+        if (!WorkWhenPaused && Time.timeScale == 0) return;
+        
         if (hovered && Input.GetMouseButtonDown(0) && Active) OnClick();
 
         if (inRect)
@@ -33,7 +35,7 @@ public class UIPanel : coroutineAnimator
     }
 
     protected bool hovered;
-
+    public bool ShowCursor;
     public void SetHovered(bool hovered)
     {
         if (this.hovered != hovered)
@@ -45,11 +47,13 @@ public class UIPanel : coroutineAnimator
             {
                 OnHover();
                 UIManager.main.UIHoveredCount++;
+                if (ShowCursor) UIManager.main.ButtonHovered(true);
             }
             else
             {
                 OnUnHover();
                 UIManager.main.UIHoveredCount--;
+                if (ShowCursor) UIManager.main.ButtonHovered(false);
             }
         }
     }

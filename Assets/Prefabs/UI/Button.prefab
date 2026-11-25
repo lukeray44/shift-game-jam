@@ -89,10 +89,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1673930097be6e4f990f8af78b04852, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Active: 1
   Backing: {fileID: 5893770907288528874}
   Text: {fileID: 5120450594155527495}
   MainColor: {r: 0.9921569, g: 0.9294118, b: 0.15686275, a: 1}
   BoringColor: {r: 0.4901961, g: 0.4901961, b: 0.53333336, a: 1}
+  rotateBy: 2
+  Hover: {fileID: 8300000, guid: 0ae363d0af30aa54fb8352151fac5f2c, type: 3}
+  Click: {fileID: 8300000, guid: bb5f08a849ba5624f89a3fdf0d0ada49, type: 3}
 --- !u!1 &7672868565273371228
 GameObject:
   m_ObjectHideFlags: 0

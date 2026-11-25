@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class TitleScreen : MonoBehaviour
 {
@@ -6,6 +8,9 @@ public class TitleScreen : MonoBehaviour
 
     public CursorButtonGroup PlayMenu, SettingsMenu, CreditsMenu;
 
+
+    public Slider MainVol, MusicVol, SFXVol;
+    public AudioMixerGroup MainGroup, MusicGroup, SFXGroup;
     CursorButtonGroup current;
     public void ChangeMenu(CursorButtonGroup to, float dir = 1)
     {
@@ -30,5 +35,35 @@ public class TitleScreen : MonoBehaviour
         Play.Clicked += () => LevelMeta.main.LoadScene("Level Select");
 
         TimeKeeper.AddTimer(1f).OnTimerEnd += () => ChangeMenu(PlayMenu);
+
+        void handleGroup(Slider s, AudioMixerGroup group)
+        {
+            string varName = s.transform.parent.name + "Vol";
+            group.audioMixer.GetFloat(varName, out float vol);
+
+            s.maxValue = 10;
+            s.minValue = -30f;
+            s.value = vol;
+
+            void snap(float to, float eps = 1f)
+            {
+                if (Mathf.Abs(s.value - to) < eps) s.value = to;
+            }
+
+            s.onValueChanged.AddListener(a =>
+            {
+                snap(0);
+                snap(s.minValue);
+                snap(s.maxValue);
+
+                float val = s.value;
+                if (val == s.minValue) val = -80f;
+                group.audioMixer.SetFloat(varName, val);
+            });
+        }
+
+        handleGroup(MainVol, MainGroup);
+        handleGroup(SFXVol, SFXGroup);
+        handleGroup(MusicVol, MusicGroup);
     }
 }

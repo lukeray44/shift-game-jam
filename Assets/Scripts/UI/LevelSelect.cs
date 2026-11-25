@@ -17,12 +17,12 @@ public class LevelSelect : MonoBehaviour
             AddLevel(i);
         }
 
-        CutoutTransition.main.FadeIn(0.2f);
-        Panel.LoadLevel(-1);
+        TimeKeeper.AddTimer(0.1f).OnTimerEnd += () => CutoutTransition.main.FadeIn(0.2f);
+        Panel.LoadLevel(LevelMeta.main.Cur);
 
         Panel.Play.Clicked += () =>
         {
-            LevelMeta.main.LoadLevel(curLevel);
+            LevelMeta.main.LoadLevel(curLevel, Panel.LevelPreview.transform.position);
         };
 
         Back.Clicked += () => LevelMeta.main.LoadScene("Title");

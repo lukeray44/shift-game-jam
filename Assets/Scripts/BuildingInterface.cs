@@ -30,7 +30,7 @@ public class BuildingInterface : MonoBehaviour
     public Action<Building> OnDestroy;
     public void SetPlacing(BuildingData data)
     {
-
+        setDirty();
         lastAdded = data;
         if (Placing != null)
         {
@@ -52,7 +52,7 @@ public class BuildingInterface : MonoBehaviour
         }
 
         OnSetPlacing?.Invoke(data);
-        setDirty();
+        
     }
 
 
@@ -64,15 +64,13 @@ public class BuildingInterface : MonoBehaviour
 
     }
 
-    public SpriteRenderer cursor;
+    public WorldCursor cursor;
 
     public void HighlightTile(Vector2Int tile, Vector2Int size)
     {
         cursor.gameObject.SetActive(true);
         Vector3 worldSize = new Vector3(size.x * Manager.Grid.cellSize.x, size.y * Manager.Grid.cellSize.y);
-        cursor.transform.position = Manager.LocalToWorld(tile) + worldSize * 0.5f - Manager.Grid.cellSize * 0.5f;
-
-        cursor.size = worldSize;
+        cursor.SetPosition(Manager.LocalToWorld(tile) + worldSize * 0.5f - Manager.Grid.cellSize * 0.5f, worldSize);
     }
     public void HighlightBuilding(Building b)
     {
@@ -89,6 +87,12 @@ public class BuildingInterface : MonoBehaviour
     }
     void Update()
     {
+        if (Time.timeScale == 0)
+        {
+            Cursor.visible = true;
+            cursor.gameObject.SetActive(false);
+            return;
+        }
         if (UIManager.Hovered)
         {
             if (Placing != null) Placing.gameObject.SetActive(false);
@@ -112,7 +116,7 @@ public class BuildingInterface : MonoBehaviour
             dirty = false;
             lastPos = mouseTile;
             cursor.gameObject.SetActive(false);
-            cursor.color = Color.white;
+            cursor.SetColor(Color.white);
             selected = Manager.GetBuildingAtPos(mouseTile);
             Visualiser.HideAll();
         }
@@ -136,7 +140,7 @@ public class BuildingInterface : MonoBehaviour
             {
                 BuildingManager.main.Visualise(selected);
                 HighlightBuilding(selected);
-                cursor.color = Color.white;
+                cursor.SetColor(Color.white);
 
             }
         }
@@ -153,7 +157,7 @@ public class BuildingInterface : MonoBehaviour
 
                 valid = Placing.CanPlaceHere(mouseTile);
 
-                if (!valid) cursor.color = Color.red;
+                if (!valid) cursor.SetColor(Color.red);
                 else BuildingManager.main.PreVisualise(Placing);
 
             }

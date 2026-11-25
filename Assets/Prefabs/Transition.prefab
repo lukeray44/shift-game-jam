@@ -160,8 +160,8 @@ CanvasGroup:
   m_GameObject: {fileID: 4370955466109996570}
   m_Enabled: 1
   m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &4496943371718756517
 GameObject:
@@ -176,6 +176,7 @@ GameObject:
   - component: {fileID: 5756547673604417115}
   - component: {fileID: 2175781449100268115}
   - component: {fileID: 7771849159457762492}
+  - component: {fileID: 3878065306241429533}
   m_Layer: 0
   m_Name: Transition
   m_TagString: Untagged
@@ -287,24 +288,24 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0.80252695
-      outSlope: 0.80252695
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.29547915
-      value: 0.23712997
-      inSlope: -0.3859368
-      outSlope: -0.3859368
+      inSlope: 0.1240318
+      outSlope: 0.1240318
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.20834538
+      inWeight: 0
+      outWeight: 0.21152087
+    - serializedVersion: 3
+      time: 0.26883385
+      value: 0.2481939
+      inSlope: 0.09178768
+      outSlope: 0.09178768
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.11321538
       outWeight: 0.2614946
     - serializedVersion: 3
-      time: 0.54316497
-      value: 0.14570387
+      time: 0.69274914
+      value: 0.1567678
       inSlope: 0.07006303
       outSlope: 0.07006303
       tangentMode: 0
@@ -327,41 +328,44 @@ MonoBehaviour:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 1.6085292
-      outSlope: 1.6085292
+      time: 0.099999994
+      value: 0.2999878
+      inSlope: 1.4565411
+      outSlope: 1.4565411
       tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.58484685
-      value: 0.94074327
-      inSlope: -0.3859368
-      outSlope: -0.3859368
+      time: 0.55427897
+      value: 0.9616638
+      inSlope: -0.16438448
+      outSlope: -0.16438448
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.20834538
+      inWeight: 0.1752604
       outWeight: 0.2614946
     - serializedVersion: 3
-      time: 0.83253264
-      value: 0.84931713
-      inSlope: 0.07006303
-      outSlope: 0.07006303
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.28876865
-      outWeight: 0.14813696
-    - serializedVersion: 3
       time: 1
-      value: 1
-      inSlope: 3.8761468
-      outSlope: 3.8761468
+      value: 1.0044289
+      inSlope: 0.86850256
+      outSlope: 0.86850256
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.067266926
+      inWeight: 0.19539171
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!225 &3878065306241429533
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4496943371718756517}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0

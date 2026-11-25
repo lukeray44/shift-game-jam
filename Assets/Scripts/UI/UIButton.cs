@@ -11,15 +11,16 @@ public abstract class UIButton : UIPanel
     public abstract IEnumerator<float> ClickAnim();
     public override void OnHover()
     {
+        ShowCursor = true;
         PlayAnim(HoverAnim());
-        UIManager.main.ButtonHovered(true);
+        
         base.OnHover();
     }
 
     public override void OnUnHover()
     {
         PlayAnim(UnHoverAnim());
-        UIManager.main.ButtonHovered(false);
+        
         base.OnUnHover();
     }
 

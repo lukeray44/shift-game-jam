@@ -14,33 +14,32 @@ public class CutoutTransition : Singleton<CutoutTransition>
         Fade.gameObject.SetActive(true);
         Fade.alpha = 1;
     }
-    public Timer TransitionIn(Vector3 pos, float time = 2, float distMulti = 1)
+    public RealTimer TransitionIn(Vector3 pos, float time = 2, float distMulti = 1)
     {
-        
         Cutout.gameObject.SetActive(true);
         Fade.gameObject.SetActive(false);
         Cutout.material.SetVector("_WorldPos", pos);
         
         float dist = getDistToCameraCorner(pos) * distMulti;
-        return TimeKeeper.AddFuncTimer(time, t =>
+        return TimeKeeperReal.AddFuncTimer(time, t =>
         {
             Cutout.material.SetFloat("_Dist", Mathf.Lerp(0, dist, Appear.Evaluate(t)));
         });
     }
 
-     public Timer FadeIn(float time = 2)
+     public RealTimer FadeIn(float time = 2)
     {
         Fade.gameObject.SetActive(true);
-        return TimeKeeper.AddFuncTimer(time, t =>
+        return TimeKeeperReal.AddFuncTimer(time, t =>
         {
             Fade.alpha = LeanTween.easeInExpo(1, 0, t);
         });
     }
 
-     public Timer FadeOut(float time = 2)
+     public RealTimer FadeOut(float time = 2)
     {
         Fade.gameObject.SetActive(true);
-        return TimeKeeper.AddFuncTimer(time, t =>
+        return TimeKeeperReal.AddFuncTimer(time, t =>
         {
             Fade.alpha = LeanTween.easeInExpo(0, 1, t);
         });
@@ -62,14 +61,14 @@ public class CutoutTransition : Singleton<CutoutTransition>
             Vector3.Distance(corner4, pos)
         );
     }
-    public Timer TransitionOut(Vector3 pos, float time = 2)
+    public RealTimer TransitionOut(Vector3 pos, float time = 2)
     {
         Fade.gameObject.SetActive(false);
         Cutout.gameObject.SetActive(true);
         Cutout.material.SetVector("_WorldPos", pos);
 
         float dist = getDistToCameraCorner(pos);
-        return TimeKeeper.AddFuncTimer(time, t =>
+        return TimeKeeperReal.AddFuncTimer(time, t =>
         {
             Cutout.material.SetFloat("_Dist", Mathf.Lerp(dist, 0, Disappear.Evaluate(t)));
         });

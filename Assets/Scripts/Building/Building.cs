@@ -17,6 +17,8 @@ public class Building : MonoBehaviour
     {
         if (AutoAdd)
         {
+            GridPos = PositionToCell();
+            Position(GridPos);
             BuildingManager.main.AddBuilding(this);
         }
     }

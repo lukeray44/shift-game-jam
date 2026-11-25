@@ -39,7 +39,8 @@ public class CursorButtonGroup : UIPanel
     {
         if (hideTimer > 0)
         {
-            hideTimer -= Time.deltaTime;
+            hideTimer -= Time.unscaledDeltaTime;
+           
             if (hideTimer < 0)
             {
                 cursor.Hide();
@@ -77,7 +78,11 @@ public class CursorButtonGroup : UIPanel
         Vector3 pos = transform.position;
         gameObject.LeanMove(transform.position + Vector3.down * dir * dist, 0.1f).setEaseOutExpo().setOnComplete(() => transform.position = pos);
 
-        transform.LeanScale(transform.localScale * 0.8f, 0.1f).setEaseOutExpo().setOnComplete(() => transform.localScale /= 0.8f);
+        transform.LeanScale(transform.localScale * 0.8f, 0.1f).setEaseOutExpo().setOnComplete(() =>
+        {
+            transform.localScale /= 0.8f;
+            gameObject.SetActive(false);
+        });
 
         alpha.LeanAlpha(0, 0.06f).setEaseOutExpo();
     }

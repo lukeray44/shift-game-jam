@@ -1,11 +1,14 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelPanel : MonoBehaviour
 {
     public TextMeshProUGUI Title, Completion, Best;
 
     public CoolButton Play;
+
+    public RawImage LevelPreview;
 
     public void LoadLevel(int index = -1)
     {
@@ -15,6 +18,7 @@ public class LevelPanel : MonoBehaviour
             Completion.text = "";
             Best.text = "";
             Play.gameObject.SetActive(false);
+            LevelPreview.gameObject.SetActive(false);
         }
         else
         {
@@ -24,7 +28,8 @@ public class LevelPanel : MonoBehaviour
 
             Title.text = LevelMeta.main.Levels.LevelTitle(index);
             Play.gameObject.SetActive(true);
-
+            LevelPreview.gameObject.SetActive(true);
+            LevelPreview.texture = data.LevelScreenshot;
 
             if (save != null && save.Beaten)
             {

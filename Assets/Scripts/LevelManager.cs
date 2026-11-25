@@ -28,7 +28,7 @@ public class LevelManager : MonoBehaviour
         Level = LevelMeta.main.Cur;
         LevelData = LevelMeta.main.CurData;
 
-        CutoutTransition.main.TransitionIn(Vector3.zero, 1);
+        TimeKeeper.AddTimer(0.1f).OnTimerEnd += () => CutoutTransition.main.TransitionIn(Vector3.zero, 1);
     }
 
 

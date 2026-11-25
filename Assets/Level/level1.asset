@@ -16,3 +16,4 @@ MonoBehaviour:
   Money: 200
   ThreeStarsMoney: 80
   OneStarsMoney: 20
+  LevelScreenshot: {fileID: 2800000, guid: fe083214f3371b947b3a930f90f92d9a, type: 3}

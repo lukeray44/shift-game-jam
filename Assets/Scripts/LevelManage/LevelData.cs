@@ -8,4 +8,6 @@ public class LevelData : ScriptableObject
     public float Money;
     public float ThreeStarsMoney;
     public float OneStarsMoney;
+
+    public Texture2D LevelScreenshot; 
 }
