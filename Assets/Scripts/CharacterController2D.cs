@@ -138,12 +138,12 @@ public class CharacterController2D : MonoBehaviour
 			// Move the character by finding the target velocity
 			Vector3 targetVelocity = new Vector2(move * 10f, m_Rigidbody2D.linearVelocity.y /*+ Mathf.Sin(Mathf.Rad2Deg * finalAngle) * 8*/);
 			// Check if standing on conveyor belt, increase velocity of player if so
-			/*Debug.Log("ground check " + (m_GroundCheck != null) + "\nfeet script " + (m_GroundCheck.GetComponent<feetScript>()!=null) + "\ncollidedwith " + (m_GroundCheck.GetComponent<feetScript>().collidedWith != null));
+			Debug.Log("ground check " + (m_GroundCheck != null) + "\nfeet script " + (m_GroundCheck.GetComponent<feetScript>()!=null) + "\ncollidedwith " + (m_GroundCheck.GetComponent<feetScript>().collidedWith != null));
 			if (checkGrounded()) currentStandingOn = m_GroundCheck.GetComponent<feetScript>().collidedWith.name;
 			if (m_Grounded && (currentStandingOn.Length >= 8) && (currentStandingOn.Substring(0,8) == "Conveyor"))
 			{
 				targetVelocity += Vector3.right * conveyorSpeed;
-			}*/
+			}
 			m_Rigidbody2D.linearVelocityX += checkSlope() ? speedIncreaseOnSlope : 0;
 			Debug.Log("Target " + targetVelocity);
 			//targetVelocity.y = m_Rigidbody2D.bodyType == RigidbodyType2D.Kinematic? 0 : targetVelocity.y;
