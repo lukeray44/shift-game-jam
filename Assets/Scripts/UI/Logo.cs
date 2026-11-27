@@ -84,10 +84,21 @@ public class Logo : MonoBehaviour
             s.gameObject.SetActive(false);
         }
          yield return Coroutines.WaitForSeconds(0.3f);
+
+         int ind = 0;
+         float time = 0.05f;
         foreach (SpriteRenderer i in Letters)
         {
             animateLetter(i);
-            yield return Coroutines.WaitForSeconds(0.05f);
+            yield return Coroutines.WaitForSeconds(time);
+
+            ind++;
+
+            if (ind == 3)
+            {
+                 yield return Coroutines.WaitForSeconds(0.2f);
+                 time *= 3 / 5;
+            }
         }
         yield return Coroutines.WaitForSeconds(0.3f);
         finishedAnimating = true;

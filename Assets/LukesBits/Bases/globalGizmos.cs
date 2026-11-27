@@ -10,32 +10,50 @@ public class globalGizmos : AdditiveSingleton<globalGizmos>
 {
     List<drawnGizmo> gizmos = new List<drawnGizmo>(10);
      List<drawnGizmo> last = new List<drawnGizmo>(10);
+     int tick = 0;
+     int lastTick = 0;
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.cyan;
-        foreach (drawnGizmo g in last)
+        foreach (drawnGizmo g in gizmos)
         {
             g.drawGizmo();
         }
-        gizmos = new List<drawnGizmo>(10);
+        tick++;
+        
+    }
+
+    void EnsureDeleted()
+    {
+        if (tick != lastTick)
+        {
+            lastTick = tick;
+
+            last = gizmos;
+            gizmos = new List<drawnGizmo>(10);
+        }
     }
 
     public static void Draw(drawnGizmo g)
     {
+        main.EnsureDeleted();
         main.gizmos.Add(g);
     }
     public static void DrawPoint(Vector3 pos, Color c)
     {
+        main.EnsureDeleted();
         main.gizmos.Add(new circleGizmo(pos) { color = c });
     }
     public static void DrawCircle(Vector3 pos, float r, Color c)
     {
+        main.EnsureDeleted();
         main.gizmos.Add(new circleGizmo(pos, r) { color = c });
     }
     public static void Text(Vector3 pos, string t)
     {
 
 #if UNITY_EDITOR
+main.EnsureDeleted();
         if (Application.isPlaying)
             main.gizmos.Add(new textGizmo(pos, t));
 #endif
@@ -43,13 +61,10 @@ public class globalGizmos : AdditiveSingleton<globalGizmos>
 
     public static void DrawPoint(Vector3 pos)
     {
+        main.EnsureDeleted();
         main.gizmos.Add(new circleGizmo(pos, 0.1f) { color = Color.red });
     }
-    private void LateUpdate()
-    {
-        last = gizmos;
-        gizmos = new List<drawnGizmo>(10);
-    }
+
 }
 
 [System.Serializable]

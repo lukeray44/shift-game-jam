@@ -157,33 +157,16 @@ public class Visualiser : MonoBehaviour
         itemSimulation sim = new itemSimulation(pos, velocity);
         
         BuildingManager build = BuildingManager.main;
-        sim.NewTile += tile =>
+
+        bool canVisualise = LookFor == null;
+        sim.TryFindBuilding(source, LookFor, (b, m) =>
         {
-            bool tryGetBuilding(out Building b)
-            {
-                if (LookFor != null && LookFor.ContainsTile(tile))
-                {
-                    b = LookFor;
-                    return true;
-                }
-                return build.PositionMap.TryGetValue(tile, out b);
-            }
-            if (tryGetBuilding(out Building b))
-            {
-                if (b != null && b != source && b.MainSimulator.CanRecieveFromPosition(sim.GetOutputDir(), sim.Position()))
-                {
+            b.VisualisePhysics(sim.Position(), sim.lastVelocity, sim.GetOutputDir());
 
-                   sim.Break();
-                   sim.ShiftEnd(b.MainSimulator.GetItemTarget(sim.GetOutputDir()));
-                   b.MainSimulator.Visualise(source.MainSimulator);
+            if (LookFor != null && b == LookFor) canVisualise = true;
+        });
 
-                }
-            }
-        };
-
-        sim.SimulateTime(build, 25);
-
-        sim.Visualise();
+        if (canVisualise) sim.Visualise();
     }
 }
 

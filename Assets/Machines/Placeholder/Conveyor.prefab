@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 243095252298671116}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0068645477, y: -0.301, z: -0.028350584}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0.002, y: -0.35, z: -0.028350584}
+  m_LocalScale: {x: 0.46967, y: 0.46967, z: 0.46967}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5243064410823340709}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -5369498223991970798, guid: 98dcd80144f26514b9191875aee0c39f, type: 3}
+  m_Sprite: {fileID: 3855291489144456499, guid: 5ff34588c9659b746874f8829ae28c65, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -139,6 +139,9 @@ MonoBehaviour:
   Added: 0
   SimulationPriority: 1
   NoInputs: 0
+  sr: {fileID: 2837727627078507033}
+  Normal: {fileID: 0}
+  Active: {fileID: 0}
   InputMachines: []
   OutputMachines: []
   Inventory: []
@@ -157,7 +160,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Data: {fileID: 0}
-  GridPos: {x: -15, y: 4}
+  GridPos: {x: -8, y: -2}
   GridSize: {x: 1, y: 1}
   AutoAdd: 0
   Direction: {x: 1, y: 0}

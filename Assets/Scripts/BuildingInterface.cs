@@ -28,6 +28,15 @@ public class BuildingInterface : MonoBehaviour
     public Action<BuildingData> OnSetPlacing;
     public Action<BuildingData> OnPlace;
     public Action<Building> OnDestroy;
+    void Start()
+    {
+        LevelManager.main.HideHUD += () =>
+        {
+          cursor.gameObject.SetActive(false);
+          Cursor.visible = true;
+          enabled = false;  
+        };
+    }
     public void SetPlacing(BuildingData data)
     {
         setDirty();
@@ -85,6 +94,9 @@ public class BuildingInterface : MonoBehaviour
     {
         Cursor.visible = true;
     }
+
+    Vector2Int heldAt;
+    bool leftClickHeld;
     void Update()
     {
         if (Time.timeScale == 0)
@@ -107,7 +119,11 @@ public class BuildingInterface : MonoBehaviour
         Vector3 input = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
         Vector2Int mouseTile = Manager.WorldToLocal(input);
-
+        if (Input.GetMouseButtonUp(1)) holdingRightClick = false;
+        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonUp(1)) heldAt = mouseTile;
+        leftClickHeld = Input.GetMouseButton(0);
+        if (holdingRightClick) mouseTile.y = heldAt.y;
+        if (CurrentlyPlacing != null && CurrentlyPlacing.DragPlace && leftClickHeld) mouseTile.y = heldAt.y;
 
         bool tileChanged = lastPos != mouseTile || dirty;
 
@@ -119,11 +135,12 @@ public class BuildingInterface : MonoBehaviour
             cursor.SetColor(Color.white);
             selected = Manager.GetBuildingAtPos(mouseTile);
             Visualiser.HideAll();
+
+            
         }
 
-        if (Input.GetMouseButtonUp(1)) holdingRightClick = false;
-
-
+        
+        
         if (selected != null)
         {
             if (Input.GetMouseButtonDown(1)) holdingRightClick = true;
@@ -147,9 +164,13 @@ public class BuildingInterface : MonoBehaviour
 
         if (Placing != null)
         {
+           
+
             if (tileChanged)
             {
                 Placing.gameObject.SetActive(true);
+
+                
                 Placing.GridPos = mouseTile;
                 Placing.Position(mouseTile);
 
@@ -163,7 +184,7 @@ public class BuildingInterface : MonoBehaviour
             }
 
 
-
+           
 
             if (valid && (Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && CurrentlyPlacing.DragPlace)))
             {

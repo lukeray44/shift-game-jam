@@ -16,13 +16,9 @@ public class SimpleTileBuilding : Building
             }
         }
 
-        Building overlap = BuildingManager.main.FindOverlappingBuilding(this);
-        if (overlap != null)
-        {
-             return false;
-        }
+       
 
-        return true;
+        return base.CanPlaceHere(pos);
 
     }
 

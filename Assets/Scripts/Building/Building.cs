@@ -25,7 +25,7 @@ public class Building : MonoBehaviour
     public bool CantDestroy;
 
     public bool Destroyable => !CantDestroy && Data != null && !AutoAdd;
-    
+
     void OnDrawGizmos()
     {
 #if UNITY_EDITOR
@@ -46,7 +46,8 @@ public class Building : MonoBehaviour
 
     public virtual bool CanPlaceHere(Vector2Int pos)
     {
-        return false;
+        return BuildingManager.main.FindOverlappingBuilding(this) == null;
+
     }
 
     public virtual bool Rotate()
@@ -89,5 +90,15 @@ public class Building : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public virtual Machine GetPhysicsOutput(Vector3 endPos, Vector3 velocity)
+    {
+        return MainSimulator;
+    }
+
+    public virtual void VisualisePhysics(Vector3 endPos, Vector3 velocity, Vector3 dir)
+    {
+        MainSimulator.VisualiseSelf();
     }
 }

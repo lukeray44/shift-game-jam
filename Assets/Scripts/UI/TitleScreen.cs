@@ -11,8 +11,10 @@ public class TitleScreen : MonoBehaviour
 
     public Slider MainVol, MusicVol, SFXVol;
     public AudioMixerGroup MainGroup, MusicGroup, SFXGroup;
-    public UIButton ResetData;
+    public CoolButton ResetData;
 
+    bool confirm;
+    bool deleted;
     CursorButtonGroup current;
     public void ChangeMenu(CursorButtonGroup to, float dir = 1)
     {
@@ -28,6 +30,14 @@ public class TitleScreen : MonoBehaviour
     {
         link.Clicked += () => ChangeMenu(to); 
         to.Quit.Clicked += () => ChangeMenu(from, -1); 
+    }
+
+    void setConfirm(bool c)
+    {
+        if (c == confirm) return;
+        if (deleted) return;
+        confirm = c;
+        ResetData.Text.text = c ? "Really Delete?" : "Delete Data";
     }
 
     void Start()
@@ -68,7 +78,21 @@ public class TitleScreen : MonoBehaviour
         handleGroup(SFXVol, SFXGroup);
         handleGroup(MusicVol, MusicGroup);
 
-        ResetData.Clicked += () => LevelMeta.main.DeleteData();
+        ResetData.Clicked += () =>
+        {
+            if (confirm)
+            {
+                LevelMeta.main.DeleteData();
+                ResetData.Text.text = "Deleted!";
+                
+                deleted = true;
+            } else
+            {
+                setConfirm(true);
+            }
+            
+        };
+        SettingsMenu.Quit.Clicked += () => setConfirm(false);
 
         if (Application.platform == RuntimePlatform.WebGLPlayer)
         {

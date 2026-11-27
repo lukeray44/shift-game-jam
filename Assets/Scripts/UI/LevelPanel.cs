@@ -14,6 +14,7 @@ public class LevelPanel : MonoBehaviour
 
     public void LoadLevel(int index = -1)
     {
+        Debug.Log("Showing info: " + index);
         if (index == -1)
         {
             Title.text = "Select a Level";
@@ -27,7 +28,6 @@ public class LevelPanel : MonoBehaviour
         {
             LevelData data = LevelMeta.main.Levels.Levels[index];
             LevelSaveData save = LevelMeta.main.Data.Data[index];
-            Debug.Log(save == null);
 
             Title.text = LevelMeta.main.Levels.LevelTitle(index);
             Play.gameObject.SetActive(true);

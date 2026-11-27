@@ -11,21 +11,30 @@ public class ThreeStarDisplay : MonoBehaviour
 
     public LevelData Level;
 
-    void animateStar(int i)
-    {
-        
-        if (i >= 3) return;
-        Stars[i].transform.LeanScale(Vector3.one* 1.1f, 0.1f).setEaseOutCubic();
+    bool[] isVisible = new bool[3];
 
-        TimeKeeper.AddFuncTimer(0.1f, f =>
+    void animateStar(int i, bool visible = true)
+    {
+
+        if (i >= 3) return;
+        if (isVisible[i] != visible)
         {
-            Stars[i].color = Color.Lerp(Normal, Success, Mathf.Sqrt(f));
-        });
+            isVisible[i] = visible;
+            
+            Stars[i].transform.LeanScale(Vector3.one * (visible ? 1.1f : 1), 0.1f).setEaseOutCubic();
+
+            TimeKeeper.AddFuncTimer(0.1f, f =>
+            {
+                float t = Mathf.Sqrt(f);
+                Stars[i].color = Color.Lerp(Normal, Success, visible ? t : 1 - t);
+            });
+        }
+
     }
     int visible;
     void showStar(int i)
     {
-        
+        isVisible[i] = true;
         Stars[i].color = Success;
         Stars[i].transform.localScale = Vector3.one * 1.1f;
     }
@@ -34,10 +43,10 @@ public class ThreeStarDisplay : MonoBehaviour
     {
         Level = data;
         visible = 0;
+        isVisible = new bool[3];
         for (int cur = 0; cur < 3; cur++)
         {
             float target = data.GetMoneyTarget(cur);
-            Debug.Log(cur + " " + target);
             Stars[cur].color = Normal;
             Stars[cur].transform.localScale = Vector3.one;
 
@@ -46,7 +55,7 @@ public class ThreeStarDisplay : MonoBehaviour
                 showStar(cur);
                 visible++;
             }
-            
+
             Text[cur].text = "$" + target;
         }
     }
@@ -54,15 +63,13 @@ public class ThreeStarDisplay : MonoBehaviour
 
     public void AnimateCompletion(float money)
     {
-        if (visible >= 3) return;
-
-        float target = Level.GetMoneyTarget(visible);
-        
-        if (target < money)
+        for (int i = 0; i < 3; i++)
         {
-            animateStar(visible);
-            visible++;
+            float target = Level.GetMoneyTarget(i);
+
+            animateStar(i, target < money);
         }
+
     }
 
 }

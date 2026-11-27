@@ -179,7 +179,15 @@ public class SimulationManager : MonoBehaviour
 
     public float SimulationTickPeriod;
 
-    float tickPercentage => 1 - simulationTimer / SimulationTickPeriod;
+    public void SetPeriod(float newPeriod)
+    {
+        float oldT = 1 - tickPercentage;
+
+        SimulationTickPeriod = newPeriod;
+        simulationTimer = newPeriod * oldT;
+    }
+
+    float tickPercentage => 1 - Mathf.Clamp01(simulationTimer / SimulationTickPeriod);
 
     void Update()
     {
@@ -199,7 +207,14 @@ public class SimulationManager : MonoBehaviour
     }
 
     public PhysicsMachine PhysicsPrefab;
-    public static void CreatePhysics(Machine cause, Vector3 pos, Vector3 velocity)
+    public static void CreatePhysicsAndAdd(Machine cause, Vector3 pos, Vector3 velocity)
+    {
+        cause.AddOutput(CreatePhysics(cause, pos, velocity));
+
+
+    }
+    
+    public static Machine CreatePhysics(Machine cause, Vector3 pos, Vector3 velocity)
     {
         PhysicsMachine physics = cause.MainOutput as PhysicsMachine;
         Building build = cause.Building;
@@ -209,21 +224,20 @@ public class SimulationManager : MonoBehaviour
             if (!physics.Added)
             {
                 physics.Simulate(build, pos, velocity);
-                return;
+                return physics;
             }
         }
 
         PhysicsMachine m = Instantiate(main.PhysicsPrefab);
         m.transform.parent = cause.transform;
         m.Simulate(build, pos, velocity);
-        cause.AddOutput(m);
         physics = m;
 
         if (cause.Added)
         {
             main.AddMachine(physics);
         }
-
-
+        return physics;
     }
+    
 }

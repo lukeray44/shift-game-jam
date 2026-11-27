@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ItemElement : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class ItemElement : MonoBehaviour
     public Item Parent;
 
     public SpriteRenderer sr;
+    public Image img;
 
     public void SavePrevious()
     {
@@ -20,7 +22,8 @@ public class ItemElement : MonoBehaviour
     public void LoadState(ItemState s)
     {
         state = s;
-        sr.sprite = s.ID.sprite;
+        if (sr != null) sr.sprite = s.ID.sprite;
+        if (img != null) img.Set(s.ID.sprite);
     }
 
     public Vector3 GetIdealLocalPosition()

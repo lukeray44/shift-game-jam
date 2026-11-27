@@ -9,7 +9,7 @@ public class ItemManager : MonoBehaviour
     }
 
     public Item RootPrefab;
-    public ItemElement ElementPrefab;
+    public ItemElement ElementPrefab, ElementPrefabUI;
 
     public ItemList Index;
 
@@ -18,18 +18,28 @@ public class ItemManager : MonoBehaviour
         return Index.Types[ID];
     }
 
-    public Item Create(ItemComposite composite)
+    public Item Create(ItemComposite composite, Transform UIParent = null, bool centred = false)
     {
-        Item root = Instantiate(RootPrefab);
+
+        Item root = Instantiate(RootPrefab, UIParent);
         root.state = composite;
         
         foreach (ItemState s in composite.Items)
         {
-            ItemElement element = Instantiate(ElementPrefab);
+            ItemElement element;
+            if (UIParent != null) element = Instantiate(ElementPrefabUI, UIParent);
+            else element = Instantiate(ElementPrefab);
             element.LoadState(s);
             root.AddElement(element);
         }
+
+        if (centred) composite.Translate(Vector2.down * (composite.size.y - 1) * 0.5f);
+
         root.PositionChildren();
+
+        if (centred) composite.Translate(Vector2.up * (composite.size.y - 1) * 0.5f);
+
+        
         return root;
 
     }

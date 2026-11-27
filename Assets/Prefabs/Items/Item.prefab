@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2308194438347340991}
   - component: {fileID: 950117320185719633}
+  - component: {fileID: 8714462905100691236}
   m_Layer: 0
   m_Name: Item
   m_TagString: Untagged
@@ -46,4 +47,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   PreviousPosition: {x: 0, y: 0, z: 0}
+  state:
+    Items: []
+    minLocal: {x: 0, y: 0}
+    maxLocal: {x: 0, y: 0}
   Elements: []
+--- !u!210 &8714462905100691236
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6035812307969466112}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: -1
+  m_SortAtRoot: 0

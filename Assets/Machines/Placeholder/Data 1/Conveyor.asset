@@ -16,5 +16,5 @@ MonoBehaviour:
   Tooltip: Shift items along the ground
   Cost: 10
   Prefab: {fileID: 7881230249015929812, guid: 601854f0715d0a049add377c4fa3b26b, type: 3}
-  Icon: {fileID: -5369498223991970798, guid: 98dcd80144f26514b9191875aee0c39f, type: 3}
+  Icon: {fileID: 1161201145128540330, guid: 7cc0adddc16abfb4abdf2d39f9807028, type: 3}
   DragPlace: 1

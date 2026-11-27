@@ -2,13 +2,18 @@ using UnityEngine;
 
 public abstract class adjacencyMachine : Machine
 {
-
+    Vector3 size;
+    void Start()
+    {
+        if (sr != null)
+            size = sr.transform.localScale;
+    }
     public override Vector3 GetItemTarget(Vector3 direction)
     {
 
 
         Vector3 right = transform.right * Building.DirectionX;
-        Vector3 centre = transform.position + Vector3.up * 0.25f;
+        Vector3 centre = transform.position;
 
         float sign = Building.DirectionX;
         if (direction.x == -Building.DirectionX) sign *= -1;
@@ -17,6 +22,27 @@ public abstract class adjacencyMachine : Machine
         return centre + transform.right * sign * -0.5f * Building.GridSize.x;
     }
 
+    public void ActivateAnim(float percentage)
+    {
+        if (sr != null && Active != null && Normal != null)
+        {
+            if (ActivatedThisTick)
+            {
+                sr.sprite = Active;
+
+                sr.transform.localScale = Vector3.Lerp(new Vector3(size.x * 0.8f, size.y * 1.5f), size, LeanTween.easeOutExpo(0, 1, percentage));
+            }
+            else
+            {
+                sr.sprite = Normal;
+            }
+        }
+    }
+    public override void Animate(float percentage)
+    {
+        ActivateAnim(percentage);
+
+    }
     public override void OnRemoveFromSimulation()
     {
         base.OnRemoveFromSimulation();

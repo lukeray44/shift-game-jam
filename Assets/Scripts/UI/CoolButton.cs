@@ -17,7 +17,7 @@ public class CoolButton : UIButton
     public AudioClip Hover, Click;
     public override IEnumerator<float> ClickAnim()
     { 
-       Sound.Play(Click);
+       Sound.Play(Click, 1, 1.2f);
         transform.localScale *= 0.9f;
         gameObject.LeanScale(transform.localScale / 0.9f, 0.1f).setEaseOutCubic().setIgnoreTimeScale(true);
         yield return TimeKeeperReal.MECCustomTween(0.1f, t =>
@@ -30,7 +30,7 @@ public class CoolButton : UIButton
 
     public override IEnumerator<float> HoverAnim()
     {
-        Sound.Play(Hover, 1.2f, 0.5f);
+        Sound.Play(Hover, 1.2f, 0.7f);
         float time = 0.07f;
         gameObject.LeanScale(Vector3.one * 1.1f, time).setEaseOutCubic().setIgnoreTimeScale(true);
         gameObject.LeanRotateZ(rotateBy, time).setEaseOutCubic().setIgnoreTimeScale(true);

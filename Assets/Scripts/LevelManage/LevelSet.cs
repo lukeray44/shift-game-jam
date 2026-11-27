@@ -34,7 +34,7 @@ public async void TakePhotos()
 
     for (int i = 0; i < Levels.Length; i++)
     {
-        string scenePath = $"Assets/Scenes/Level{i}.unity";
+        string scenePath = $"Assets/Scenes/Level {i}.unity";
 
         if (!File.Exists(scenePath))
         {

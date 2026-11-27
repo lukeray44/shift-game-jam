@@ -54,11 +54,11 @@ public class CursorButtonGroup : UIPanel
         alpha.alpha = 0;
         gameObject.SetActive(true);
         Vector3 pos = transform.position;
-        transform.position += Vector3.up * dir * dist;
-        gameObject.LeanMove(pos, 0.1f).setEaseOutExpo();
+        transform.position += Vector3.left * dir * dist;
+        gameObject.LeanMove(pos, 0.2f).setEaseOutExpo();
 
         transform.localScale *= 0.8f;
-        transform.LeanScale(transform.localScale / 0.8f, 0.1f).setEaseOutExpo().setOnComplete(() =>
+        transform.LeanScale(transform.localScale / 0.8f, 0.2f).setEaseOutExpo().setOnComplete(() =>
         {
             foreach (UIButton b in Children)
             {
@@ -66,7 +66,7 @@ public class CursorButtonGroup : UIPanel
             }
         });
 
-        alpha.LeanAlpha(1, 0.06f).setEaseOutExpo();
+        alpha.LeanAlpha(1, 0.14f).setEaseOutExpo();
     }
 
     public void Hide(float dir = 1)
@@ -76,14 +76,14 @@ public class CursorButtonGroup : UIPanel
             b.Active = false;
         }
         Vector3 pos = transform.position;
-        gameObject.LeanMove(transform.position + Vector3.down * dir * dist, 0.1f).setEaseOutExpo().setOnComplete(() => transform.position = pos);
+        gameObject.LeanMove(transform.position + Vector3.right * dir * dist, 0.2f).setEaseOutExpo().setOnComplete(() => transform.position = pos);
 
-        transform.LeanScale(transform.localScale * 0.8f, 0.1f).setEaseOutExpo().setOnComplete(() =>
+        transform.LeanScale(transform.localScale * 0.8f, 0.2f).setEaseOutExpo().setOnComplete(() =>
         {
             transform.localScale /= 0.8f;
             gameObject.SetActive(false);
         });
 
-        alpha.LeanAlpha(0, 0.06f).setEaseOutExpo();
+        alpha.LeanAlpha(0, 0.14f).setEaseOutExpo();
     }
 }

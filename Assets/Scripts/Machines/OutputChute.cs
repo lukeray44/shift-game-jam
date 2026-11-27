@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class OutputChute : Machine
 {
@@ -8,6 +9,12 @@ public class OutputChute : Machine
 
     public Action<Item> OnItemEntered;
 
+    public void ShowPreview(ItemComposite item)
+    {
+        Item i = ItemManager.main.Create(item, null, true);
+        i.GetComponent<SortingGroup>().sortingOrder += 50;
+        i.transform.position = outputPos.position + Vector3.down * 2;
+    }
     public override bool CanRecieveInDirection(Vector3 direction)
     {
         return direction == Vector3.down;

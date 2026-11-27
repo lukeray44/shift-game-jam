@@ -15,7 +15,7 @@ public class PhysicsMachine : Machine
     }
     public override void Initialise()
     {
-        
+
     }
 
     public override int ExtraOutputs()
@@ -29,17 +29,17 @@ public class PhysicsMachine : Machine
         SimulationManager.main.AddMachine(Excess);
     }
 
-    
+
     public override Vector3 GetItemTarget(Vector3 direction)
     {
         return transform.position;
-    } 
+    }
 
     protected override void Tick()
     {
         if (TryIncrementItems())
         {
-            if (MainOutput == null || !TransferItem(0, MainOutput, Vector3.down)) 
+            if (MainOutput == null || !TransferItem(0, MainOutput, simulation.GetOutputDir()))
             {
                 TransferItem(0, Excess, Vector3.zero);
             }
@@ -51,9 +51,9 @@ public class PhysicsMachine : Machine
             SimulationManager.main.DeleteMachine(this);
         }
     }
- 
+
     public override bool RecieveItem(Item i, Vector3 direction)
-    { 
+    {
         return TrySetItemInInventory(0, i);
     }
 
@@ -81,27 +81,11 @@ public class PhysicsMachine : Machine
             RemoveOutput(MainOutput);
         }
 
-        simulation.NewTile += tile =>
+        simulation.TryFindBuilding(cause, null, (b, m) =>
         {
-
-            if (build.PositionMap.TryGetValue(tile, out Building b))
-            {
-                if (b != null && b != cause && b.MainSimulator.CanRecieveFromPosition(simulation.GetOutputDir(), simulation.Position()))
-                {
-
-                    AddOutput(b.MainSimulator);
-
-
-                    Vector3 endPos = MainOutput.GetItemTarget(simulation.GetOutputDir());
-                    simulation.ShiftEnd(endPos);
-                    simulation.Break();
-                    Excess.transform.position = endPos;
-
-                }
-            }
-        };
-
-        simulation.SimulateTime(build);
+            AddOutput(m);
+            Excess.transform.position = simulation.GetPositionByPercentage(1);
+        });
 
         int itemCount = Mathf.CeilToInt(simulation.maxTime);
 
@@ -114,7 +98,7 @@ public class PhysicsMachine : Machine
         if (MainInput == null) return;
         if (buildingOnPath(b))
         {
-             MainInput.RemoveOutput(this);
+            MainInput.RemoveOutput(this);
         }
     }
 
@@ -196,22 +180,24 @@ class itemSimulation
     Vector3 currentPosition;
     Vector2Int currentCell;
 
-    
+
     public float Distance;
 
     int timeToIndex(float time)
     {
         return Mathf.FloorToInt(time / timeStep);
     }
+
+    Vector3 outputDir;
     public Vector3 GetOutputDir()
     {
-        if (currentVelocity.y < -Mathf.Abs(currentVelocity.x)) return Vector3.down;
-        return Vector3.right * Mathf.Sign(currentVelocity.x);
+        return outputDir;
+
     }
     public Vector3 Position() => currentPosition;
     public void ShiftEnd(Vector3 pos, int shiftMax = -1)
     {
-        
+
         Vector3 addVelocity = GetOutputDir().y < 0 ? Vector3.up * 5 * timeStep : Vector3.zero;
 
         if (shiftMax == -1) shiftMax = positions.Count - 2;
@@ -226,7 +212,7 @@ class itemSimulation
             Vector3 delta = last - cur;
 
             if (Vector3.Dot(delta, lastDelta) < 0) break;
-            
+
             float yComp = delta.y;
             if (Mathf.Abs(yComp) > 0.5f)
             {
@@ -245,7 +231,7 @@ class itemSimulation
 
         }
 
-    
+
 
         Vector3 origin = positions[min];
         Vector3 add = pos - positions[positions.Count - 1];
@@ -263,6 +249,9 @@ class itemSimulation
     }
     public Vector3 GetPosition(float time)
     {
+
+        if (positions.Count == 0) return Vector3.zero;
+
         int ind = timeToIndex(time);
         int max = positions.Count;
         if (ind >= max - 1) return positions[max - 1];
@@ -293,6 +282,81 @@ class itemSimulation
         breakImmediate = true;
     }
     bool breakImmediate = false;
+
+    public void TryFindBuilding(Building cause, Building LookFor, Action<Building, Machine> OnFindBuilding)
+    {
+        BuildingManager build = BuildingManager.main;
+        bool isConveyor = cause.MainSimulator.GetType() == typeof(Conveyor);
+        NewTile += tile =>
+        {
+            bool tryGetBuilding(out Building b)
+            {
+                if (LookFor != null && LookFor.ContainsTile(tile))
+                {
+                    b = LookFor;
+                    return true;
+                }
+                return build.PositionMap.TryGetValue(tile, out b);
+            }
+
+            if (tryGetBuilding(out Building b))
+            {
+
+                if (b != null && b != cause)
+                {
+                    Machine m = b.GetPhysicsOutput(Position(), lastVelocity);
+
+                    if (m is Conveyor && isConveyor)
+                    {
+                        int offset = b.GridPos.x - cause.GridPos.x;
+
+                        if (offset == 2 || offset == -2)
+                        {
+                            ShiftEnd(currentPosition + Vector3.left * Mathf.Sign(currentPosition.y - positions[0].x) * 0.2f);
+                            Break();
+                            return;
+                        }
+
+                    }
+
+                    Vector3? closest(Vector3 v1, Vector3 v2)
+                    {
+                        Vector3 p1 = m.GetItemTarget(v1);
+
+                        Vector3 p2 = m.GetItemTarget(v2);
+
+                        bool p1Valid = b.MainSimulator.CanRecieveFromPosition(v1, Position());
+                        bool p2Valid = b.MainSimulator.CanRecieveFromPosition(v2, Position());
+
+                        if (p1Valid && (Vector3.Distance(p1, currentPosition) < Vector3.Distance(p2, currentPosition) || !p2Valid))
+                        {
+                            outputDir = v1;
+                            return p1;
+                        }
+
+                        if (!p2Valid) return null;
+
+                        outputDir = v2;
+                        return p2;
+                    }
+
+                    Vector3? endPos = closest(Vector3.down, Vector3.right * Mathf.Sign(currentVelocity.x));
+                   
+                    if (endPos == null) return;
+
+                    ShiftEnd(endPos.Value);
+                    Break();
+
+                    OnFindBuilding?.Invoke(b, m);
+
+
+
+                }
+            }
+        };
+
+        SimulateTime(build);
+    }
     public void SimulateTime(BuildingManager build, float time = 25)
     {
 

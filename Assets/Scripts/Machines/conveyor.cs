@@ -17,6 +17,8 @@ public class Conveyor : adjacencyMachine
             i.transform.position = Vector3.Lerp(i.PreviousPosition, end, percentage);
 
         }
+
+        base.Animate(percentage);
     } 
     protected override void OnInitialiseOutputs()
     {
@@ -24,7 +26,7 @@ public class Conveyor : adjacencyMachine
 
         if (MainOutput == null)
         {
-             SimulationManager.CreatePhysics(this, GetItemTarget(Vector3.left * Building.DirectionX),vel);
+             SimulationManager.CreatePhysicsAndAdd(this, GetItemTarget(Vector3.left * Building.DirectionX),vel);
         }
         
     }

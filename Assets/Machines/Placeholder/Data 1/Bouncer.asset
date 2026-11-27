@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf0613f95616f1f44835833fee66bf47, type: 3}
+  m_Name: Bouncer
+  m_EditorClassIdentifier: 
+  DisplayName: Bouncer
+  Tooltip: Bounces items in the direction of facing
+  Cost: 25
+  Prefab: {fileID: 6598331250279505926, guid: 1261120e7e3a96d42893efd51ade495c, type: 3}
+  Icon: {fileID: -1863859237976802683, guid: 7cc0adddc16abfb4abdf2d39f9807028, type: 3}
+  DragPlace: 0

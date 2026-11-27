@@ -133,6 +133,12 @@ public class soundManager : MonoBehaviour
     }
     public void Replace(AudioClip layer)
     {
+        if (nextScheduledAt > AudioSettings.dspTime) // clip is in future
+        {
+            main.clip = layer;
+            return;
+        }
+
         mainOverlayer = gameObject.AddComponent<AudioSource>();
         mainOverlayer.outputAudioMixerGroup = music;
         mainOverlayer.clip = layer;
@@ -162,7 +168,7 @@ public class soundManager : MonoBehaviour
     public float time;
     public AudioClip afterIntro;
     RealTimer cur;
-    public void setTrack(AudioClip toAdd, AudioClip tafterIntro, bool loop = true)
+    public void setTrack(AudioClip toAdd, AudioClip tafterIntro, bool loop = true, bool force = false)
     {
 
         if (main == null)
@@ -171,7 +177,7 @@ public class soundManager : MonoBehaviour
             main.outputAudioMixerGroup = music;
 
         }
-        if (toAdd != trackToAdd && (tafterIntro != main.clip || tafterIntro == null))
+        if (toAdd != trackToAdd && (tafterIntro != main.clip || tafterIntro == null) || force)
         {
             currentSongName = toAdd.name;
             secondlastIntro = lastIntro;
@@ -209,6 +215,9 @@ public class soundManager : MonoBehaviour
         afterIntro = null;
         main.Play();
     }
+
+
+    double nextScheduledAt = 0;
     private void Update()
     {
        // if (mainOverlayer != null) mainOverlayer.timeSamples = main.timeSamples;
@@ -244,6 +253,8 @@ public class soundManager : MonoBehaviour
                     main.PlayOneShot(trackToAdd);
                     trackToAdd = null;
                     main.clip = afterIntro;
+                    afterIntro = null;
+                    nextScheduledAt = AudioSettings.dspTime + time;
                     main.PlayScheduled(AudioSettings.dspTime + time);
                     main.loop = true;
                 }
@@ -438,7 +449,7 @@ public static class Sound
         sound.play(track, pitch, f * volume);
 
     }
-    public static AudioClip setTrack(AudioClip au, AudioClip afterAu = null, bool looping = false)
+    public static AudioClip setTrack(AudioClip au, AudioClip afterAu = null, bool looping = false, bool force = false)
     {
         if (sound == null)
         {
@@ -447,7 +458,7 @@ public static class Sound
         }
 
 
-        sound.setTrack(au, afterAu, looping);
+        sound.setTrack(au, afterAu, looping, force);
 
         return au;
     }

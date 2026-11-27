@@ -17,7 +17,7 @@ public class InputChute : Machine
     }
     protected override void OnInitialiseOutputs()
     {
-        SimulationManager.CreatePhysics(this, dropFrom.position, Vector2.zero);
+        SimulationManager.CreatePhysicsAndAdd(this, dropFrom.position, Vector2.zero);
     }
 
     public override void OnAddToSimulation()

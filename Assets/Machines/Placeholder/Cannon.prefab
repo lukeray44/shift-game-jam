@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3335591957793127864}
-  - component: {fileID: 6145824575057760812}
   - component: {fileID: 7323316749097423289}
   - component: {fileID: 378092679660760650}
   m_Layer: 0
@@ -28,19 +27,131 @@ Transform:
   m_GameObject: {fileID: 6345097737049770636}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.5, y: 4.5, z: 0}
+  m_LocalPosition: {x: -9, y: 4.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7754363390836702698}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &6145824575057760812
-SpriteRenderer:
+--- !u!114 &7323316749097423289
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6345097737049770636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 706fcc052c0a1c347a5ce26336be86f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Building: {fileID: 378092679660760650}
+  IsRoot: 0
+  IsLoopRoot: 0
+  Added: 0
+  SimulationPriority: 0
+  NoInputs: 0
+  sr: {fileID: 3620269448189103893}
+  Normal: {fileID: -7172807871426880926, guid: 5ff34588c9659b746874f8829ae28c65, type: 3}
+  Active: {fileID: -429250460321363898, guid: 908f07019ca23f546b7546f5286b202f, type: 3}
+  InputMachines: []
+  OutputMachines: []
+  Inventory: []
+  ItemCount: 0
+  Debug_StartWith: []
+  ShootFrom: {fileID: 1280296789400258338}
+--- !u!114 &378092679660760650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6345097737049770636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4b8c286fa6b9748a38395264b2d1f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Data: {fileID: 0}
+  GridPos: {x: -10, y: 4}
+  GridSize: {x: 2, y: 2}
+  AutoAdd: 0
+  Direction: {x: 1, y: 0}
+  CantDestroy: 0
+  Simulators:
+  - {fileID: 7323316749097423289}
+--- !u!1 &7477572105472237993
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1280296789400258338}
+  m_Layer: 0
+  m_Name: ShootFrom
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1280296789400258338
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7477572105472237993}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.92, y: 1.299, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7754363390836702698}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &9206755699094208994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7754363390836702698}
+  - component: {fileID: 3620269448189103893}
+  m_Layer: 0
+  m_Name: Sprite
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7754363390836702698
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9206755699094208994}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.01, y: -0.484, z: 0}
+  m_LocalScale: {x: 0.8740248, y: 0.8740248, z: 0.8740248}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1280296789400258338}
+  m_Father: {fileID: 3335591957793127864}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &3620269448189103893
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9206755699094208994}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -78,57 +189,14 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1366924028, guid: 98dcd80144f26514b9191875aee0c39f, type: 3}
+  m_Sprite: {fileID: -7172807871426880926, guid: 5ff34588c9659b746874f8829ae28c65, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.8, y: 0.78}
+  m_Size: {x: 2.17, y: 1.59}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7323316749097423289
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6345097737049770636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 706fcc052c0a1c347a5ce26336be86f6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Building: {fileID: 378092679660760650}
-  IsRoot: 0
-  IsLoopRoot: 0
-  Added: 0
-  SimulationPriority: 0
-  NoInputs: 0
-  InputMachines: []
-  OutputMachines: []
-  Inventory: []
-  ItemCount: 0
-  Debug_StartWith: []
---- !u!114 &378092679660760650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6345097737049770636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c4b8c286fa6b9748a38395264b2d1f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Data: {fileID: 0}
-  GridPos: {x: -10, y: 4}
-  GridSize: {x: 1, y: 1}
-  AutoAdd: 0
-  Direction: {x: 1, y: 0}
-  CantDestroy: 0
-  Simulators:
-  - {fileID: 7323316749097423289}

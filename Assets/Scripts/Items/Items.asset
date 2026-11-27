@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Items
   m_EditorClassIdentifier: 
   Types:
-  - sprite: {fileID: -1794000488, guid: 98dcd80144f26514b9191875aee0c39f, type: 3}
+  - sprite: {fileID: 6594837431029668849, guid: 5ff34588c9659b746874f8829ae28c65, type: 3}
     symmetry: 1
-  - sprite: {fileID: -1301012128, guid: 98dcd80144f26514b9191875aee0c39f, type: 3}
+  - sprite: {fileID: 2479666566845430899, guid: 5ff34588c9659b746874f8829ae28c65, type: 3}
     symmetry: 1
   - sprite: {fileID: -9073689559078614798, guid: 98dcd80144f26514b9191875aee0c39f, type: 3}
     symmetry: 4

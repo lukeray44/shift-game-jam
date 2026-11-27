@@ -28,7 +28,14 @@ public class Item : MonoBehaviour
             PositionChild(e);
         }
     }
-
+    public void SaveChildrenLocalPositions()
+    {
+        foreach (var e in Elements) e.SavePrevious();
+    }
+    public void LerpPosition(float t)
+    {
+        foreach (var e in Elements) e.transform.position = Vector3.Lerp(e.PreviousPosition, e.GetIdealLocalPosition()+ transform.position, t)  ;
+    }
     public void PositionChild(ItemElement e)
     {
         e.transform.position = transform.position + GetLocalPosition(e);
@@ -135,6 +142,7 @@ public class ItemComposite
 
         foreach (ItemState s in Items)
         {
+            
             s.localPosition += pos;
         }
     }

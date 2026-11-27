@@ -29,11 +29,14 @@ public class stacker : Conveyor
 
         if (input1 != null && input2 != null)
         {
+            Activate();
+            
             RemoveItemInInventory(0);
             RemoveItemInInventory(1);
 
             Item combined = ItemManager.main.Merge(input1, input2, Vector2Int.up);
             combined.PositionChildren();
+            combined.SaveChildrenLocalPositions();
             TrySetItemInInventory(2, combined);
         }
         else
@@ -60,11 +63,18 @@ public class stacker : Conveyor
             {
                 float completion = (percentage + (i == 2 ? 1 : 0)) * 0.5f;
                 item.transform.position = Vector3.Lerp(inputPos, outputPos, completion);
+
+                if (i == 2)
+                {
+                    item.LerpPosition(percentage);
+                }
             } else
             {
                 item.transform.position = Vector3.Lerp(targetPos.position, targetPos.position + Vector3.down * 0.5f, t);
             }
         });
+
+        ActivateAnim(percentage);
     }
 
     void OnDrawGizmos()

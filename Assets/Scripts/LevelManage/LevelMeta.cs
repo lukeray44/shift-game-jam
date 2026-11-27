@@ -17,31 +17,45 @@ public class LevelMeta : Singleton<LevelMeta>
 
     public bool isNextLevel => Cur < Levels.Levels.Length - 1;
 
+    void Awake()
+    {
+        Sound.set(Music, SFX);
+        base.Awake();
+    }
     protected override void onInitialise()
     {
         base.onInitialise();
         Load();
-        Sound.set(Music, SFX);
+
         DontDestroyOnLoad(gameObject);
     }
     public void LoadLevel(int level, Vector3? zoomPos = null)
     {
-       
+
         Cur = level;
 
         async void loadLevel()
         {
-            await SceneManager.LoadSceneAsync($"Level" + level.ToString());
+            await SceneManager.LoadSceneAsync($"Level " + level.ToString());
             isAnimating = false;
         }
 
         if (zoomPos == null) CutoutTransition.main.FadeOut(0.15f).OnTimerEnd += () => loadLevel();
-        else CutoutTransition.main.TransitionOut(zoomPos.Value, 1.5f).OnTimerEnd += () => loadLevel();
+        else
+        {
+            TimeKeeper.AddFuncTimer(1.5f, f => Sound.sound.main.volume = 1 - f).OnTimerEnd += () =>
+            {
+                Sound.sound.main.volume = 0;
+                Sound.sound.main.Stop();
+            };
+
+            CutoutTransition.main.TransitionOut(zoomPos.Value, 1.5f).OnTimerEnd += () => loadLevel();
+        }
     }
 
     public void LoadScene(string scene)
     {
-         if (isAnimating) return;
+        if (isAnimating) return;
         isAnimating = true;
         CutoutTransition.main.FadeOut(0.3f).OnTimerEnd += () =>
         {
@@ -50,7 +64,7 @@ public class LevelMeta : Singleton<LevelMeta>
         };
     }
 
-    public string LevelTitle =>  Levels.LevelTitle(Cur);
+    public string LevelTitle => Levels.LevelTitle(Cur);
 
     public SaveData Data;
 
@@ -66,7 +80,7 @@ public class LevelMeta : Singleton<LevelMeta>
         {
             Debug.Log(e.ToString());
             Data = new SaveData(Levels.Levels.Length);
-            
+
         }
     }
 
@@ -79,7 +93,7 @@ public class LevelMeta : Singleton<LevelMeta>
     {
         LevelSaveData s = Data.Data[Cur];
 
-        s.BestMoney = Mathf.Max(s.BestMoney, money) ;
+        s.BestMoney = Mathf.Max(s.BestMoney, money);
         s.Beaten = true;
         Save();
     }
@@ -154,9 +168,10 @@ public static class BinaryUtility
                 stream.Close();
                 throw new System.Exception("Corrupt");
             }
-           
-            
-        } else
+
+
+        }
+        else
         {
 
             throw new System.Exception("Invalid path: " + path);

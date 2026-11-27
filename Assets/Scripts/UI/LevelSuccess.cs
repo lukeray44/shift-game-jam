@@ -21,11 +21,14 @@ public class LevelSuccess : MonoBehaviour
 
     public CursorButtonGroup Buttons;
     public UIButton Next, Restart, Exit;
-    public Coroutine Show(bool success)
+
+    public CanvasGroup NewBest;
+
+    public Coroutine Show(bool success, bool best)
     {
-        return Coroutines.RunCoroutine(Sequence(success));
+        return Coroutines.RunCoroutine(Sequence(success, best));
     }
-    public IEnumerator<float> Sequence(bool success)
+    public IEnumerator<float> Sequence(bool success, bool best)
     {
         yield return Coroutines.WaitForSeconds(0.3f);
 
@@ -46,7 +49,7 @@ public class LevelSuccess : MonoBehaviour
         
         yield return Coroutines.WaitForSeconds(0.1f);
 
-        yield return Coroutines.WaitForSeconds(0.5f);
+        yield return Coroutines.WaitForSeconds(2f);
 
         void changeScreen(CanvasGroup to)
         {
@@ -95,6 +98,20 @@ public class LevelSuccess : MonoBehaviour
             {
                setText(LeanTween.easeOutCubic(0, 1, t)); 
             });
+
+            if (best)
+            {
+                yield return Coroutines.WaitForSeconds(0.5f);
+
+                NewBest.gameObject.SetActive(true);
+                NewBest.alpha = 0.5f;
+                NewBest.LeanAlpha(1, 0.1f).setEaseOutCubic();
+
+                NewBest.transform.localScale *= 0.9f;
+                NewBest.transform.LeanScale(NewBest.transform.localScale / 0.9f, 0.1f).setEaseOutCubic();
+
+                yield return Coroutines.WaitForSeconds(0.5f);
+            }
         }
 
         yield return Coroutines.WaitForSeconds(2f);

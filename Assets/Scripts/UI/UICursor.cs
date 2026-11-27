@@ -11,7 +11,7 @@ public class UICursor : MonoBehaviour
     public bool Unscaled;
     bool flipped;
 
-    void Start()
+    void Awake()
     {
         size = rect.sizeDelta;
         SetHidden();
@@ -32,6 +32,7 @@ public class UICursor : MonoBehaviour
         gameObject.LeanCancel();
         if (hidden)
         {
+            gameObject.SetActive(true);
             transform.position = focus;
             alpha.LeanAlpha(1, 0.05f).setIgnoreTimeScale(true);
             gameObject.transform.localScale = Vector3.one * 0.95f;

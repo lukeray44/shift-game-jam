@@ -277,12 +277,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fece53d6d182c9243ad10676229e0e8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  WorkWhenPaused: 0
   Active: 1
+  ShowCursor: 0
   Backing: {fileID: 4146224508463035404}
   Text: {fileID: 0}
   MainColor: {r: 0.9921569, g: 0.9294118, b: 0.15686275, a: 1}
   BoringColor: {r: 0.4901961, g: 0.4901961, b: 0.53333336, a: 1}
   rotateBy: 0
+  Hover: {fileID: 0}
+  Click: {fileID: 0}
   Icon: {fileID: 8596845999228965292}
   Data: {fileID: 0}
 --- !u!1 &8880598439107607239
@@ -343,7 +347,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.98823535, g: 0.9294118, b: 0.14901961, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

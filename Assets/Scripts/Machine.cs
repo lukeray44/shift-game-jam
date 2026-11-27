@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 
@@ -20,6 +21,20 @@ public abstract class Machine : MonoBehaviour
 
     public bool NoInputs;
 
+    public SpriteRenderer sr;
+    [OnInspectorInit]
+    void getsr()
+    {
+        sr = GetComponentInChildren<SpriteRenderer>();
+    }
+    public Sprite Normal, Active;
+
+    protected bool ActivatedThisTick;
+
+    public void Activate()
+    {
+        ActivatedThisTick = true;
+    }
 
     public void TryTickRecursive()
     {
@@ -31,6 +46,7 @@ public abstract class Machine : MonoBehaviour
             {
                 lastTick = SimulationManager.TickIndex;
 
+                ActivatedThisTick = false;
                 Tick();
                 int offset = inputOffset;
                 // recursively tick from end to start
@@ -189,6 +205,11 @@ public abstract class Machine : MonoBehaviour
 
     public void AnimateEachItem(float percentage, Action<int, float, Item> act) // index, percentage, item
     {
+        if (percentage < 0)
+        {
+            Debug.Log("Negative" + percentage);
+            return;
+        }
         for (int i = 0; i < Inventory.Length; i++)
         {
             float t = (percentage + i) / (float)Inventory.Length;

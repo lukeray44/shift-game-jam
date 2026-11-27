@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayName: Launcher
   Tooltip: Launch items through the air
-  Cost: 200
+  Cost: 50
   Prefab: {fileID: 378092679660760650, guid: 2888b3504253ca54d8b2da6961d72e18, type: 3}
-  Icon: {fileID: -1366924028, guid: 98dcd80144f26514b9191875aee0c39f, type: 3}
+  Icon: {fileID: 2130535880278150251, guid: 7cc0adddc16abfb4abdf2d39f9807028, type: 3}
   DragPlace: 0

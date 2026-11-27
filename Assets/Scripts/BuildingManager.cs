@@ -94,13 +94,16 @@ public class BuildingManager : MonoBehaviour
         return null;
     }
 
-    public TileBase Ramp;
+    public TileBase[] Ramp;
+    
 
     public bool IsSolidTile(Vector2Int pos)
     {
         TileBase t = Ground.GetTile(Ground.WorldToCell(LocalToWorld(pos)));
-
-        return t != null && t != Ramp;
+        
+        foreach (var r in Ramp) if (r == t) return false;
+        
+        return t != null;
     }
     public bool IsAnyTile(Vector2Int pos)
     {
@@ -108,15 +111,37 @@ public class BuildingManager : MonoBehaviour
 
         return t != null;
     }
+
+    bool getRot(TileBase t, out float rot)
+    {
+        bool isRamp = false;
+        rot = 0;
+        foreach (var r in Ramp)
+        {
+            if (r == t)
+            {
+                isRamp = true;
+                break;
+            }
+            rot -= 90;
+        }
+        return isRamp;
+    }
     public bool IsRamp(Vector2Int pos, out Vector3 normal)
     {
        
 
         Vector3Int cellPos = Ground.WorldToCell(LocalToWorld(pos));
         TileBase t = Ground.GetTile(cellPos);
-        normal = Ground.GetTransformMatrix(cellPos).rotation * new Vector3(1, 1);
+
+        if (!getRot(t, out float rot))
+        {
+            normal = Vector3.up;
+            return false;
+        }
+        normal = Quaternion.Euler(0, 0, rot) * new Vector3(1, 1);
          
-        return t == Ramp;
+        return true;
     }
 
     public bool RaycastTiles(Vector3 pos, Vector3 vel, Vector2Int tilePosOld, Vector2Int tilePosNew, out Vector3 collisionPoint, out Vector3 normal)
@@ -140,18 +165,19 @@ public class BuildingManager : MonoBehaviour
         Vector3Int cellPos = Ground.WorldToCell(tileCentre);
         TileBase tile = Ground.GetTile(cellPos);
         
-        bool ramp = tile == Ramp;
-        bool block = tile != Ramp && tile != null;
-
+        bool ramp = getRot(tile, out float rotDeg);
+        bool block = !ramp && tile != null;
  
         if (ramp)
         {
-            Quaternion rotDeg = Ground.GetTransformMatrix(cellPos).rotation;
-            Vector3 tangent = rotDeg * new Vector3(1, -1); // right down 
-            Vector3 startPos = rotDeg * new Vector3(-0.5f, 0.5f) + tileCentre;
+            Quaternion mat = Quaternion.Euler(0, 0, rotDeg);
+            Vector3 tangent = mat * new Vector3(1, -1); // right down 
+            Vector3 startPos = mat * new Vector3(-0.5f, 0.5f) + tileCentre; 
             normal = new Vector3(-tangent.y, tangent.x);   
+
             if (Vector3.Dot(-normal, vel) > 0 && LineEXT.TryIntersectLines(pos - vel * 2, pos + vel, startPos, startPos + tangent, out collisionPoint))
             {
+            
                 return true;
             }
 

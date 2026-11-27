@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayName: Stacker
   Tooltip: Stacks up items
-  Cost: 50
+  Cost: 25
   Prefab: {fileID: 6718691907837836615, guid: 0d5e880089f58474f9394f2ca85a698a, type: 3}
-  Icon: {fileID: -1366924028, guid: 98dcd80144f26514b9191875aee0c39f, type: 3}
+  Icon: {fileID: 184950751378207249, guid: 7cc0adddc16abfb4abdf2d39f9807028, type: 3}
   DragPlace: 0

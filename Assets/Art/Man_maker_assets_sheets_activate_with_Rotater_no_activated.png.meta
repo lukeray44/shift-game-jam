@@ -1,0 +1,1729 @@
+fileFormatVersion: 2
+guid: 908f07019ca23f546b7546f5286b202f
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8746305838511284477
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_0
+  - first:
+      213: -1430235764221447371
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_1
+  - first:
+      213: -7144509219161418314
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_2
+  - first:
+      213: -7340965655348265366
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_3
+  - first:
+      213: -429250460321363898
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_4
+  - first:
+      213: 5339099489404946635
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_5
+  - first:
+      213: 3709379826805794752
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_6
+  - first:
+      213: -6414955471012699558
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_7
+  - first:
+      213: -6189977015171169244
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_8
+  - first:
+      213: -121711811301074042
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_9
+  - first:
+      213: 1992528607209497683
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_10
+  - first:
+      213: 7149910287063963309
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_11
+  - first:
+      213: 4618151830009977398
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_12
+  - first:
+      213: -2098677526951806349
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_13
+  - first:
+      213: -6155654046666365076
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_14
+  - first:
+      213: 4276025999317694133
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_15
+  - first:
+      213: 1239381726890279854
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_16
+  - first:
+      213: 3685936184399237252
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_17
+  - first:
+      213: 6657447699386913175
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_18
+  - first:
+      213: -1572831893351368903
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_19
+  - first:
+      213: -7024261930185257908
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_20
+  - first:
+      213: -6904549392473485823
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_21
+  - first:
+      213: 4540515482544832303
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_22
+  - first:
+      213: -3834455990007310360
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_23
+  - first:
+      213: 3401460029241528938
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_24
+  - first:
+      213: 7863761348239395586
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_25
+  - first:
+      213: 5138465186599950128
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_26
+  - first:
+      213: 8037454283565999571
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_27
+  - first:
+      213: -130599107746393465
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_28
+  - first:
+      213: -7644637189348723267
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_29
+  - first:
+      213: 2276109884710711425
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_30
+  - first:
+      213: -7279008658008759350
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_31
+  - first:
+      213: -8183615662969884350
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_32
+  - first:
+      213: 2927160798353414871
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_33
+  - first:
+      213: -7015378289816465439
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_34
+  - first:
+      213: 5857341110617320204
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_35
+  - first:
+      213: -1038044067350495759
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_36
+  - first:
+      213: -545574640359676383
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_37
+  - first:
+      213: 7246432184606598747
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_38
+  - first:
+      213: -5380916486257937283
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_39
+  - first:
+      213: -5303085183883842953
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_40
+  - first:
+      213: 7896194116202992212
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_41
+  - first:
+      213: -1224831906569544104
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_42
+  - first:
+      213: 766615687382827318
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_43
+  - first:
+      213: 1669133234787698558
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_44
+  - first:
+      213: 8538377945026779297
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_45
+  - first:
+      213: 6391308350316603568
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_46
+  - first:
+      213: -917106760735596916
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_47
+  - first:
+      213: -8885187050794843009
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_48
+  - first:
+      213: -6323362484305671306
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_49
+  - first:
+      213: -2476743060514737160
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_50
+  - first:
+      213: 7295492234317274817
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_51
+  - first:
+      213: -8431172445642251397
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_52
+  - first:
+      213: 6914474330045764226
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_53
+  - first:
+      213: -3000149086646296188
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_54
+  - first:
+      213: -1945447984357660998
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_55
+  - first:
+      213: 7390065181693263196
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_56
+  - first:
+      213: 3046185180007871772
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_57
+  - first:
+      213: 5320549359880331739
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_58
+  - first:
+      213: -2408109111398321291
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_59
+  - first:
+      213: -5682351692092980479
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_60
+  - first:
+      213: -3621179420156163434
+    second: Man_maker_assets_sheets_activate_with_Rotater_no_activated_61
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_0
+      rect:
+        serializedVersion: 2
+        x: 78
+        y: 965
+        width: 215
+        height: 215
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df0e369f1de116970800000000000000
+      internalID: 8746305838511284477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_1
+      rect:
+        serializedVersion: 2
+        x: 358
+        y: 966
+        width: 214
+        height: 234
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 53375807628c62ce0800000000000000
+      internalID: -1430235764221447371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_2
+      rect:
+        serializedVersion: 2
+        x: 1268
+        y: 965
+        width: 215
+        height: 215
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6b55169e7ba99dc90800000000000000
+      internalID: -7144509219161418314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_3
+      rect:
+        serializedVersion: 2
+        x: 1579
+        y: 1159
+        width: 44
+        height: 44
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6ebf9c61a6af1a90800000000000000
+      internalID: -7340965655348265366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_4
+      rect:
+        serializedVersion: 2
+        x: 644
+        y: 963
+        width: 217
+        height: 160
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6484fd80bfefa0af0800000000000000
+      internalID: -429250460321363898
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_5
+      rect:
+        serializedVersion: 2
+        x: 956
+        y: 969
+        width: 213
+        height: 89
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc88376a2ba481a40800000000000000
+      internalID: 5339099489404946635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_6
+      rect:
+        serializedVersion: 2
+        x: 1601
+        y: 964
+        width: 106
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0c762c1ac4d5a7330800000000000000
+      internalID: 3709379826805794752
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_7
+      rect:
+        serializedVersion: 2
+        x: 1747
+        y: 968
+        width: 106
+        height: 94
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a52e65cacff79f6a0800000000000000
+      internalID: -6414955471012699558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_8
+      rect:
+        serializedVersion: 2
+        x: 1892
+        y: 968
+        width: 106
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 424c3ea53b8c81aa0800000000000000
+      internalID: -6189977015171169244
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_9
+      rect:
+        serializedVersion: 2
+        x: 2040
+        y: 970
+        width: 60
+        height: 56
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68b1e62a0c79f4ef0800000000000000
+      internalID: -121711811301074042
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_10
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 804
+        width: 211
+        height: 39
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 354a68d1632e6ab10800000000000000
+      internalID: 1992528607209497683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_11
+      rect:
+        serializedVersion: 2
+        x: 376
+        y: 692
+        width: 511
+        height: 156
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da6db543685993360800000000000000
+      internalID: 7149910287063963309
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_12
+      rect:
+        serializedVersion: 2
+        x: 1314
+        y: 574
+        width: 740
+        height: 327
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63a90921f98f61040800000000000000
+      internalID: 4618151830009977398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_13
+      rect:
+        serializedVersion: 2
+        x: 2051
+        y: 488
+        width: 164
+        height: 361
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37a31f398efffd2e0800000000000000
+      internalID: -2098677526951806349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_14
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 624
+        width: 104
+        height: 118
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c6761443249b29aa0800000000000000
+      internalID: -6155654046666365076
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_15
+      rect:
+        serializedVersion: 2
+        x: 202
+        y: 627
+        width: 86
+        height: 89
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5b67aa3bdfe775b30800000000000000
+      internalID: 4276025999317694133
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_16
+      rect:
+        serializedVersion: 2
+        x: 303
+        y: 622
+        width: 102
+        height: 103
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea3c7643d1b233110800000000000000
+      internalID: 1239381726890279854
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_17
+      rect:
+        serializedVersion: 2
+        x: 932
+        y: 691
+        width: 112
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48010e74e63172330800000000000000
+      internalID: 3685936184399237252
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_18
+      rect:
+        serializedVersion: 2
+        x: 1066
+        y: 689
+        width: 115
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 791d2b0f861046c50800000000000000
+      internalID: 6657447699386913175
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_19
+      rect:
+        serializedVersion: 2
+        x: 1200
+        y: 691
+        width: 112
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 937f269e9bd2c2ae0800000000000000
+      internalID: -1572831893351368903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_20
+      rect:
+        serializedVersion: 2
+        x: 503
+        y: 428
+        width: 410
+        height: 193
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c4c020a9dfec48e90800000000000000
+      internalID: -7024261930185257908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_21
+      rect:
+        serializedVersion: 2
+        x: 928
+        y: 557
+        width: 115
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10e8a7fc8ec1e20a0800000000000000
+      internalID: -6904549392473485823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_22
+      rect:
+        serializedVersion: 2
+        x: 1069
+        y: 558
+        width: 115
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f2ffe3256c6230f30800000000000000
+      internalID: 4540515482544832303
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_23
+      rect:
+        serializedVersion: 2
+        x: 1202
+        y: 559
+        width: 112
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e7deb8c79649cac0800000000000000
+      internalID: -3834455990007310360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_24
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 453
+        width: 92
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a6291a8ffd9643f20800000000000000
+      internalID: 3401460029241528938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_25
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 453
+        width: 92
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 20b81404841b12d60800000000000000
+      internalID: 7863761348239395586
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_26
+      rect:
+        serializedVersion: 2
+        x: 261
+        y: 510
+        width: 194
+        height: 45
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 037500accde7f4740800000000000000
+      internalID: 5138465186599950128
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_27
+      rect:
+        serializedVersion: 2
+        x: 928
+        y: 435
+        width: 112
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3d5a46e2616ca8f60800000000000000
+      internalID: 8037454283565999571
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_28
+      rect:
+        serializedVersion: 2
+        x: 1069
+        y: 434
+        width: 115
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7821bceadc4003ef0800000000000000
+      internalID: -130599107746393465
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_29
+      rect:
+        serializedVersion: 2
+        x: 1202
+        y: 435
+        width: 112
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db5f024bafac8e590800000000000000
+      internalID: -7644637189348723267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_30
+      rect:
+        serializedVersion: 2
+        x: 1409
+        y: 407
+        width: 106
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 180ffeb71ed569f10800000000000000
+      internalID: 2276109884710711425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_31
+      rect:
+        serializedVersion: 2
+        x: 1567
+        y: 408
+        width: 106
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac3256ef034cbfa90800000000000000
+      internalID: -7279008658008759350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_32
+      rect:
+        serializedVersion: 2
+        x: 1713
+        y: 407
+        width: 106
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2417b56c9e4fd6e80800000000000000
+      internalID: -8183615662969884350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_33
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 299
+        width: 44
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7dadd42cc3d5f9820800000000000000
+      internalID: 2927160798353414871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_34
+      rect:
+        serializedVersion: 2
+        x: 72
+        y: 304
+        width: 42
+        height: 132
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ef808e4d9e54ae90800000000000000
+      internalID: -7015378289816465439
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_35
+      rect:
+        serializedVersion: 2
+        x: 141
+        y: 341
+        width: 48
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c0b23a2e4b4794150800000000000000
+      internalID: 5857341110617320204
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_36
+      rect:
+        serializedVersion: 2
+        x: 197
+        y: 341
+        width: 48
+        height: 90
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1fd3f58ab602891f0800000000000000
+      internalID: -1038044067350495759
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_37
+      rect:
+        serializedVersion: 2
+        x: 474
+        y: 43
+        width: 143
+        height: 364
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 12666e251cabd68f0800000000000000
+      internalID: -545574640359676383
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_38
+      rect:
+        serializedVersion: 2
+        x: 951
+        y: 276
+        width: 115
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b562f6cbdaf709460800000000000000
+      internalID: 7246432184606598747
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_39
+      rect:
+        serializedVersion: 2
+        x: 1075
+        y: 276
+        width: 115
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d747d8e07f42355b0800000000000000
+      internalID: -5380916486257937283
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_40
+      rect:
+        serializedVersion: 2
+        x: 1193
+        y: 276
+        width: 115
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 77a67f84f18a766b0800000000000000
+      internalID: -5303085183883842953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_41
+      rect:
+        serializedVersion: 2
+        x: 1882
+        y: 365
+        width: 106
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4521fcd76bae49d60800000000000000
+      internalID: 7896194116202992212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_42
+      rect:
+        serializedVersion: 2
+        x: 2079
+        y: 361
+        width: 106
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 85e9b53ded5800fe0800000000000000
+      internalID: -1224831906569544104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_43
+      rect:
+        serializedVersion: 2
+        x: 26
+        y: 202
+        width: 92
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63102bde7e093aa00800000000000000
+      internalID: 766615687382827318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_44
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 202
+        width: 92
+        height: 102
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e77c15665d3f92710800000000000000
+      internalID: 1669133234787698558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_45
+      rect:
+        serializedVersion: 2
+        x: 268
+        y: 42
+        width: 178
+        height: 273
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1a8d953b0896e7670800000000000000
+      internalID: 8538377945026779297
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_46
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 145
+        width: 110
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b8eb9ef41d72b850800000000000000
+      internalID: 6391308350316603568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_47
+      rect:
+        serializedVersion: 2
+        x: 1072
+        y: 147
+        width: 115
+        height: 109
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8ede399248c543f0800000000000000
+      internalID: -917106760735596916
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_48
+      rect:
+        serializedVersion: 2
+        x: 1195
+        y: 142
+        width: 110
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f74097af37971b480800000000000000
+      internalID: -8885187050794843009
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_49
+      rect:
+        serializedVersion: 2
+        x: 1351
+        y: 219
+        width: 115
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67bcde8b257ee38a0800000000000000
+      internalID: -6323362484305671306
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_50
+      rect:
+        serializedVersion: 2
+        x: 1528
+        y: 211
+        width: 108
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8f3fa1e0f47d0add0800000000000000
+      internalID: -2476743060514737160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_51
+      rect:
+        serializedVersion: 2
+        x: 1649
+        y: 211
+        width: 109
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1ce1a10b88bce3560800000000000000
+      internalID: 7295492234317274817
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_52
+      rect:
+        serializedVersion: 2
+        x: 1771
+        y: 211
+        width: 109
+        height: 106
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b73ae69b4557efa80800000000000000
+      internalID: -8431172445642251397
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_53
+      rect:
+        serializedVersion: 2
+        x: 1981
+        y: 62
+        width: 208
+        height: 206
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2825feac4c525ff50800000000000000
+      internalID: 6914474330045764226
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_54
+      rect:
+        serializedVersion: 2
+        x: 677
+        y: 40
+        width: 220
+        height: 100
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4812c391d445d56d0800000000000000
+      internalID: -3000149086646296188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_55
+      rect:
+        serializedVersion: 2
+        x: 952
+        y: 16
+        width: 110
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab6ac5b9d516005e0800000000000000
+      internalID: -1945447984357660998
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_56
+      rect:
+        serializedVersion: 2
+        x: 1064
+        y: 16
+        width: 118
+        height: 110
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c5d3fc5e029ce8660800000000000000
+      internalID: 7390065181693263196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_57
+      rect:
+        serializedVersion: 2
+        x: 1194
+        y: 15
+        width: 110
+        height: 115
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c15bd662849364a20800000000000000
+      internalID: 3046185180007871772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_58
+      rect:
+        serializedVersion: 2
+        x: 1357
+        y: 93
+        width: 115
+        height: 111
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bd1699d047366d940800000000000000
+      internalID: 5320549359880331739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_59
+      rect:
+        serializedVersion: 2
+        x: 1527
+        y: 83
+        width: 109
+        height: 108
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 573b8ba958da49ed0800000000000000
+      internalID: -2408109111398321291
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_60
+      rect:
+        serializedVersion: 2
+        x: 1771
+        y: 81
+        width: 109
+        height: 107
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 10345ff0e3b3421b0800000000000000
+      internalID: -5682351692092980479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Man_maker_assets_sheets_activate_with_Rotater_no_activated_61
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 15
+        width: 203
+        height: 77
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 69a03a1d08cfebdc0800000000000000
+      internalID: -3621179420156163434
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a5ec6408de9f79d42baab4175795cac2
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_0: 8746305838511284477
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_1: -1430235764221447371
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_10: 1992528607209497683
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_11: 7149910287063963309
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_12: 4618151830009977398
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_13: -2098677526951806349
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_14: -6155654046666365076
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_15: 4276025999317694133
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_16: 1239381726890279854
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_17: 3685936184399237252
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_18: 6657447699386913175
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_19: -1572831893351368903
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_2: -7144509219161418314
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_20: -7024261930185257908
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_21: -6904549392473485823
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_22: 4540515482544832303
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_23: -3834455990007310360
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_24: 3401460029241528938
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_25: 7863761348239395586
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_26: 5138465186599950128
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_27: 8037454283565999571
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_28: -130599107746393465
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_29: -7644637189348723267
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_3: -7340965655348265366
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_30: 2276109884710711425
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_31: -7279008658008759350
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_32: -8183615662969884350
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_33: 2927160798353414871
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_34: -7015378289816465439
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_35: 5857341110617320204
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_36: -1038044067350495759
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_37: -545574640359676383
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_38: 7246432184606598747
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_39: -5380916486257937283
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_4: -429250460321363898
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_40: -5303085183883842953
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_41: 7896194116202992212
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_42: -1224831906569544104
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_43: 766615687382827318
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_44: 1669133234787698558
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_45: 8538377945026779297
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_46: 6391308350316603568
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_47: -917106760735596916
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_48: -8885187050794843009
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_49: -6323362484305671306
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_5: 5339099489404946635
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_50: -2476743060514737160
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_51: 7295492234317274817
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_52: -8431172445642251397
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_53: 6914474330045764226
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_54: -3000149086646296188
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_55: -1945447984357660998
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_56: 7390065181693263196
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_57: 3046185180007871772
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_58: 5320549359880331739
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_59: -2408109111398321291
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_6: 3709379826805794752
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_60: -5682351692092980479
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_61: -3621179420156163434
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_7: -6414955471012699558
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_8: -6189977015171169244
+      Man_maker_assets_sheets_activate_with_Rotater_no_activated_9: -121711811301074042
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

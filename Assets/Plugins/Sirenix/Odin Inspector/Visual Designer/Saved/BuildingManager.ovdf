@@ -1,0 +1,9 @@
+OVDF v1.1
+BuildingManager, Assembly-CSharp
+MetaGuid:f1fda6541c66c6649a6ff9a8c0075086
+
+# Ramp
++ [Sirenix.OdinInspector.PreviewFieldAttribute]
+	Height = 50
+	alignment = Center
+	alignmentHasValue = True
